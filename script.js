@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
     initSmoothScrolling();
     initGame();
+    initResumeDownload();
 });
 
 /**
@@ -101,6 +102,33 @@ function updateThemeElements(isDark) {
     if (document.body.classList.contains('designer-mode')) {
         updateDesignerMode(true);
     }
+
+    // Update game elements if they exist
+    const gameContainer = document.getElementById('game-container');
+    if (gameContainer) {
+        gameContainer.style.maxWidth = '700px';
+        gameContainer.style.borderRadius = '16px';
+        gameContainer.style.overflow = 'hidden';
+        
+        const gameCanvas = document.getElementById('game-canvas');
+        if (gameCanvas) {
+            gameCanvas.style.borderRadius = '0';
+        }
+    }
+
+    // Apply consistent styling to action buttons
+    const actionButtons = document.querySelectorAll('.action-button');
+    actionButtons.forEach(button => {
+        button.style.borderRadius = '8px';
+        button.style.fontWeight = '500';
+        button.style.letterSpacing = '0.5px';
+        
+        // Ensure the button has the correct background color in designer mode
+        if (button.id === 'download-resume') {
+            // Remove designer-mode-active class if it exists
+            button.classList.remove('designer-mode-active');
+        }
+    });
 }
 
 /**
@@ -186,7 +214,7 @@ function updateDesignerMode(isDesigner) {
         });
         
         // Adjust button styles
-        document.querySelectorAll('button:not(.toggle-btn)').forEach(button => {
+        document.querySelectorAll('button:not(.toggle-btn):not(.action-button)').forEach(button => {
             button.style.fontWeight = "500";
         });
         
@@ -875,4 +903,263 @@ function initGame() {
     // Initialize the game
     resizeCanvas();
     resetGame();
+}
+
+// Resume Generator
+function initResumeDownload() {
+    const downloadButton = document.getElementById('download-resume');
+    if (!downloadButton) return;
+
+    downloadButton.addEventListener('click', generateResume);
+    
+    // We no longer need to add the designer-mode-active class
+    // as we're using consistent styling for all action buttons
+}
+
+function generateResume() {
+    // Show loading state
+    const downloadButton = document.getElementById('download-resume');
+    const originalText = downloadButton.innerHTML;
+    downloadButton.innerHTML = `
+        <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Generating...
+    `;
+    downloadButton.disabled = true;
+
+    // Check if libraries are loaded
+    if (typeof jspdf === 'undefined' || !jspdf.jsPDF) {
+        console.error('jsPDF library not loaded properly');
+        downloadButton.innerHTML = originalText;
+        downloadButton.disabled = false;
+        alert('PDF generation library not loaded. Please refresh the page and try again.');
+        return;
+    }
+
+    if (typeof html2canvas === 'undefined') {
+        console.error('html2canvas library not loaded properly');
+        downloadButton.innerHTML = originalText;
+        downloadButton.disabled = false;
+        alert('PDF generation library not loaded. Please refresh the page and try again.');
+        return;
+    }
+
+    try {
+        // Create a hidden div to build the resume
+        const resumeContainer = document.createElement('div');
+        resumeContainer.id = 'resume-container';
+        resumeContainer.style.position = 'absolute';
+        resumeContainer.style.left = '-9999px';
+        resumeContainer.style.width = '800px'; // PDF width
+        resumeContainer.style.backgroundColor = '#ffffff'; // Ensure white background
+        document.body.appendChild(resumeContainer);
+
+        // Get data from the website
+        const name = document.querySelector('header h1').textContent.trim();
+        const title = document.querySelector('header p').textContent.trim();
+        
+        // Get contact info including phone and location
+        const contactLinks = [];
+        
+        // Phone - get from hidden element (listed first)
+        const phoneElement = document.getElementById('phone-for-pdf');
+        if (phoneElement) {
+            contactLinks.push({
+                text: phoneElement.textContent.trim(),
+                href: phoneElement.getAttribute('href'),
+                type: 'phone',
+                icon: '📱' // Phone icon
+            });
+        }
+        
+        // Email
+        const emailElement = document.querySelector('a[href^="mailto:"]');
+        if (emailElement) {
+            contactLinks.push({
+                text: emailElement.textContent.trim(),
+                href: emailElement.getAttribute('href'),
+                type: 'email',
+                icon: '✉️' // Email icon
+            });
+        }
+        
+        // Location
+        const locationElement = document.querySelector('.space-y-2 svg[d*="M17.657 16.657"], .space-y-3 svg[d*="M17.657 16.657"]');
+        if (locationElement) {
+            const locationText = locationElement.closest('div').querySelector('span').textContent.trim();
+            contactLinks.push({
+                text: locationText,
+                href: null,
+                type: 'location',
+                icon: '📍' // Location icon
+            });
+        }
+        
+        // Website - get from hidden element
+        const websiteElement = document.getElementById('website-for-pdf');
+        if (websiteElement) {
+            contactLinks.push({
+                text: websiteElement.textContent.trim(),
+                href: websiteElement.getAttribute('href'),
+                type: 'website',
+                icon: '🌐' // Website icon
+            });
+        }
+        
+        // LinkedIn
+        const linkedinElement = document.querySelector('a[href*="linkedin.com"]');
+        if (linkedinElement) {
+            contactLinks.push({
+                text: linkedinElement.textContent.trim(),
+                href: linkedinElement.getAttribute('href'),
+                type: 'linkedin',
+                icon: '🔗' // LinkedIn icon
+            });
+        }
+        
+        // GitHub
+        const githubElement = document.querySelector('a[href*="github.com"]');
+        if (githubElement) {
+            contactLinks.push({
+                text: githubElement.textContent.trim(),
+                href: githubElement.getAttribute('href'),
+                type: 'github',
+                icon: '💻' // GitHub icon
+            });
+        }
+        
+        // Get bio text
+        const bioText = Array.from(document.querySelectorAll('#home p.text-base, #home p.text-lg')).map(p => p.textContent.trim()).join(' ');
+        
+        // Get experience items
+        const experienceItems = Array.from(document.querySelectorAll('#experience .space-y-8 > div')).map(item => {
+            const title = item.querySelector('h3')?.textContent.trim() || '';
+            const companyElement = item.querySelector('h3 + div');
+            const company = companyElement ? companyElement.textContent.trim() : '';
+            const durationElement = item.querySelector('.whitespace-nowrap');
+            const duration = durationElement ? durationElement.textContent.trim() : '';
+            return { title, company, duration };
+        }).filter(item => item.title && item.company); // Filter out any incomplete items
+
+        // Build the resume HTML with improved styling
+        resumeContainer.innerHTML = `
+            <div style="font-family: 'Inter', sans-serif; color: #1f2937; padding: 40px; box-sizing: border-box; background-color: #ffffff;">
+                <!-- Header -->
+                <div style="margin-bottom: 35px; border-bottom: 2px solid #ec4899; padding-bottom: 20px;">
+                    <h1 style="font-size: 28px; margin: 0 0 5px 0; color: #1f2937;">${name}</h1>
+                    <p style="font-size: 18px; margin: 0; color: #38bdf8;">${title}</p>
+                </div>
+                
+                <!-- Two-column layout for Contact and About Me -->
+                <div style="display: flex; gap: 40px; margin-bottom: 35px;">
+                    <!-- Left column - Contact -->
+                    <div style="flex: 1;">
+                        <h2 style="font-size: 18px; margin: 0 0 14px 0; color: #ec4899;">Contact</h2>
+                        <div style="border-top: 1px solid #e5e7eb; padding-top: 14px; margin-bottom: 20px;">
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                ${contactLinks.map(link => `
+                                    <li style="margin-bottom: 12px;">
+                                        ${link.href 
+                                            ? `<a href="${link.href}" style="color: #4b5563; text-decoration: none; display: flex; align-items: center;">`
+                                            : `<span style="color: #4b5563; display: flex; align-items: center;">`
+                                        }
+                                            <span style="margin-right: 10px; font-size: 18px; min-width: 24px; text-align: center;">${link.icon}</span>
+                                            <span style="font-size: 14px;">${link.text}</span>
+                                        ${link.href ? `</a>` : `</span>`}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Right column - About Me -->
+                    <div style="flex: 1.5;">
+                        <h2 style="font-size: 18px; margin: 0 0 14px 0; color: #ec4899;">About Me</h2>
+                        <div style="border-top: 1px solid #e5e7eb; padding-top: 14px;">
+                            <p style="margin: 0; color: #4b5563; line-height: 1.6; font-size: 15px;">${bioText}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Professional Experience (full width) -->
+                <div>
+                    <h2 style="font-size: 18px; margin: 0 0 14px 0; color: #ec4899;">Professional Experience</h2>
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 14px;">
+                        ${experienceItems.map(exp => `
+                            <div style="margin-bottom: 22px; padding-bottom: 15px; border-bottom: 1px solid #f3f4f6;">
+                                <h3 style="font-size: 17px; margin: 0 0 6px 0; color: #1f2937;">${exp.title}</h3>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <p style="margin: 0; color: #4b5563; font-weight: 500; font-size: 15px;">${exp.company}</p>
+                                    <p style="margin: 0; color: #6b7280; font-size: 14px;">${exp.duration}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <div style="margin-top: 40px; border-top: 1px solid #e5e7eb; padding-top: 20px; text-align: center; color: #6b7280; font-size: 12px;">
+                    <p style="margin: 0;">This resume was automatically generated from my personal website: <a href="https://jeremyvenegas.com" style="color: #38bdf8; text-decoration: none;">jeremyvenegas.com</a></p>
+                </div>
+            </div>
+        `;
+
+        // Use html2canvas and jsPDF to generate the PDF
+        setTimeout(() => {
+            html2canvas(resumeContainer, {
+                scale: 2, // Higher scale for better quality
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                try {
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    // Create PDF document
+                    const pdf = new jspdf.jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+                    
+                    // Calculate dimensions
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    const imgWidth = canvas.width;
+                    const imgHeight = canvas.height;
+                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                    const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                    const imgY = 0;
+                    
+                    // Add image to PDF
+                    pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                    
+                    // Save the PDF
+                    pdf.save('Jeremy_Venegas_Resume.pdf');
+                    
+                    // Clean up
+                    document.body.removeChild(resumeContainer);
+                    downloadButton.innerHTML = originalText;
+                    downloadButton.disabled = false;
+                } catch (err) {
+                    console.error('Error creating PDF:', err);
+                    downloadButton.innerHTML = originalText;
+                    downloadButton.disabled = false;
+                    alert('There was an error creating your resume PDF. Please try again.');
+                }
+            }).catch(err => {
+                console.error('Error generating canvas:', err);
+                downloadButton.innerHTML = originalText;
+                downloadButton.disabled = false;
+                alert('There was an error generating your resume. Please try again.');
+            });
+        }, 500);
+    } catch (error) {
+        console.error('Error preparing resume data:', error);
+        downloadButton.innerHTML = originalText;
+        downloadButton.disabled = false;
+        alert('There was an error preparing your resume data. Please try again.');
+    }
 }
