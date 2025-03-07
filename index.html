@@ -39,9 +39,32 @@
             right: -8px;
             bottom: -8px;
             border-radius: 50%;
-            background-color: #38bdf8;
+            background-color: #10b981; /* Green color for pulse */
             animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
             z-index: -1;
+        }
+        
+        /* Fade-in animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        
+        /* Game container */
+        #game-container {
+            opacity: 1;
+            display: block;
         }
     </style>
     <!-- Tailwind Configuration -->
@@ -127,7 +150,7 @@
                 <div class="w-full lg:w-1/2">
                     <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
                         <!-- Profile Image updated with day/night photos -->
-                        <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-primary">
+                        <div class="w-48 h-48 rounded-full overflow-hidden">
                             <img src="/img/day_photo.jpg" class="w-full h-full object-cover dark:hidden" alt="Profile photo - day">
                             <img src="/img/night_photo.jpeg" class="w-full h-full object-cover hidden dark:block" alt="Profile photo - night">
                         </div>
@@ -199,21 +222,37 @@
             
             <!-- Open for Work Banner -->
             <div class="max-w-3xl mx-auto mb-12">
-                <div class="bg-white dark:bg-gray-900 rounded-lg p-6 flex items-center justify-between border-2 border-secondary">
+                <div class="bg-white dark:bg-gray-900 rounded-lg p-6 flex items-center justify-between border-2 border-emerald-500">
                     <div class="flex items-center">
                         <div class="relative">
-                            <div class="w-3 h-3 bg-secondary rounded-full pulse"></div>
+                            <div class="w-3 h-3 bg-emerald-500 rounded-full pulse"></div>
                         </div>
-                        <span class="ml-6 text-lg font-bold text-secondary">Open for Work</span>
+                        <span class="ml-6 text-lg font-bold text-emerald-500">Open for Work</span>
                     </div>
                     <div class="text-gray-600 dark:text-gray-400">
-                        Looking for exciting opportunities in Full-stack Development & AI
+                        Looking for new opportunities
                     </div>
                 </div>
             </div>
             
             <!-- Experience items -->
             <div class="max-w-3xl mx-auto space-y-8">
+                <!-- Job 0 -->
+                <div class="flex items-center">
+                    <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-center w-full">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Developer & Designer</h3>
+                                <div class="text-gray-600 dark:text-gray-400">
+                                    <a href="https://www.luxerone.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Self-employed</a>
+                                </div>
+                            </div>
+                            <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">Current</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Job 1 -->
                 <div class="flex items-center">
                     <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
@@ -222,7 +261,7 @@
                             <div>
                                 <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Product Marketing Specialist</h3>
                                 <div class="text-gray-600 dark:text-gray-400">
-                                    <a href="https://www.luxerone.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Luxer One</a>
+                                    <a href="https://www.luxerone.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80">Luxer One</a>
                                 </div>
                             </div>
                             <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2022 - 2024</span>
@@ -238,7 +277,7 @@
                             <div>
                                 <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">UI UX Designer</h3>
                                 <div class="text-gray-600 dark:text-gray-400">
-                                    <a href="https://www.regroup.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Regroup Mass Notification</a>
+                                    <a href="https://www.regroup.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80">Regroup Mass Notification</a>
                                 </div>
                             </div>
                             <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2019 - 2022</span>
@@ -266,7 +305,7 @@
                     <div class="flex-grow">
                         <div class="flex justify-between items-center w-full">
                             <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">UI UX Designer & Front End Developer</h3>
+                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Front End Developer</h3>
                                 <div class="text-gray-600 dark:text-gray-400">Knack Studios</div>
                             </div>
                             <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2015 - 2019</span>
@@ -280,7 +319,7 @@
                     <div class="flex-grow">
                         <div class="flex justify-between items-center w-full">
                             <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">UI UX Designer & Front End Developer</h3>
+                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Front End Developer, UI UX Designer</h3>
                                 <div class="text-gray-600 dark:text-gray-400">Bixly</div>
                             </div>
                             <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2012 - 2015</span>
@@ -358,17 +397,79 @@
     <section id="game" class="py-20 bg-gray-50 dark:bg-gray-800">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold mb-8 text-center text-primary-light dark:text-primary-dark">Thanks for Looking!</h2>
-            <p class="text-center max-w-2xl mx-auto mb-8 text-gray-600 dark:text-gray-400">Want to play a quick game before you go? Press spacebar or click/tap to jump over obstacles.</p>
+            <p class="text-center max-w-2xl mx-auto mb-8 text-gray-600 dark:text-gray-400">Try playing Raccoon Trashcan Jumper before you go?</p>
             
-            <div class="max-w-2xl mx-auto">
+            <div id="game-container" class="max-w-2xl mx-auto">
                 <div class="border-2 border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
                     <div id="game-background" class="relative">
                         <div class="sky-elements absolute inset-0 w-full h-full"></div>
                         <canvas id="game-canvas" class="w-full h-48 md:h-64 relative z-10"></canvas>
+                        <!-- Add raccoon SVG (hidden initially) -->
+                        <div id="raccoon-svg-container" class="absolute z-20 top-0 left-0" style="display: none; pointer-events: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" width="48" height="48">
+                              <!-- Frame 1: Right leg lifted, left leg down, body down -->
+                              <g id="frame1">
+                                <!-- Head -->
+                                <rect x="7" y="1" width="1" height="1" fill="#808080"/> <!-- Left ear -->
+                                <rect x="10" y="1" width="1" height="1" fill="#808080"/> <!-- Right ear -->
+                                <rect x="7" y="2" width="5" height="1" fill="#808080"/> <!-- Top of head -->
+                                <rect x="7" y="3" width="1" height="1" fill="#000000"/> <!-- Mask left -->
+                                <rect x="8" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Left eye -->
+                                <rect x="9" y="3" width="1" height="1" fill="#000000"/> <!-- Mask middle -->
+                                <rect x="10" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Right eye -->
+                                <rect x="11" y="3" width="1" height="1" fill="#000000"/> <!-- Mask right -->
+                                <rect x="7" y="4" width="5" height="1" fill="#808080"/> <!-- Middle of head -->
+                                <rect x="7" y="5" width="5" height="1" fill="#808080"/> <!-- Bottom of head -->
+                                <!-- Nose (prominent) -->
+                                <rect x="11" y="4" width="1" height="1" fill="#FF69B4"/>
+                                <!-- Body -->
+                                <rect x="5" y="6" width="6" height="4" fill="#808080"/>
+                                <!-- Arm pointing right -->
+                                <rect x="11" y="7" width="3" height="1" fill="#808080"/>
+                                <!-- Legs -->
+                                <rect x="6" y="10" width="2" height="2" fill="#808080"/> <!-- Left leg down -->
+                                <rect x="9" y="9" width="2" height="1" fill="#808080"/> <!-- Right leg lifted -->
+                                <!-- Tail -->
+                                <rect x="4" y="8" width="1" height="3" fill="#808080"/> <!-- Tail light stripe -->
+                                <rect x="3" y="8" width="1" height="3" fill="#404040"/> <!-- Tail dark stripe -->
+                              </g>
+                              
+                              <!-- Frame 2: Left leg lifted, right leg down, body up -->
+                              <g id="frame2" transform="translate(0, -1)">
+                                <!-- Head -->
+                                <rect x="7" y="1" width="1" height="1" fill="#808080"/> <!-- Left ear -->
+                                <rect x="10" y="1" width="1" height="1" fill="#808080"/> <!-- Right ear -->
+                                <rect x="7" y="2" width="5" height="1" fill="#808080"/> <!-- Top of head -->
+                                <rect x="7" y="3" width="1" height="1" fill="#000000"/> <!-- Mask left -->
+                                <rect x="8" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Left eye -->
+                                <rect x="9" y="3" width="1" height="1" fill="#000000"/> <!-- Mask middle -->
+                                <rect x="10" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Right eye -->
+                                <rect x="11" y="3" width="1" height="1" fill="#000000"/> <!-- Mask right -->
+                                <rect x="7" y="4" width="5" height="1" fill="#808080"/> <!-- Middle of head -->
+                                <rect x="7" y="5" width="5" height="1" fill="#808080"/> <!-- Bottom of head -->
+                                <!-- Nose (prominent) -->
+                                <rect x="11" y="4" width="1" height="1" fill="#FF69B4"/>
+                                <!-- Body -->
+                                <rect x="5" y="6" width="6" height="4" fill="#808080"/>
+                                <!-- Arm pointing right -->
+                                <rect x="11" y="7" width="3" height="1" fill="#808080"/>
+                                <!-- Legs -->
+                                <rect x="6" y="9" width="2" height="1" fill="#808080"/> <!-- Left leg lifted -->
+                                <rect x="9" y="10" width="2" height="2" fill="#808080"/> <!-- Right leg down -->
+                                <!-- Tail -->
+                                <rect x="4" y="8" width="1" height="3" fill="#808080"/> <!-- Tail light stripe -->
+                                <rect x="3" y="8" width="1" height="3" fill="#404040"/> <!-- Tail dark stripe -->
+                              </g>
+                              
+                              <!-- Animation -->
+                              <animate xlink:href="#frame1" attributeName="opacity" values="1;0" dur="0.5s" repeatCount="indefinite" calcMode="discrete"/>
+                              <animate xlink:href="#frame2" attributeName="opacity" values="0;1" dur="0.5s" repeatCount="indefinite" calcMode="discrete"/>
+                            </svg>
+                        </div>
                     </div>
                     <div class="p-3 bg-gray-200 dark:bg-gray-800 flex justify-between">
                         <button id="game-start" class="bg-primary text-white py-1 px-4 rounded-md hover:opacity-90 transition-all duration-300 transform hover:scale-105">
-                            Start Game
+                            Play Game
                         </button>
                         <div>
                             <span>Score: <span id="game-score">0</span></span>
@@ -377,6 +478,8 @@
                     </div>
                 </div>
             </div>
+
+            <p class="text-center max-w-2xl mx-auto mt-8 text-gray-600 dark:text-gray-400">Click/tap or press spacebar to jump. Try night mode for more difficulty!</p>
         </div>
     </section>
 
@@ -389,13 +492,6 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             &copy; 2025 Jeremy Venegas
                         </p>
-                        <svg class="h-5 w-5 ml-2 text-gray-600 dark:text-gray-400" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M2,2 L22,2 L22,16 L14,16 L12,20 L10,16 L2,16 Z M4,4 L20,4 L20,14 L12.8,14 L12,16 L11.2,14 L4,14 Z M6,6 L18,6 L18,8 L6,8 Z M6,10 L14,10 L14,12 L6,12 Z" />
-                            <rect x="4" y="4" width="16" height="10" fill="currentColor" />
-                            <rect x="6" y="6" width="12" height="1" fill="white" />
-                            <rect x="6" y="8" width="12" height="1" fill="white" />
-                            <rect x="6" y="10" width="12" height="1" fill="white" />
-                        </svg>
                     </div>
                 </div>
                 
@@ -431,5 +527,81 @@
 
     <!-- Custom JavaScript -->
     <script src="script.js"></script>
+    <script>
+        // Fix for background flickering
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fix for background flickering
+            const gameBackground = document.getElementById('game-background');
+            if (gameBackground) {
+                // Force hardware acceleration to prevent flickering
+                gameBackground.style.transform = 'translateZ(0)';
+                gameBackground.style.backfaceVisibility = 'hidden';
+            }
+            
+            // Initialize game canvas but don't start the game
+            // This will be handled by the game-start button in script.js
+            
+            // Get the canvas and context
+            const canvas = document.getElementById('game-canvas');
+            if (canvas && canvas.getContext) {
+                const ctx = canvas.getContext('2d');
+                
+                // Override the player drawing function
+                // This will be called by the game loop
+                if (window.game) {
+                    // Store original player drawing function if it exists
+                    const originalDrawPlayer = window.game.drawPlayer;
+                    
+                    // Override with SVG raccoon
+                    window.game.drawPlayer = function(ctx, x, y, frameCount) {
+                        // Instead of drawing on canvas, position the SVG
+                        const raccoonSvg = document.getElementById('raccoon-svg-container');
+                        if (raccoonSvg) {
+                            raccoonSvg.style.display = 'block';
+                            // Position adjustment to place the raccoon on the ground
+                            // Increased offset to properly place raccoon on the ground
+                            raccoonSvg.style.transform = `translate(${x}px, ${y + 7}px) scale(1)`;
+                            raccoonSvg.style.transformOrigin = 'top left';
+                        }
+                    };
+                    
+                    // Also override the update method to ensure SVG follows player
+                    const originalUpdate = window.game.raccoon.update;
+                    window.game.raccoon.update = function() {
+                        originalUpdate.call(window.game.raccoon);
+                        window.game.drawPlayer(ctx, window.game.raccoon.x, window.game.raccoon.y, 0);
+                    };
+                }
+                
+                // If the game object doesn't exist yet, create a function to be called later
+                if (!window.game) {
+                    // Create a global function that the game can call when it initializes
+                    window.updateRaccoonDesign = function(gameObj) {
+                        // Override with SVG raccoon
+                        gameObj.drawPlayer = function(ctx, x, y, frameCount) {
+                            // Instead of drawing on canvas, position the SVG
+                            const raccoonSvg = document.getElementById('raccoon-svg-container');
+                            if (raccoonSvg) {
+                                raccoonSvg.style.display = 'block';
+                                // Position adjustment to place the raccoon on the ground
+                                // Increased offset to properly place raccoon on the ground
+                                raccoonSvg.style.transform = `translate(${x}px, ${y - 10}px) scale(1)`;
+                                raccoonSvg.style.transformOrigin = 'top left';
+                            }
+                        };
+                        
+                        // Also override the update method to ensure SVG follows player
+                        const originalUpdate = gameObj.raccoon.update;
+                        gameObj.raccoon.update = function() {
+                            originalUpdate.call(gameObj.raccoon);
+                            gameObj.drawPlayer(ctx, gameObj.raccoon.x, gameObj.raccoon.y, 0);
+                        };
+                        
+                        return gameObj;
+                    };
+                }
+            }
+        });
+    </script>
 </body>
 </html> 

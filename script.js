@@ -1,19 +1,10 @@
 // Jeremy Venegas - Personal Website JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Typed.js for typewriter effect
     initTypewriter();
-    
-    // Initialize theme toggling
     initThemeToggle();
-    
-    // Initialize mobile menu
     initMobileMenu();
-    
-    // Initialize raccoon game
     initGame();
-    
-    // Smooth scrolling for navigation links
     initSmoothScrolling();
 });
 
@@ -118,17 +109,17 @@ function updateGameSky() {
     if (isDark) {
         // Add moon
         const moon = document.createElement('div');
-        moon.className = 'absolute w-16 h-16 bg-gray-200 rounded-full';
-        moon.style.right = '2rem';
-        moon.style.top = '1rem';
+        moon.className = 'absolute w-16 h-16 bg-gray-200';
+        moon.style.right = '3rem';
+        moon.style.top = '2rem';
         moon.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.5)';
         skyElements.appendChild(moon);
     } else {
         // Add sun
         const sun = document.createElement('div');
-        sun.className = 'absolute w-16 h-16 bg-yellow-300 rounded-full';
-        sun.style.right = '2rem';
-        sun.style.top = '1rem';
+        sun.className = 'absolute w-16 h-16 bg-yellow-300';
+        sun.style.right = '3rem';
+        sun.style.top = '2rem';
         sun.style.boxShadow = '0 0 40px rgba(250, 204, 21, 0.6)';
         skyElements.appendChild(sun);
     }
@@ -136,38 +127,70 @@ function updateGameSky() {
 
 // Raccoon Game Implementation
 function initGame() {
+    // Cache DOM elements
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
     const gameStartBtn = document.getElementById('game-start');
     const scoreDisplay = document.getElementById('game-score');
     const highScoreDisplay = document.getElementById('game-high-score');
+    const raccoonSvgContainer = document.getElementById('raccoon-svg-container');
     
-    // Game variables
+    // Game constants
+    const INITIAL_GAME_SPEED = 5;
+    const GRAVITY = 0.6;
+    const JUMP_FORCE = 12;
+    const INITIAL_OBSTACLE_INTERVAL = 1800;
+    const MIN_OBSTACLE_INTERVAL = 1000;
+    const RACCOON_X_POSITION = 50;
+    const GROUND_OFFSET = 20;
+    const DIFFICULTY_INCREASE_INTERVAL = 5; // Score points between difficulty increases
+    
+    // Game state variables
     let gameActive = false;
     let score = 0;
-    let highScore = localStorage.getItem('raccoonGameHighScore') || 0;
-    let gameSpeed = 5;
-    let gravity = 0.6;
-    let jumpForce = 12;
-    let obstacleInterval = 1800; // Starting interval between obstacles
-    let minObstacleInterval = 1000; // Min time between obstacles at high difficulty
+    let highScore = parseInt(localStorage.getItem('raccoonGameHighScore') || 0);
+    let gameSpeed = INITIAL_GAME_SPEED;
+    let obstacleInterval = INITIAL_OBSTACLE_INTERVAL;
     let lastObstacleTime = 0;
     let animationId;
     let groundLevel;
-    let difficultyLevel = 1; // Game difficulty increases over time
+    let difficultyLevel = 1;
+    let obstacles = [];
     
     // Initialize sky elements for day/night
     updateGameSky();
     
     // Game objects
     const raccoon = {
-        x: 50,
+        x: RACCOON_X_POSITION,
         y: 0,
         width: 30,
         height: 40,
         velocityY: 0,
         jumping: false,
-        draw: function() {
+        
+        update() {
+            // Apply gravity
+            this.velocityY += GRAVITY;
+            this.y += this.velocityY;
+            
+            // Ground collision
+            if (this.y + this.height > groundLevel) {
+                this.y = groundLevel - this.height;
+                this.velocityY = 0;
+                this.jumping = false;
+            }
+        },
+        
+        jump() {
+            if (!this.jumping) {
+                this.velocityY = -JUMP_FORCE;
+                this.jumping = true;
+            }
+        },
+        
+        // Fallback draw method if SVG isn't available
+        draw() {
             // Body
             ctx.fillStyle = '#525252';
             ctx.fillRect(this.x, this.y, this.width, this.height - 10);
@@ -192,74 +215,72 @@ function initGame() {
             // Nose
             ctx.fillStyle = '#000000';
             ctx.fillRect(this.x + (this.width/2) - 2, this.y + 22, 4, 4);
-            
-            // Raccoon tail (curved and striped)
-            ctx.fillStyle = '#525252';
-            ctx.beginPath();
-            ctx.moveTo(this.x - 5, this.y + 15);
-            ctx.quadraticCurveTo(
-                this.x - 15, 
-                this.y + 20,
-                this.x - 10, 
-                this.y + 25
-            );
-            ctx.lineTo(this.x - 5, this.y + 25);
-            ctx.quadraticCurveTo(
-                this.x - 8,
-                this.y + 20,
-                this.x - 2,
-                this.y + 15
-            );
-            ctx.fill();
-            
-            // Tail stripes
-            ctx.strokeStyle = '#303030';
-            ctx.lineWidth = 2;
-            for(let i = 0; i < 3; i++) {
-                ctx.beginPath();
-                ctx.moveTo(this.x - 12 + (i * 3), this.y + 17);
-                ctx.lineTo(this.x - 8 + (i * 3), this.y + 23);
-                ctx.stroke();
-            }
-        },
-        update: function() {
-            // Apply gravity
-            this.velocityY += gravity;
-            this.y += this.velocityY;
-            
-            // Ensure raccoon stays on ground
-            if (this.y > groundLevel - this.height) {
-                this.y = groundLevel - this.height;
-                this.velocityY = 0;
-                this.jumping = false;
-            }
-        },
-        jump: function() {
-            if (!this.jumping) {
-                this.velocityY = -jumpForce;
-                this.jumping = true;
-            }
         }
     };
     
-    const obstacles = [];
+    // SVG raccoon renderer
+    function drawRaccoonSvg(x, y) {
+        if (raccoonSvgContainer) {
+            raccoonSvgContainer.style.display = 'block';
+            // Position adjustment to place the raccoon on the ground
+            raccoonSvgContainer.style.transform = `translate(${x}px, ${y + 8}px) scale(1)`;
+            raccoonSvgContainer.style.transformOrigin = 'top left';
+        } else {
+            // Fallback to original drawing if SVG not available
+            raccoon.draw();
+        }
+    }
     
+    // Override the raccoon's draw method to use SVG
+    raccoon.draw = function() {
+        drawRaccoonSvg(this.x, this.y);
+    };
+    
+    // Make the game object available globally for potential extensions
+    window.game = {
+        raccoon: raccoon,
+        drawPlayer: drawRaccoonSvg
+    };
+    
+    // Obstacle class
     class Obstacle {
         constructor() {
+            const isDark = document.documentElement.classList.contains('dark');
+            
             // Vary the width and height based on difficulty
-            const maxHeight = 15 + (difficultyLevel * 2); // Height increases with difficulty
+            const maxHeight = 15 + (difficultyLevel * 2);
             const minHeight = 15;
             
+            // Add more height variation
             this.width = 20 + Math.random() * 15;
-            this.height = minHeight + Math.random() * (maxHeight - minHeight);
+            
+            // Make obstacles significantly taller in night mode
+            if (isDark) {
+                // Much taller obstacles in night mode
+                const nightModeHeightBonus = 20 + (difficultyLevel * 3); // Additional height for night mode
+                this.height = minHeight + Math.random() * (maxHeight - minHeight) + nightModeHeightBonus;
+            } else {
+                // Normal height in day mode
+                const heightVariation = Math.random() * 10;
+                this.height = minHeight + Math.random() * (maxHeight - minHeight) + heightVariation;
+            }
+            
             this.x = canvas.width;
             this.y = groundLevel - this.height;
             this.passed = false;
             
             // Vary the color for visual interest
-            const hue = Math.floor(Math.random() * 360); // Random hue
-            this.color = `hsl(${hue}, 30%, 40%)`;
-            this.lidColor = `hsl(${hue}, 20%, 60%)`;
+            const hue = Math.floor(Math.random() * 360);
+            
+            // Make obstacles bright and easy to see in both modes
+            if (isDark) {
+                // Brighter colors in night mode for better visibility
+                this.color = `hsl(${hue}, 50%, 45%)`; // More saturated and brighter
+                this.lidColor = `hsl(${hue}, 40%, 65%)`; // Brighter lid
+            } else {
+                this.color = `hsl(${hue}, 30%, 40%)`;
+                this.lidColor = `hsl(${hue}, 20%, 60%)`;
+            }
         }
         
         draw() {
@@ -297,17 +318,37 @@ function initGame() {
                 }
                 
                 // Increase difficulty based on score
-                if (score % 5 === 0) {
-                    difficultyLevel += 0.5;
-                    gameSpeed += 0.4;
-                    
-                    // Decrease obstacle interval as difficulty increases
-                    obstacleInterval = Math.max(
-                        minObstacleInterval, 
-                        1800 - (difficultyLevel * 100)
-                    );
+                if (score % DIFFICULTY_INCREASE_INTERVAL === 0) {
+                    increaseDifficulty();
                 }
             }
+            
+            return this.x + this.width < 0; // Return true if obstacle is off screen
+        }
+    }
+    
+    // Increase game difficulty
+    function increaseDifficulty() {
+        const isDark = document.documentElement.classList.contains('dark');
+        difficultyLevel += 0.5;
+        
+        // Make the game harder in night mode
+        if (isDark) {
+            gameSpeed += 0.8; // Much faster in night mode (0.8 instead of 0.4)
+            
+            // Decrease obstacle interval much more aggressively in night mode
+            obstacleInterval = Math.max(
+                MIN_OBSTACLE_INTERVAL - 300, // Much lower minimum interval in night mode
+                INITIAL_OBSTACLE_INTERVAL - (difficultyLevel * 200) // Much faster decrease
+            );
+        } else {
+            gameSpeed += 0.4;
+            
+            // Normal difficulty in day mode
+            obstacleInterval = Math.max(
+                MIN_OBSTACLE_INTERVAL,
+                INITIAL_OBSTACLE_INTERVAL - (difficultyLevel * 100)
+            );
         }
     }
     
@@ -315,7 +356,7 @@ function initGame() {
     function resizeCanvas() {
         canvas.width = canvas.clientWidth;
         canvas.height = canvas.clientHeight;
-        groundLevel = canvas.height - 20; // 20px from bottom
+        groundLevel = canvas.height - GROUND_OFFSET;
         
         // Reset raccoon position after resize
         if (!gameActive) {
@@ -323,10 +364,9 @@ function initGame() {
         }
     }
     
-    // Handle window resize
+    // Event listeners
     window.addEventListener('resize', resizeCanvas);
     
-    // Key controls for jumping
     document.addEventListener('keydown', function(e) {
         if (e.code === 'Space' && gameActive) {
             e.preventDefault(); // Prevent page scroll on spacebar
@@ -334,14 +374,12 @@ function initGame() {
         }
     });
     
-    // Click/tap controls for jumping
     canvas.addEventListener('click', function() {
         if (gameActive) {
             raccoon.jump();
         }
     });
     
-    // Start game button
     gameStartBtn.addEventListener('click', function() {
         if (!gameActive) {
             startGame();
@@ -350,14 +388,15 @@ function initGame() {
         }
     });
     
+    // Game state management
     function startGame() {
         resizeCanvas();
         gameActive = true;
         score = 0;
-        gameSpeed = 5;
+        gameSpeed = INITIAL_GAME_SPEED;
         difficultyLevel = 1;
-        obstacleInterval = 1800;
-        obstacles.length = 0;
+        obstacleInterval = INITIAL_OBSTACLE_INTERVAL;
+        obstacles = [];
         raccoon.y = groundLevel - raccoon.height;
         raccoon.velocityY = 0;
         scoreDisplay.textContent = score;
@@ -365,7 +404,8 @@ function initGame() {
         gameStartBtn.textContent = 'Reset Game';
         
         // Start game loop
-        gameLoop();
+        lastObstacleTime = performance.now();
+        requestAnimationFrame(gameLoop);
     }
     
     function resetGame() {
@@ -382,99 +422,14 @@ function initGame() {
         raccoon.draw();
     }
     
-    function gameLoop(timestamp) {
-        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw background
-        drawBackground();
-        
-        // Update and draw raccoon
-        raccoon.update();
-        raccoon.draw();
-        
-        // Generate obstacles periodically, with variable timing
-        if (!lastObstacleTime) lastObstacleTime = timestamp;
-        
-        const timeSinceLastObstacle = timestamp - lastObstacleTime;
-        if (timeSinceLastObstacle > obstacleInterval) {
-            obstacles.push(new Obstacle());
-            lastObstacleTime = timestamp;
-            
-            // Randomize next obstacle timing based on difficulty
-            const variability = 400 - (difficultyLevel * 20); // Less variability as difficulty increases
-            obstacleInterval = Math.max(
-                minObstacleInterval,
-                obstacleInterval - (difficultyLevel * 10) + (Math.random() * variability)
-            );
-        }
-        
-        // Update and draw obstacles
-        for (let i = obstacles.length - 1; i >= 0; i--) {
-            obstacles[i].update();
-            obstacles[i].draw();
-            
-            // Check for collision
-            if (checkCollision(raccoon, obstacles[i])) {
-                gameOver();
-                return;
-            }
-            
-            // Remove obstacles that are off screen
-            if (obstacles[i].x + obstacles[i].width < 0) {
-                obstacles.splice(i, 1);
-            }
-        }
-        
-        // Continue game loop
-        if (gameActive) {
-            animationId = requestAnimationFrame(gameLoop);
-        }
-    }
-    
-    function drawBackground() {
-        const isDark = document.documentElement.classList.contains('dark');
-        
-        // Ground color based on theme - solid color, no texture
-        ctx.fillStyle = isDark ? '#64748b' : '#94a3b8';
-        ctx.fillRect(0, groundLevel, canvas.width, canvas.height - groundLevel);
-        
-        // Draw background cityscape with parallax
-        ctx.fillStyle = isDark ? 'rgba(51, 65, 85, 0.3)' : 'rgba(148, 163, 184, 0.3)';
-        const parallaxOffset = (Date.now() / 50) % 60; // Slow movement
-        
-        for (let i = -60; i < canvas.width + 60; i += 60) {
-            const x = (i - parallaxOffset) % (canvas.width + 120) - 60;
-            const height = 15 + Math.sin(i * 0.01) * 10;
-            ctx.fillRect(x, groundLevel - height, 40, height);
-            
-            // Add faint windows to buildings
-            ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(51, 65, 85, 0.2)';
-            for (let j = groundLevel - height + 5; j < groundLevel - 5; j += 7) {
-                ctx.fillRect(x + 10, j, 5, 5);
-                ctx.fillRect(x + 25, j, 5, 5);
-            }
-        }
-    }
-    
-    function checkCollision(raccoon, obstacle) {
-        // Keep the more forgiving collision detection
-        const raccoonHitbox = {
-            x: raccoon.x + 5,
-            y: raccoon.y + 5,
-            width: raccoon.width - 10,
-            height: raccoon.height - 5
-        };
-        
-        return raccoonHitbox.x < obstacle.x + obstacle.width - 2 &&
-               raccoonHitbox.x + raccoonHitbox.width - 2 > obstacle.x &&
-               raccoonHitbox.y < obstacle.y + obstacle.height - 2 &&
-               raccoonHitbox.y + raccoonHitbox.height > obstacle.y;
-    }
-    
     function gameOver() {
         gameActive = false;
         gameStartBtn.textContent = 'Try Again';
+        
+        // Hide the SVG raccoon
+        if (raccoonSvgContainer) {
+            raccoonSvgContainer.style.display = 'none';
+        }
         
         // Draw game over message with better visibility
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -488,21 +443,191 @@ function initGame() {
         ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 30);
     }
     
-    // Initialize the game in "ready to start" state
+    // Game rendering
+    function drawBackground() {
+        const isDark = document.documentElement.classList.contains('dark');
+        
+        // Draw background cityscape with parallax
+        ctx.fillStyle = isDark ? 'rgba(51, 65, 85, 0.3)' : 'rgba(148, 163, 184, 0.3)';
+        
+        // Create a more randomized cityscape that spawns from the right
+        // Significantly reduce the speed to create distant background effect
+        const baseSpeed = 0.15; // Reduced from 0.2 to 0.15 for even slower movement
+        const scrollSpeed = gameSpeed * baseSpeed;
+        
+        // Store building data in a persistent array if it doesn't exist yet
+        if (!window.cityBuildings) {
+            // Initialize buildings array with randomized properties
+            window.cityBuildings = [];
+            
+            // Create enough buildings to fill the screen plus buffer for off-screen
+            const screenWidth = canvas.width;
+            let currentX = 0;
+            
+            // Add buildings until we've covered the screen width plus buffer
+            while (currentX < screenWidth * 2) {
+                // Randomize building properties
+                const width = 40 + Math.random() * 60; // Random width between 40-100
+                const height = 30 + Math.random() * 50; // Random height between 30-80
+                const gap = 15 + Math.random() * 30; // Random gap between buildings
+                
+                // Pre-generate window pattern to avoid flickering
+                const windowSize = 6;
+                const windowMargin = 10;
+                const windowRows = Math.floor(height / windowMargin) - 1;
+                const windowCols = Math.floor(width / 15);
+                const windows = [];
+                
+                // Generate persistent window pattern
+                for (let row = 0; row < windowRows; row++) {
+                    for (let col = 0; col < windowCols; col++) {
+                        // Randomly decide if this window should be visible
+                        if (Math.random() > 0.3) {
+                            windows.push({
+                                row: row,
+                                col: col
+                            });
+                        }
+                    }
+                }
+                
+                // Add building to array
+                window.cityBuildings.push({
+                    x: currentX,
+                    width: width,
+                    height: height,
+                    windows: windows
+                });
+                
+                // Move to next building position
+                currentX += width + gap;
+            }
+        }
+        
+        // Update building positions based on game speed
+        window.cityBuildings.forEach(building => {
+            building.x -= scrollSpeed;
+            
+            // If building is completely off-screen to the left, move it to the right
+            if (building.x + building.width < 0) {
+                // Find the rightmost building
+                const rightmostX = Math.max(...window.cityBuildings.map(b => b.x + b.width));
+                
+                // Randomize building properties for reuse
+                building.width = 40 + Math.random() * 60;
+                building.height = 30 + Math.random() * 50;
+                const gap = 15 + Math.random() * 30;
+                
+                // Position it off-screen to the right with a gap
+                building.x = rightmostX + gap;
+                
+                // Generate new window pattern
+                const windowSize = 6;
+                const windowMargin = 10;
+                const windowRows = Math.floor(building.height / windowMargin) - 1;
+                const windowCols = Math.floor(building.width / 15);
+                building.windows = [];
+                
+                // Generate persistent window pattern
+                for (let row = 0; row < windowRows; row++) {
+                    for (let col = 0; col < windowCols; col++) {
+                        // Randomly decide if this window should be visible
+                        if (Math.random() > 0.3) {
+                            building.windows.push({
+                                row: row,
+                                col: col
+                            });
+                        }
+                    }
+                }
+            }
+            
+            // Draw building
+            ctx.fillStyle = isDark ? 'rgba(51, 65, 85, 0.3)' : 'rgba(148, 163, 184, 0.3)';
+            ctx.fillRect(building.x, groundLevel - building.height, building.width, building.height);
+            
+            // Add windows to buildings
+            ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(51, 65, 85, 0.2)';
+            
+            // Draw pre-generated windows
+            const windowSize = 6;
+            const windowMargin = 10;
+            
+            building.windows.forEach(window => {
+                const windowX = building.x + (window.col + 1) * (building.width / (Math.floor(building.width / 15) + 1)) - windowSize/2;
+                const windowY = groundLevel - building.height + windowMargin + window.row * windowMargin;
+                
+                ctx.fillRect(windowX, windowY, windowSize, windowSize);
+            });
+        });
+        
+        // Ground
+        ctx.fillStyle = isDark ? '#64748b' : '#94a3b8';
+        ctx.fillRect(0, groundLevel, canvas.width, canvas.height - groundLevel);
+    }
+    
+    // Collision detection
+    function checkCollision(raccoon, obstacle) {
+        // Use a slightly smaller hitbox for more forgiving gameplay
+        const raccoonHitbox = {
+            x: raccoon.x + 5,
+            y: raccoon.y + 5,
+            width: raccoon.width - 10,
+            height: raccoon.height - 5
+        };
+        
+        return raccoonHitbox.x < obstacle.x + obstacle.width - 2 &&
+               raccoonHitbox.x + raccoonHitbox.width - 2 > obstacle.x &&
+               raccoonHitbox.y < obstacle.y + obstacle.height - 2 &&
+               raccoonHitbox.y + raccoonHitbox.height > obstacle.y;
+    }
+    
+    // Main game loop
+    function gameLoop(timestamp) {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw background
+        drawBackground();
+        
+        // Update raccoon position
+        raccoon.update();
+        raccoon.draw();
+        
+        // Generate obstacles periodically, with variable timing
+        if (timestamp - lastObstacleTime > obstacleInterval) {
+            obstacles.push(new Obstacle());
+            lastObstacleTime = timestamp;
+            
+            // Randomize next obstacle timing based on difficulty
+            const variability = 400 - (difficultyLevel * 20);
+            obstacleInterval = Math.max(
+                MIN_OBSTACLE_INTERVAL,
+                obstacleInterval - (difficultyLevel * 10) + (Math.random() * variability)
+            );
+        }
+        
+        // Update and draw obstacles, removing those that are off screen
+        obstacles = obstacles.filter(obstacle => {
+            obstacle.draw();
+            const isOffScreen = obstacle.update();
+            
+            // Check for collision
+            if (checkCollision(raccoon, obstacle)) {
+                gameOver();
+                return false;
+            }
+            
+            return !isOffScreen; // Keep obstacles that are still on screen
+        });
+        
+        // Continue game loop
+        if (gameActive) {
+            animationId = requestAnimationFrame(gameLoop);
+        }
+    }
+    
+    // Initialize the game
     resizeCanvas();
-    drawBackground();
-    raccoon.y = groundLevel - raccoon.height;
-    raccoon.draw();
-    highScoreDisplay.textContent = highScore;
+    resetGame();
 }
-
-// Add GitHub Pages deployment comment
-/* 
-DEPLOYMENT INSTRUCTIONS:
-To deploy to GitHub Pages:
-1. Create a GitHub repository (ideally username.github.io)
-2. Push these files (index.html, styles.css, script.js) to the repository
-3. Go to repository Settings > Pages
-4. Select the branch to deploy (usually main)
-5. Your site will be published at https://username.github.io/
-*/ 
