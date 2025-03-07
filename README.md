@@ -45,25 +45,3 @@ A simple raccoon-themed jump game is included on the home page:
 3. Go to repository Settings > Pages
 4. Under "Source", select the branch to deploy (usually `main`)
 5. Your site will be published at `https://username.github.io/` or `https://username.github.io/repository-name`
-
-## Local Development
-
-To run locally:
-1. Clone the repository
-2. Open index.html in a browser
-3. No build tools or server needed
-
-## Customization
-
-- Update the content in index.html to personalize
-- Modify the color scheme in the Tailwind configuration
-- Add your own projects to the projects section
-- Update contact information in the contact section
-
-## License
-
-Feel free to use and modify this code for personal or commercial projects.
-
----
-
-Created as a personal website project with focus on responsive design and interactive elements. 
