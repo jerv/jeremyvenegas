@@ -100,11 +100,11 @@
     </header>
 
     <!-- Main Content -->
-    <main id="main" class="pt-[100px]" role="main">
+    <main id="main" class="pt-[70px] md:pt-[100px]" role="main">
         <!-- Home Section -->
         <section id="home" class="bg-white dark:bg-gray-900 transition-colors duration-200">
-            <div class="container mx-auto px-4 py-24">
-                <div class="flex flex-col lg:flex-row items-center gap-20">
+            <div class="container mx-auto px-4 py-12 md:py-24">
+                <div class="flex flex-col lg:flex-row items-center gap-10 md:gap-20">
                     <!-- Typewriter effect moved to left -->
                     <div class="w-full lg:w-1/2 flex items-center justify-center">
                         <h2 class="text-2xl md:text-4xl font-bold"><span id="typed-text"></span></h2>
@@ -112,39 +112,39 @@
                     
                     <!-- Profile/About Column moved to right -->
                     <div class="w-full lg:w-1/2">
-                        <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
+                        <div class="flex flex-row gap-4 md:gap-8 items-center mb-6 md:mb-8">
                             <!-- Profile Image updated with day/night photos -->
-                            <div class="w-48 h-48 rounded-full overflow-hidden">
+                            <div class="w-24 h-24 md:w-48 md:h-48 rounded-full overflow-hidden flex-shrink-0">
                                 <img src="/img/day_photo.jpg" class="w-full h-full object-cover dark:hidden" alt="Profile photo - day">
                                 <img src="/img/night_photo.jpeg" class="w-full h-full object-cover hidden dark:block" alt="Profile photo - night">
                             </div>
                             
                             <!-- Contact Info -->
-                            <div class="space-y-3">
+                            <div class="space-y-2 md:space-y-3">
                                 <div class="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
-                                    <a href="mailto:jeremymvenegas@gmail.com" class="hover:text-primary-light dark:hover:text-primary-dark">jeremymvenegas@gmail.com</a>
+                                    <a href="mailto:jeremymvenegas@gmail.com" class="hover:text-primary-light dark:hover:text-primary-dark text-sm md:text-base">jeremymvenegas@gmail.com</a>
                                 </div>
                                 <div class="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                     </svg>
-                                    <a href="https://www.linkedin.com/in/jeremyvenegas/" target="_blank" rel="noopener noreferrer" class="hover:text-primary-light dark:hover:text-primary-dark">linkedin.com/in/jeremyvenegas</a>
+                                    <a href="https://www.linkedin.com/in/jeremyvenegas/" target="_blank" rel="noopener noreferrer" class="hover:text-primary-light dark:hover:text-primary-dark text-sm md:text-base">linkedin.com/in/jeremyvenegas</a>
                                 </div>
                                 <div class="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                                     </svg>
-                                    <a href="https://github.com/jerv" target="_blank" rel="noopener noreferrer" class="hover:text-primary-light dark:hover:text-primary-dark">github.com/jerv</a>
+                                    <a href="https://github.com/jerv" target="_blank" rel="noopener noreferrer" class="hover:text-primary-light dark:hover:text-primary-dark text-sm md:text-base">github.com/jerv</a>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- About Me -->
-                        <div class="mb-6">
-                            <p class="text-base md:text-lg mb-4">
+                        <div class="mb-4 md:mb-6">
+                            <p class="text-base md:text-lg mb-3 md:mb-4">
                                 Developer with 7+ years in frontend and UI/UX, now focused on full-stack and AI projects. 
                                 Skilled in <span class="text-secondary">Python, Node.js, and React</span>, 
                                 with a knack for problem-solving and utilizing modern tools.
@@ -156,7 +156,7 @@
                         </div>
                         
                         <!-- Skills Tags -->
-                        <div class="flex flex-wrap gap-2 mb-6">
+                        <div class="flex flex-wrap gap-2 mb-4 md:mb-6">
                             <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">JavaScript</span>
                             <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">React</span>
                             <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Node.js</span>
@@ -169,7 +169,7 @@
                 </div>
                 
                 <!-- Scroll Down Indicator -->
-                <div class="flex justify-center mt-12">
+                <div class="flex justify-center mt-8 md:mt-12">
                     <a href="#experience" class="animate-bounce p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
@@ -180,7 +180,7 @@
         </section>
 
         <!-- Experience Section -->
-        <section id="experience" class="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-200">
+        <section id="experience" class="py-8 md:py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-200">
             <div class="container mx-auto px-4">
                 <h2 class="text-4xl font-bold mb-10 text-center text-primary">Experience</h2>
                 
@@ -305,7 +305,7 @@
         </section>
 
         <!-- Game Section -->
-        <section id="game" class="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-200">
+        <section id="game" class="py-10 md:py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-200">
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl font-bold mb-4 text-center text-primary">Thanks for Looking!</h2>
                 <p class="text-center max-w-2xl mx-auto mb-8 text-gray-600 dark:text-gray-400 transition-colors duration-200">Play Raccoon Trashcan Jumper before you go?</p>

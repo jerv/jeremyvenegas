@@ -759,10 +759,12 @@ a:focus, button:focus {
    ============================ */
 
 @media (max-width: 768px) {
+    /* Game canvas */
     #game-canvas {
         height: 150px;
     }
     
+    /* Timeline adjustments */
     .timeline-item {
         padding-left: 1.5rem;
     }
@@ -772,8 +774,118 @@ a:focus, button:focus {
         height: 0.75rem;
     }
     
+    /* ASCII art adjustments */
     .ascii-raccoon pre {
         font-size: 0.6rem;
+    }
+
+    /* Section spacing */
+    section {
+        scroll-margin-top: 4rem;
+    }
+
+    /* Profile image and contact info container */
+    #home .flex-row {
+        align-items: center;
+    }
+
+    /* Contact links */
+    #home .space-y-2 a {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+        display: inline-block;
+    }
+
+    /* Reduce vertical margins */
+    .mb-8 {
+        margin-bottom: 1.5rem;
+    }
+
+    .mb-10 {
+        margin-bottom: 2rem;
+    }
+
+    .mb-12 {
+        margin-bottom: 2rem;
+    }
+
+    /* Adjust section padding */
+    .py-24 {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    .py-16 {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    .py-20 {
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+    }
+
+    /* Experience section mobile spacing */
+    #experience .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    #experience .flex-col {
+        gap: 0.5rem;
+    }
+    
+    #experience h3 {
+        font-size: 1.1rem;
+    }
+    
+    #experience .text-sm {
+        font-size: 0.75rem;
+    }
+    
+    #experience .space-y-8 > div {
+        margin-bottom: 1.5rem;
+    }
+    
+    #experience .flex-wrap {
+        gap: 0.5rem;
+    }
+}
+
+/* Designer mode experience section */
+.designer-mode #experience h2 {
+    font-family: var(--heading-font);
+    letter-spacing: -0.025em;
+}
+
+.designer-mode #experience h3,
+.designer-mode #experience .text-gray-600 {
+    font-family: var(--heading-font);
+    letter-spacing: -0.01em;
+}
+
+.designer-mode #experience .bg-secondary\/20,
+.designer-mode #experience .bg-primary\/10 {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Ensure profile image and contact info are vertically centered */
+@media (max-width: 768px) {
+    #home .flex-row {
+        display: flex;
+        align-items: center;
+    }
+
+    #home .w-24 {
+        flex-shrink: 0;
+    }
+
+    #home .space-y-2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 }
 
@@ -811,49 +923,4 @@ a:focus, button:focus {
 #experience .bg-secondary\/20,
 #experience .bg-primary\/10 {
     transition: all 0.3s ease;
-}
-
-/* Designer mode experience section */
-.designer-mode #experience h2 {
-    font-family: var(--heading-font);
-    letter-spacing: -0.025em;
-}
-
-.designer-mode #experience h3,
-.designer-mode #experience .text-gray-600 {
-    font-family: var(--heading-font);
-    letter-spacing: -0.01em;
-}
-
-.designer-mode #experience .bg-secondary\/20,
-.designer-mode #experience .bg-primary\/10 {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* Mobile responsive experience section */
-@media (max-width: 768px) {
-    #experience .container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-    
-    #experience .flex-col {
-        gap: 0.5rem;
-    }
-    
-    #experience h3 {
-        font-size: 1.1rem;
-    }
-    
-    #experience .text-sm {
-        font-size: 0.75rem;
-    }
-    
-    #experience .space-y-8 > div {
-        margin-bottom: 1.5rem;
-    }
-    
-    #experience .flex-wrap {
-        gap: 0.5rem;
-    }
 } 
