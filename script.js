@@ -1,76 +1,22 @@
 // Jeremy Venegas - Personal Website JavaScript
 
+/**
+ * Main initialization function that runs when the DOM is fully loaded
+ * Sets up all interactive elements and functionality
+ */
 document.addEventListener('DOMContentLoaded', function() {
-    // Fix for background flickering
-    preventBackgroundFlickering();
-    
-    // Initialize all components
     initTypewriter();
     initThemeToggle();
     initModeToggle();
     initMobileMenu();
-    initGame();
     initSmoothScrolling();
-    
-    // Setup raccoon SVG handling
-    setupRaccoonSvgIntegration();
+    initGame();
 });
 
-// Prevent background flickering with hardware acceleration
-function preventBackgroundFlickering() {
-    const gameBackground = document.getElementById('game-background');
-    if (gameBackground) {
-        // Force hardware acceleration to prevent flickering
-        gameBackground.style.transform = 'translateZ(0)';
-        gameBackground.style.backfaceVisibility = 'hidden';
-    }
-}
-
-// Setup raccoon SVG integration with the game
-function setupRaccoonSvgIntegration() {
-    const canvas = document.getElementById('game-canvas');
-    if (canvas && canvas.getContext) {
-        const ctx = canvas.getContext('2d');
-        
-        // If game is already initialized
-        if (window.game) {
-            integrateRaccoonSvgWithGame(window.game, ctx);
-        } else {
-            // Create a global function that the game can call when it initializes
-            window.updateRaccoonDesign = function(gameObj) {
-                return integrateRaccoonSvgWithGame(gameObj, ctx);
-            };
-        }
-    }
-}
-
-// Helper function to integrate raccoon SVG with game object
-function integrateRaccoonSvgWithGame(gameObj, ctx) {
-    // Override with SVG raccoon
-    gameObj.drawPlayer = function(ctx, x, y, frameCount) {
-        // Instead of drawing on canvas, position the SVG
-        const raccoonSvg = document.getElementById('raccoon-svg-container');
-        if (raccoonSvg) {
-            raccoonSvg.style.display = 'block';
-            // Position adjustment to place the raccoon on the ground
-            raccoonSvg.style.transform = `translate(${x}px, ${y - 10}px) scale(1)`;
-            raccoonSvg.style.transformOrigin = 'top left';
-        }
-    };
-    
-    // Also override the update method to ensure SVG follows player
-    if (gameObj.raccoon && gameObj.raccoon.update) {
-        const originalUpdate = gameObj.raccoon.update;
-        gameObj.raccoon.update = function() {
-            originalUpdate.call(gameObj.raccoon);
-            gameObj.drawPlayer(ctx, gameObj.raccoon.x, gameObj.raccoon.y, 0);
-        };
-    }
-    
-    return gameObj;
-}
-
-// Typewriter effect with Typed.js
+/**
+ * Initialize typewriter effect on the homepage
+ * Uses Typed.js library for text animation
+ */
 function initTypewriter() {
     const options = {
         strings: [
@@ -88,7 +34,10 @@ function initTypewriter() {
     new Typed('#typed-text', options);
 }
 
-// Theme toggle functionality
+/**
+ * Initialize dark/light theme toggle functionality
+ * Handles user preference, localStorage persistence, and theme switching
+ */
 function initThemeToggle() {
     const themeToggleBtn = document.getElementById('theme-toggle');
     if (!themeToggleBtn) return;
@@ -97,12 +46,19 @@ function initThemeToggle() {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
-    // Apply theme based on preference
+    // Apply the appropriate theme
     const shouldUseDarkTheme = savedTheme === 'dark' || (!savedTheme && prefersDark);
-    applyTheme(shouldUseDarkTheme);
+    if (shouldUseDarkTheme) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+    
+    // Initial update of theme-dependent elements
+    updateThemeElements(document.documentElement.classList.contains('dark'));
     
     // Toggle theme when button is clicked
-    themeToggleBtn.addEventListener('click', () => {
+    themeToggleBtn.addEventListener('click', function() {
         const isDark = document.documentElement.classList.toggle('dark');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         
@@ -118,29 +74,12 @@ function initThemeToggle() {
             }, 300);
         }
     });
-    
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        // Only apply if user hasn't set a preference
-        if (!localStorage.getItem('theme')) {
-            applyTheme(e.matches);
-        }
-    });
 }
 
-// Helper function to apply theme
-function applyTheme(isDark) {
-    if (isDark) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
-    
-    // Update all theme-dependent elements
-    updateThemeElements(isDark);
-}
-
-// Helper function to update all theme-dependent elements
+/**
+ * Update all theme-dependent elements based on current theme
+ * @param {boolean} isDark - Whether dark mode is active
+ */
 function updateThemeElements(isDark) {
     // Ensure HTML element has correct class for dark mode
     if (isDark) {
@@ -164,7 +103,10 @@ function updateThemeElements(isDark) {
     }
 }
 
-// Designer/Developer Mode Toggle
+/**
+ * Initialize designer/developer mode toggle functionality
+ * Handles user preference and localStorage persistence
+ */
 function initModeToggle() {
     const modeToggle = document.getElementById('mode-toggle');
     if (!modeToggle) return;
@@ -175,187 +117,196 @@ function initModeToggle() {
     const savedMode = localStorage.getItem('designMode');
     
     // Apply saved mode or default to developer mode
-    const isDesignerMode = savedMode === 'designer';
-    applyDesignerMode(isDesignerMode);
-    modeToggle.checked = isDesignerMode;
+    if (savedMode === 'designer') {
+        body.classList.add('designer-mode');
+        modeToggle.checked = true;
+        updateDesignerMode(true);
+    } else {
+        body.classList.remove('designer-mode');
+        modeToggle.checked = false;
+        updateDesignerMode(false);
+    }
     
-    // Toggle mode when the switch is clicked
+    // Toggle mode when switch is clicked
     modeToggle.addEventListener('change', function() {
         const isDesigner = this.checked;
-        applyDesignerMode(isDesigner);
-        localStorage.setItem('designMode', isDesigner ? 'designer' : 'developer');
+        
+        if (isDesigner) {
+            body.classList.add('designer-mode');
+            localStorage.setItem('designMode', 'designer');
+        } else {
+            body.classList.remove('designer-mode');
+            localStorage.setItem('designMode', 'developer');
+        }
+        
+        updateDesignerMode(isDesigner);
+        
+        // Reset and restart game if it exists
+        if (window.game) {
+            resetGame();
+            // Wait a brief moment for mode transition
+            setTimeout(() => {
+                startGame();
+            }, 300);
+        }
     });
 }
 
-// Helper function to apply designer mode
-function applyDesignerMode(isDesigner) {
+/**
+ * Update all designer-mode specific elements
+ * @param {boolean} isDesigner - Whether designer mode is active
+ */
+function updateDesignerMode(isDesigner) {
+    // Get all elements that need to be updated
     const body = document.body;
     const isDark = document.documentElement.classList.contains('dark');
     
-    if (isDesigner) {
-        body.classList.add('designer-mode');
-    } else {
-        body.classList.remove('designer-mode');
-    }
-    
-    updateDesignerMode(isDesigner);
-    
-    // If in dark mode, ensure theme-specific elements are updated
-    if (isDark) {
-        updateDesignerModeForTheme(isDark);
-    }
-}
-
-// Update elements for designer mode
-function updateDesignerMode(isDesigner) {
-    // Elements to update
-    const buttons = document.querySelectorAll('button:not(.toggle-btn)');
-    const cards = document.querySelectorAll('.bg-white, .dark .bg-gray-800');
-    const sections = document.querySelectorAll('section');
-    const body = document.body;
-    
-    // Reset all inline styles first to avoid conflicts
+    // Reset any inline styles that might have been applied
     resetAllInlineStyles();
     
     if (isDesigner) {
-        // Apply designer styles to buttons
-        buttons.forEach(button => {
-            button.classList.add('transition-all', 'duration-300');
+        // Apply designer mode styles
+        document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(heading => {
+            heading.style.fontFamily = "'Montserrat', sans-serif";
+            heading.style.fontWeight = "600";
         });
         
-        // Apply designer styles to cards
-        cards.forEach(card => {
-            card.classList.add('transition-all', 'duration-300');
+        document.querySelectorAll('p, span, a, button, li').forEach(element => {
+            if (!element.closest('.toggle-container') && !element.classList.contains('mode-label')) {
+                element.style.fontFamily = "'Inter', sans-serif";
+            }
         });
         
-        // Apply spacing and styling to sections
-        sections.forEach(section => {
-            section.classList.add('py-24'); // More padding in designer mode
+        // Apply rounded corners to various elements
+        document.querySelectorAll('.rounded-md, .rounded-lg, .rounded-full').forEach(element => {
+            const currentBorderRadius = window.getComputedStyle(element).borderRadius;
+            if (currentBorderRadius !== '0px') {
+                element.style.borderRadius = '12px';
+            }
         });
         
-        // Apply designer mode class
-        body.classList.add('designer-mode');
+        // Adjust button styles
+        document.querySelectorAll('button:not(.toggle-btn)').forEach(button => {
+            button.style.fontWeight = "500";
+        });
         
-        // Update game elements for designer mode
-        const gameStartBtn = document.getElementById('game-start');
-        if (gameStartBtn) {
-            gameStartBtn.classList.add('transition-all', 'duration-300', 'transform', 'hover:scale-105');
+        // Update game elements if they exist
+        const gameContainer = document.getElementById('game-container');
+        if (gameContainer) {
+            gameContainer.style.maxWidth = '700px';
+            gameContainer.style.borderRadius = '16px';
+            gameContainer.style.overflow = 'hidden';
+            
+            const gameCanvas = document.getElementById('game-canvas');
+            if (gameCanvas) {
+                gameCanvas.style.borderRadius = '0';
+            }
+            
+            const gameStart = document.getElementById('game-start');
+            if (gameStart) {
+                gameStart.style.borderRadius = '8px';
+                gameStart.style.fontWeight = '500';
+                gameStart.style.letterSpacing = '0.5px';
+            }
         }
-        
-        // Style game score display
-        const scoreElements = document.querySelectorAll('#game-score, #game-high-score');
-        scoreElements.forEach(el => {
-            el.classList.add('font-bold');
-        });
     } else {
-        // Remove designer mode class
-        body.classList.remove('designer-mode');
-        
-        // Remove designer-specific classes
-        buttons.forEach(button => {
-            button.classList.remove('transition-all', 'duration-300');
-        });
-        
-        cards.forEach(card => {
-            card.classList.remove('transition-all', 'duration-300');
-        });
-        
-        sections.forEach(section => {
-            section.classList.remove('py-24');
-        });
-        
-        // Remove designer styles from game elements
-        const gameStartBtn = document.getElementById('game-start');
-        if (gameStartBtn) {
-            gameStartBtn.classList.remove('transition-all', 'duration-300', 'transform', 'hover:scale-105');
-        }
-        
-        // Remove designer styles from score elements
-        const scoreElements = document.querySelectorAll('#game-score, #game-high-score');
-        scoreElements.forEach(el => {
-            el.classList.remove('font-bold');
-        });
+        // Reset to developer mode (default styles will apply via CSS)
     }
     
-    // Update game sky elements
+    // Update game sky regardless of mode
     updateGameSky();
 }
 
-// Helper function to reset all inline styles
+/**
+ * Reset all inline styles that might have been applied by mode switching
+ * This ensures clean transitions between modes
+ */
 function resetAllInlineStyles() {
-    // Define all selectors that need style reset in a single array
-    const elementsToReset = [
-        'body',
-        'header',
-        'section',
-        'footer',
-        '#mobile-menu',
-        '#game-container, #game-canvas, #game-background, .sky-elements',
-        '#projects .rounded-lg, #projects .p-6',
-        '.toggle-container, .toggle-switch, .toggle-slider',
-        'h1, h2, h3, p, span, a'
-    ];
-    
-    // Process all selectors in a single loop for better performance
-    elementsToReset.forEach(selector => {
-        document.querySelectorAll(selector).forEach(el => {
-            el.removeAttribute('style');
-        });
+    // Reset heading styles
+    document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(heading => {
+        heading.style.fontFamily = '';
+        heading.style.fontWeight = '';
     });
     
-    // Remove all event listeners for hover states
-    const hoverElements = document.querySelectorAll('[class*="hover:bg-gray"]');
-    hoverElements.forEach(el => {
-        el.removeEventListener('mouseenter', null);
-        el.removeEventListener('mouseleave', null);
+    // Reset text element styles
+    document.querySelectorAll('p, span, a, button, li').forEach(element => {
+        element.style.fontFamily = '';
     });
+    
+    // Reset rounded elements
+    document.querySelectorAll('.rounded-md, .rounded-lg, .rounded-full').forEach(element => {
+        element.style.borderRadius = '';
+    });
+    
+    // Reset button styles
+    document.querySelectorAll('button').forEach(button => {
+        button.style.fontWeight = '';
+        button.style.letterSpacing = '';
+    });
+    
+    // Reset game container styles
+    const gameContainer = document.getElementById('game-container');
+    if (gameContainer) {
+        gameContainer.style.maxWidth = '';
+        gameContainer.style.borderRadius = '';
+        gameContainer.style.overflow = '';
+        
+        const gameCanvas = document.getElementById('game-canvas');
+        if (gameCanvas) {
+            gameCanvas.style.borderRadius = '';
+        }
+        
+        const gameStart = document.getElementById('game-start');
+        if (gameStart) {
+            gameStart.style.borderRadius = '';
+            gameStart.style.fontWeight = '';
+            gameStart.style.letterSpacing = '';
+        }
+    }
 }
 
-// Mobile menu toggle
+/**
+ * Initialize mobile menu toggle functionality
+ */
 function initMobileMenu() {
     const menuToggle = document.getElementById('menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     
     if (!menuToggle || !mobileMenu) return;
     
-    // Use event delegation for better performance
-    menuToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
+    menuToggle.addEventListener('click', function() {
         mobileMenu.classList.toggle('open');
-    });
-    
-    // Close mobile menu when a link is clicked using event delegation
-    mobileMenu.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A') {
-            mobileMenu.classList.add('hidden');
-            mobileMenu.classList.remove('open');
-        }
+        
+        // Accessibility: Update aria attributes
+        const isExpanded = mobileMenu.classList.contains('open');
+        menuToggle.setAttribute('aria-expanded', isExpanded);
+        mobileMenu.setAttribute('aria-hidden', !isExpanded);
     });
 }
 
-// Smooth scrolling for navigation
+/**
+ * Initialize smooth scrolling for anchor links
+ */
 function initSmoothScrolling() {
-    // Use event delegation for better performance
-    document.addEventListener('click', (e) => {
-        // Check if the clicked element is an anchor with a hash
-        const link = e.target.closest('a[href^="#"]');
-        if (!link) return;
-        
-        e.preventDefault();
-        
-        const targetId = link.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-            // Add offset for fixed header
-            const headerHeight = document.querySelector('header')?.offsetHeight || 0;
-            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
             
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (!targetElement) return;
+            
+            // Close mobile menu if it's open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+            }
+            
+            // Scroll to the target element
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+        });
     });
 }
 
@@ -365,16 +316,11 @@ function updateGameSky() {
     const skyElements = document.querySelector('.sky-elements');
     
     if (skyElements) {
-        // Apply appropriate sky gradient based on theme using CSS variables
+        // Apply appropriate sky gradient based on theme
         if (isDark) {
-            skyElements.style.background = `linear-gradient(to bottom, 
-                var(--game-sky-start) 0%, 
-                var(--game-sky-mid, var(--game-sky-start)) 50%, 
-                var(--game-sky-end) 100%)`;
+            skyElements.style.background = 'linear-gradient(to bottom, #0F2027 0%, #203A43 50%, #2C5364 100%)';
         } else {
-            skyElements.style.background = `linear-gradient(to bottom, 
-                var(--game-sky-start) 0%, 
-                var(--game-sky-end) 100%)`;
+            skyElements.style.background = 'linear-gradient(to bottom, #87CEEB 0%, #B0E2FF 100%)';
         }
     }
     
@@ -412,46 +358,34 @@ function initGame() {
     const highScoreDisplay = document.getElementById('game-high-score');
     const raccoonSvgContainer = document.getElementById('raccoon-svg-container');
     
-    // Game constants - grouped by purpose for better readability
-    const GAME_CONSTANTS = {
-        SPEED: {
-            INITIAL: 5,
-            GRAVITY: 0.6,
-            JUMP_FORCE: 12
-        },
-        OBSTACLES: {
-            INITIAL_INTERVAL: 1800,
-            MIN_INTERVAL: 1000
-        },
-        POSITIONS: {
-            RACCOON_X: 50,
-            GROUND_OFFSET: 20
-        },
-        DIFFICULTY: {
-            INCREASE_INTERVAL: 5 // Score points between difficulty increases
-        }
-    };
+    // Game constants
+    const INITIAL_GAME_SPEED = 5;
+    const GRAVITY = 0.6;
+    const JUMP_FORCE = 12;
+    const INITIAL_OBSTACLE_INTERVAL = 1800;
+    const MIN_OBSTACLE_INTERVAL = 1000;
+    const RACCOON_X_POSITION = 50;
+    const GROUND_OFFSET = 20;
+    const DIFFICULTY_INCREASE_INTERVAL = 5; // Score points between difficulty increases
     
-    // Game state variables - grouped in a state object for better organization
-    const gameState = {
-        active: false,
-        score: 0,
-        highScore: parseInt(localStorage.getItem('raccoonGameHighScore') || 0),
-        speed: GAME_CONSTANTS.SPEED.INITIAL,
-        obstacleInterval: GAME_CONSTANTS.OBSTACLES.INITIAL_INTERVAL,
-        lastObstacleTime: 0,
-        animationId: null,
-        groundLevel: 0,
-        difficultyLevel: 1,
-        obstacles: []
-    };
+    // Game state variables
+    let gameActive = false;
+    let score = 0;
+    let highScore = parseInt(localStorage.getItem('raccoonGameHighScore') || 0);
+    let gameSpeed = INITIAL_GAME_SPEED;
+    let obstacleInterval = INITIAL_OBSTACLE_INTERVAL;
+    let lastObstacleTime = 0;
+    let animationId;
+    let groundLevel;
+    let difficultyLevel = 1;
+    let obstacles = [];
     
     // Initialize sky elements for day/night
     updateGameSky();
     
     // Game objects
     const raccoon = {
-        x: GAME_CONSTANTS.POSITIONS.RACCOON_X,
+        x: RACCOON_X_POSITION,
         y: 0,
         width: 30,
         height: 40,
@@ -460,12 +394,12 @@ function initGame() {
         
         update() {
             // Apply gravity
-            this.velocityY += GAME_CONSTANTS.SPEED.GRAVITY;
+            this.velocityY += GRAVITY;
             this.y += this.velocityY;
             
             // Ground collision
-            if (this.y + this.height > gameState.groundLevel) {
-                this.y = gameState.groundLevel - this.height;
+            if (this.y + this.height > groundLevel) {
+                this.y = groundLevel - this.height;
                 this.velocityY = 0;
                 this.jumping = false;
             }
@@ -473,7 +407,7 @@ function initGame() {
         
         jump() {
             if (!this.jumping) {
-                this.velocityY = -GAME_CONSTANTS.SPEED.JUMP_FORCE;
+                this.velocityY = -JUMP_FORCE;
                 this.jumping = true;
             }
         },
@@ -507,41 +441,34 @@ function initGame() {
         }
     };
     
-    // Handle SVG raccoon rendering - extracted to a separate function for better organization
-    function setupRaccoonSvg() {
-        // SVG raccoon renderer
-        function drawRaccoonSvg(x, y) {
-            if (raccoonSvgContainer) {
-                raccoonSvgContainer.style.display = 'block';
-                // Position adjustment to place the raccoon on the ground
-                raccoonSvgContainer.style.transform = `translate(${x}px, ${y + 8}px) scale(1)`;
-                raccoonSvgContainer.style.transformOrigin = 'top left';
-            } else {
-                // Fallback to original drawing if SVG not available
-                raccoon.draw();
-            }
+    // SVG raccoon renderer
+    function drawRaccoonSvg(x, y) {
+        if (raccoonSvgContainer) {
+            raccoonSvgContainer.style.display = 'block';
+            // Position adjustment to place the raccoon on the ground
+            raccoonSvgContainer.style.transform = `translate(${x}px, ${y + 8}px) scale(1)`;
+            raccoonSvgContainer.style.transformOrigin = 'top left';
+        } else {
+            // Fallback to original drawing if SVG not available
+            raccoon.draw();
         }
-        
-        // Override the raccoon's draw method to use SVG
-        raccoon.draw = function() {
-            drawRaccoonSvg(this.x, this.y);
-        };
-        
-        // Make the game object available globally for potential extensions
-        window.game = {
-            raccoon: raccoon,
-            drawPlayer: drawRaccoonSvg
-        };
     }
     
-    // Initialize raccoon SVG
-    setupRaccoonSvg();
+    // Override the raccoon's draw method to use SVG
+    raccoon.draw = function() {
+        drawRaccoonSvg(this.x, this.y);
+    };
     
-    // Obstacle class - optimized with destructuring for cleaner code
+    // Make the game object available globally for potential extensions
+    window.game = {
+        raccoon: raccoon,
+        drawPlayer: drawRaccoonSvg
+    };
+    
+    // Obstacle class
     class Obstacle {
         constructor() {
             const isDark = document.documentElement.classList.contains('dark');
-            const { difficultyLevel } = gameState;
             
             // Vary the width and height based on difficulty
             const maxHeight = 15 + (difficultyLevel * 2);
@@ -562,7 +489,7 @@ function initGame() {
             }
             
             this.x = canvas.width;
-            this.y = gameState.groundLevel - this.height;
+            this.y = groundLevel - this.height;
             this.passed = false;
             
             // Vary the color for visual interest
@@ -598,23 +525,23 @@ function initGame() {
         }
         
         update() {
-            this.x -= gameState.speed;
+            this.x -= gameSpeed;
             
             // Check if obstacle is passed and update score
             if (!this.passed && this.x + this.width < raccoon.x) {
-                gameState.score++;
+                score++;
                 this.passed = true;
-                scoreDisplay.textContent = gameState.score;
+                scoreDisplay.textContent = score;
                 
                 // Update high score if needed
-                if (gameState.score > gameState.highScore) {
-                    gameState.highScore = gameState.score;
-                    highScoreDisplay.textContent = gameState.highScore;
-                    localStorage.setItem('raccoonGameHighScore', gameState.highScore);
+                if (score > highScore) {
+                    highScore = score;
+                    highScoreDisplay.textContent = highScore;
+                    localStorage.setItem('raccoonGameHighScore', highScore);
                 }
                 
                 // Increase difficulty based on score
-                if (gameState.score % GAME_CONSTANTS.DIFFICULTY.INCREASE_INTERVAL === 0) {
+                if (score % DIFFICULTY_INCREASE_INTERVAL === 0) {
                     increaseDifficulty();
                 }
             }
@@ -623,27 +550,27 @@ function initGame() {
         }
     }
     
-    // Increase game difficulty - optimized with destructuring
+    // Increase game difficulty
     function increaseDifficulty() {
         const isDark = document.documentElement.classList.contains('dark');
-        gameState.difficultyLevel += 0.5;
+        difficultyLevel += 0.5;
         
         // Make the game harder in night mode
         if (isDark) {
-            gameState.speed += 0.8; // Much faster in night mode (0.8 instead of 0.4)
+            gameSpeed += 0.8; // Much faster in night mode (0.8 instead of 0.4)
             
             // Decrease obstacle interval much more aggressively in night mode
-            gameState.obstacleInterval = Math.max(
-                GAME_CONSTANTS.OBSTACLES.MIN_INTERVAL - 300, // Much lower minimum interval in night mode
-                GAME_CONSTANTS.OBSTACLES.INITIAL_INTERVAL - (gameState.difficultyLevel * 200) // Much faster decrease
+            obstacleInterval = Math.max(
+                MIN_OBSTACLE_INTERVAL - 300, // Much lower minimum interval in night mode
+                INITIAL_OBSTACLE_INTERVAL - (difficultyLevel * 200) // Much faster decrease
             );
         } else {
-            gameState.speed += 0.4;
+            gameSpeed += 0.4;
             
             // Normal difficulty in day mode
-            gameState.obstacleInterval = Math.max(
-                GAME_CONSTANTS.OBSTACLES.MIN_INTERVAL,
-                GAME_CONSTANTS.OBSTACLES.INITIAL_INTERVAL - (gameState.difficultyLevel * 100)
+            obstacleInterval = Math.max(
+                MIN_OBSTACLE_INTERVAL,
+                INITIAL_OBSTACLE_INTERVAL - (difficultyLevel * 100)
             );
         }
     }
@@ -652,32 +579,43 @@ function initGame() {
     function resizeCanvas() {
         canvas.width = canvas.clientWidth;
         canvas.height = canvas.clientHeight;
-        gameState.groundLevel = canvas.height - GAME_CONSTANTS.POSITIONS.GROUND_OFFSET;
+        groundLevel = canvas.height - GROUND_OFFSET;
         
         // Reset raccoon position after resize
-        if (!gameState.active) {
-            raccoon.y = gameState.groundLevel - raccoon.height;
+        if (!gameActive) {
+            raccoon.y = groundLevel - raccoon.height;
+        } else {
+            // If game is active, reset and restart it
+            resetGame();
+            setTimeout(() => {
+                startGame();
+            }, 100); // Small delay to ensure proper canvas sizing
         }
     }
     
-    // Event listeners - using event delegation where possible
-    window.addEventListener('resize', resizeCanvas);
+    // Event listeners
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        // Debounce resize event to prevent multiple resets
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(resizeCanvas, 250);
+    });
     
     document.addEventListener('keydown', function(e) {
-        if (e.code === 'Space' && gameState.active) {
+        if (e.code === 'Space' && gameActive) {
             e.preventDefault(); // Prevent page scroll on spacebar
             raccoon.jump();
         }
     });
     
     canvas.addEventListener('click', function() {
-        if (gameState.active) {
+        if (gameActive) {
             raccoon.jump();
         }
     });
     
     gameStartBtn.addEventListener('click', function() {
-        if (!gameState.active) {
+        if (!gameActive) {
             startGame();
         } else {
             resetGame();
@@ -687,33 +625,26 @@ function initGame() {
     // Game state management
     function startGame() {
         resizeCanvas();
-        // Reset game state
-        Object.assign(gameState, {
-            active: true,
-            score: 0,
-            speed: GAME_CONSTANTS.SPEED.INITIAL,
-            difficultyLevel: 1,
-            obstacleInterval: GAME_CONSTANTS.OBSTACLES.INITIAL_INTERVAL,
-            obstacles: [],
-            lastObstacleTime: performance.now()
-        });
-        
-        // Reset raccoon
-        raccoon.y = gameState.groundLevel - raccoon.height;
+        gameActive = true;
+        score = 0;
+        gameSpeed = INITIAL_GAME_SPEED;
+        difficultyLevel = 1;
+        obstacleInterval = INITIAL_OBSTACLE_INTERVAL;
+        obstacles = [];
+        raccoon.y = groundLevel - raccoon.height;
         raccoon.velocityY = 0;
-        
-        // Update UI
-        scoreDisplay.textContent = gameState.score;
-        highScoreDisplay.textContent = gameState.highScore;
+        scoreDisplay.textContent = score;
+        highScoreDisplay.textContent = highScore;
         gameStartBtn.textContent = 'Reset Game';
         
         // Start game loop
+        lastObstacleTime = performance.now();
         requestAnimationFrame(gameLoop);
     }
     
     function resetGame() {
-        cancelAnimationFrame(gameState.animationId);
-        gameState.active = false;
+        cancelAnimationFrame(animationId);
+        gameActive = false;
         gameStartBtn.textContent = 'Start Game';
         
         // Clear canvas
@@ -721,12 +652,12 @@ function initGame() {
         
         // Show initial state
         drawBackground();
-        raccoon.y = gameState.groundLevel - raccoon.height;
+        raccoon.y = groundLevel - raccoon.height;
         raccoon.draw();
     }
     
     function gameOver() {
-        gameState.active = false;
+        gameActive = false;
         gameStartBtn.textContent = 'Try Again';
         
         // Hide the SVG raccoon
@@ -743,16 +674,12 @@ function initGame() {
         ctx.textAlign = 'center';
         ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
         ctx.font = '16px "Fira Code", monospace';
-        ctx.fillText(`Score: ${gameState.score}`, canvas.width / 2, canvas.height / 2 + 30);
+        ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 30);
     }
     
     // Game rendering
     function drawBackground() {
         const isDark = document.documentElement.classList.contains('dark');
-        
-        // Get computed styles to access CSS variables
-        const computedStyle = getComputedStyle(document.documentElement);
-        const groundColor = computedStyle.getPropertyValue('--game-ground').trim();
         
         // Draw background cityscape with parallax
         ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.4)' : 'rgba(148, 163, 184, 0.3)'; // Brighter in dark mode
@@ -760,7 +687,7 @@ function initGame() {
         // Create a more randomized cityscape that spawns from the right
         // Significantly reduce the speed to create distant background effect
         const baseSpeed = 0.15;
-        const scrollSpeed = gameState.speed * baseSpeed;
+        const scrollSpeed = gameSpeed * baseSpeed;
         
         // Store building data in a persistent array if it doesn't exist yet
         if (!window.cityBuildings) {
@@ -839,7 +766,7 @@ function initGame() {
             
             // Draw building with better contrast in dark mode
             ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.4)' : 'rgba(148, 163, 184, 0.3)';
-            ctx.fillRect(building.x, gameState.groundLevel - building.height, building.width, building.height);
+            ctx.fillRect(building.x, groundLevel - building.height, building.width, building.height);
             
             // Add windows to buildings with better visibility in dark mode
             ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(51, 65, 85, 0.2)';
@@ -850,7 +777,7 @@ function initGame() {
             
             building.windows.forEach(window => {
                 const windowX = building.x + (window.col + 1) * (building.width / (Math.floor(building.width / 15) + 1)) - windowSize/2;
-                const windowY = gameState.groundLevel - building.height + windowMargin + window.row * windowMargin;
+                const windowY = groundLevel - building.height + windowMargin + window.row * windowMargin;
                 ctx.fillRect(windowX, windowY, windowSize, windowSize);
             });
         });
@@ -880,8 +807,8 @@ function initGame() {
         }
         
         // Ground
-        ctx.fillStyle = groundColor;
-        ctx.fillRect(0, gameState.groundLevel, canvas.width, canvas.height - gameState.groundLevel);
+        ctx.fillStyle = isDark ? '#64748b' : '#94a3b8';
+        ctx.fillRect(0, groundLevel, canvas.width, canvas.height - groundLevel);
     }
     
     // Collision detection
@@ -913,20 +840,20 @@ function initGame() {
         raccoon.draw();
         
         // Generate obstacles periodically, with variable timing
-        if (timestamp - gameState.lastObstacleTime > gameState.obstacleInterval) {
-            gameState.obstacles.push(new Obstacle());
-            gameState.lastObstacleTime = timestamp;
+        if (timestamp - lastObstacleTime > obstacleInterval) {
+            obstacles.push(new Obstacle());
+            lastObstacleTime = timestamp;
             
             // Randomize next obstacle timing based on difficulty
-            const variability = 400 - (gameState.difficultyLevel * 20);
-            gameState.obstacleInterval = Math.max(
-                GAME_CONSTANTS.OBSTACLES.MIN_INTERVAL,
-                gameState.obstacleInterval - (gameState.difficultyLevel * 10) + (Math.random() * variability)
+            const variability = 400 - (difficultyLevel * 20);
+            obstacleInterval = Math.max(
+                MIN_OBSTACLE_INTERVAL,
+                obstacleInterval - (difficultyLevel * 10) + (Math.random() * variability)
             );
         }
         
         // Update and draw obstacles, removing those that are off screen
-        gameState.obstacles = gameState.obstacles.filter(obstacle => {
+        obstacles = obstacles.filter(obstacle => {
             obstacle.draw();
             const isOffScreen = obstacle.update();
             
@@ -940,8 +867,8 @@ function initGame() {
         });
         
         // Continue game loop
-        if (gameState.active) {
-            gameState.animationId = requestAnimationFrame(gameLoop);
+        if (gameActive) {
+            animationId = requestAnimationFrame(gameLoop);
         }
     }
     

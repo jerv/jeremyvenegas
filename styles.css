@@ -2,7 +2,16 @@
    GENERAL STYLES
    ============================ */
 
-/* Smooth scrolling */
+/* Base styles */
+:root {
+    --transition-speed: 0.3s;
+    --primary-color: #ec4899;
+    --secondary-color: #38bdf8;
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -11,20 +20,33 @@ body {
     min-height: 100vh;
 }
 
-/* Remove focus outline */
+/* Accessibility - focus styles */
 *:focus {
-    outline: none !important;
-    box-shadow: none !important;
+    outline: none;
+}
+
+/* Only show focus styles when using keyboard navigation */
+*:focus-visible {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 2px;
+}
+
+/* Remove focus styles for mouse users */
+*:focus:not(:focus-visible) {
+    outline: none;
 }
 
 /* Account for fixed header when scrolling to anchors */
 section {
     scroll-margin-top: 5rem;
+    position: relative;
 }
 
 /* Base transition for theme changes */
 .transition-theme {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    transition: background-color var(--transition-speed) ease, 
+                color var(--transition-speed) ease, 
+                border-color var(--transition-speed) ease;
 }
 
 /* ============================
@@ -38,259 +60,290 @@ header {
 }
 
 /* ============================
-   SECTIONS STYLING
+   THEME COLORS
    ============================ */
 
-/* Sections common styling */
-section {
-    position: relative;
-    scroll-margin-top: 5rem;
-}
-
-/* ============================
-   THEME STYLES (LIGHT/DARK)
-   ============================ */
-
-/* Base theme colors using CSS variables for better maintainability */
+/* Light/Dark mode color variables */
 :root {
-    /* Brand colors */
-    --primary-color: #ec4899;
-    --secondary-color: #38bdf8;
-    
-    /* Theme colors - light mode defaults */
+    /* Light mode colors */
     --bg-primary: #ffffff;
     --bg-secondary: #f9fafb;
-    --bg-tertiary: #f3f4f6;
-    
     --text-primary: #1f2937;
     --text-secondary: #4b5563;
-    --text-tertiary: #6b7280;
-    
-    --border-primary: #e5e7eb;
-    --border-secondary: #d1d5db;
-    
-    /* Game colors */
-    --game-ground: #94a3b8;
-    --game-sky-start: #87CEEB;
-    --game-sky-end: #B0E2FF;
-    
-    /* Transition speeds */
-    --transition-speed: 0.3s;
+    --border-color: #e5e7eb;
 }
 
-/* Dark mode theme variables */
+/* Dark mode colors */
 .dark {
     --bg-primary: #111827;
     --bg-secondary: #1f2937;
-    --bg-tertiary: #374151;
-    
     --text-primary: #f9fafb;
-    --text-secondary: #e5e7eb;
-    --text-tertiary: #d1d5db;
-    
-    --border-primary: #374151;
-    --border-secondary: #4b5563;
-    
-    /* Game colors */
-    --game-ground: #64748b;
-    --game-sky-start: #0F2027;
-    --game-sky-mid: #203A43;
-    --game-sky-end: #2C5364;
+    --text-secondary: #d1d5db;
+    --border-color: #374151;
 }
 
-/* Apply CSS variables to elements */
-.bg-white {
+/* Dark mode overrides */
+.dark .bg-white {
     background-color: var(--bg-primary);
 }
 
-.bg-gray-50, 
-.bg-gray-100 {
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
     background-color: var(--bg-secondary);
 }
 
-.bg-gray-200 {
-    background-color: var(--bg-tertiary);
+.dark .border-gray-200,
+.dark .border-gray-300 {
+    border-color: var(--border-color);
 }
 
-.text-gray-800,
-.text-gray-900 {
+.dark .text-gray-800,
+.dark .text-gray-900 {
     color: var(--text-primary);
 }
 
-.text-gray-600,
-.text-gray-700 {
+.dark .text-gray-600,
+.dark .text-gray-700 {
     color: var(--text-secondary);
 }
 
-.text-gray-400,
-.text-gray-500 {
-    color: var(--text-tertiary);
-}
-
-.border-gray-200,
-.border-gray-300 {
-    border-color: var(--border-primary);
-}
-
-/* Fix for mobile navigation */
-#mobile-menu {
+/* Mobile menu dark mode */
+.dark #mobile-menu {
     background-color: var(--bg-primary);
-    border-color: var(--border-primary);
+    border-color: var(--border-color);
 }
 
-/* Fix for game container */
-#game-container .border-gray-300,
-#game-container .border-2 {
-    border-color: var(--border-primary);
+/* Game container dark mode */
+.dark #game-container .border-gray-300,
+.dark #game-container .border-gray-200 {
+    border-color: var(--border-color);
 }
 
-#game-container .bg-gray-200 {
-    background-color: var(--bg-tertiary);
+.dark #game-container .bg-gray-200 {
+    background-color: var(--bg-secondary);
 }
 
 /* ============================
    DESIGNER MODE STYLES
    ============================ */
 
-/* Designer Mode Variables */
+/* Designer mode base styles */
 .designer-mode {
-    /* Font changes */
-    --heading-font: 'Montserrat', sans-serif;
-    --body-font: 'Inter', sans-serif;
+    /* Typography */
+    --heading-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --body-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     
-    /* Colors */
-    --primary-color: #FF5A5F;
-    --secondary-color: #00C2CB;
-    --accent-color: #F9A826;
+    /* Font weights */
+    --font-light: 300;
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    
+    /* Letter spacing */
+    --letter-spacing-tight: -0.02em;
+    --letter-spacing-normal: -0.01em;
+    
+    /* Line heights */
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    
+    /* Spacing */
+    --section-padding: 6rem 0;
+    --card-padding: 2rem;
 }
 
-/* Apply Designer Mode fonts */
+/* Typography base styles */
 .designer-mode h1, 
 .designer-mode h2, 
-.designer-mode h3 {
+.designer-mode h3, 
+.designer-mode h4, 
+.designer-mode h5, 
+.designer-mode h6 {
     font-family: var(--heading-font);
-    letter-spacing: -0.02em;
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
 }
 
 .designer-mode body,
-.designer-mode p,
-.designer-mode a,
-.designer-mode span,
-.designer-mode div {
+.designer-mode p, 
+.designer-mode span, 
+.designer-mode a, 
+.designer-mode button, 
+.designer-mode li {
     font-family: var(--body-font);
+    font-weight: var(--font-regular);
+    letter-spacing: var(--letter-spacing-normal);
+    line-height: var(--line-height-normal);
 }
 
-/* Designer Typography enhancements */
+/* Preserve bold styles */
+.designer-mode .font-bold,
+.designer-mode [class*="font-bold"] {
+    font-weight: var(--font-bold) !important;
+}
+
+.designer-mode .font-semibold,
+.designer-mode [class*="font-semibold"] {
+    font-weight: var(--font-semibold) !important;
+}
+
+.designer-mode .font-medium,
+.designer-mode [class*="font-medium"] {
+    font-weight: var(--font-medium) !important;
+}
+
+/* Specific element styling */
 .designer-mode h1 {
-    font-weight: 700;
+    font-weight: var(--font-bold);
+    letter-spacing: -0.03em;
 }
 
-.designer-mode p {
-    line-height: 1.8;
+.designer-mode #game-score,
+.designer-mode #game-high-score,
+.designer-mode .text-emerald-500,
+.designer-mode span[class*="font-bold"] {
+    font-weight: var(--font-bold) !important;
 }
 
-/* Designer Mode UI Elements */
+/* Experience section specific overrides */
+.designer-mode #experience h3 {
+    font-weight: var(--font-semibold);
+}
+
+.designer-mode #experience .font-bold {
+    font-weight: var(--font-bold) !important;
+}
+
+/* Button styling */
 .designer-mode .btn,
-.designer-mode button:not(.toggle-btn) {
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.designer-mode button:not(.toggle-btn):not([href="#home"]) {
+    border-radius: var(--border-radius-md);
     transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .designer-mode .btn:hover,
-.designer-mode button:not(.toggle-btn):hover {
+.designer-mode button:not(.toggle-btn):not([href="#home"]):hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Designer Cards */
-.designer-mode .bg-white,
-.designer-mode .bg-gray-800,
-.designer-mode .bg-gray-900 {
-    @apply rounded-2xl shadow-lg overflow-hidden;
+/* Card styling */
+.designer-mode .bg-white:not(.rounded-full),
+.designer-mode .bg-gray-50:not(.rounded-full),
+.designer-mode .bg-gray-100:not(.rounded-full),
+.designer-mode .bg-gray-800:not(.rounded-full),
+.designer-mode .bg-gray-900:not(.rounded-full) {
+    border-radius: var(--border-radius-lg);
+    transition: all 0.3s ease;
 }
 
-/* Designer Mode Light Theme */
+/* Preserve circular elements */
+.designer-mode .rounded-full {
+    border-radius: 9999px !important;
+}
+
+/* Profile image container */
+.designer-mode .w-48.h-48.rounded-full {
+    border-radius: 9999px !important;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Back to top button */
+.designer-mode [href="#home"].rounded-full {
+    border-radius: 9999px !important;
+    transition: all 0.3s ease;
+}
+
+.designer-mode [href="#home"].rounded-full:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Light mode specific designer styles */
 .designer-mode:not(.dark) {
-    @apply bg-gradient-to-br from-white to-gray-50;
+    --shadow-color: rgba(0, 0, 0, 0.05);
 }
 
 .designer-mode:not(.dark) .bg-white {
-    @apply bg-white/80 backdrop-blur-sm border border-white/50;
+    box-shadow: 0 8px 30px var(--shadow-color);
 }
 
-/* Designer Mode Dark Theme */
+/* Dark mode specific designer styles */
 .designer-mode.dark {
-    @apply bg-gradient-to-br from-gray-900 to-gray-800;
+    --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 .designer-mode.dark .bg-white {
-    @apply bg-gray-900/80 backdrop-blur-sm border border-gray-700;
+    box-shadow: 0 8px 30px var(--shadow-color);
 }
 
 .designer-mode.dark .bg-gray-800 {
-    @apply bg-gray-800/80 backdrop-blur-sm border border-gray-700;
+    box-shadow: 0 8px 30px var(--shadow-color);
 }
 
 .designer-mode.dark .bg-gray-900 {
-    @apply bg-gray-900/80 backdrop-blur-sm border border-gray-700;
+    box-shadow: 0 8px 30px var(--shadow-color);
 }
 
-/* Designer Mode Sections */
+/* Section styling */
 .designer-mode #home {
-    @apply bg-white dark:bg-gray-900;
+    padding: var(--section-padding);
 }
 
 .designer-mode #experience {
-    @apply bg-gray-50 dark:bg-gray-800;
+    padding: var(--section-padding);
 }
 
 .designer-mode #projects {
-    @apply bg-white dark:bg-gray-900;
+    padding: var(--section-padding);
 }
 
 .designer-mode #game {
-    @apply bg-gray-50 dark:bg-gray-800;
+    padding: var(--section-padding);
 }
 
 .designer-mode footer {
-    @apply bg-white dark:bg-gray-900;
+    padding: 3rem 0;
 }
 
-/* Designer Mode Header */
+/* Header styling */
 .designer-mode header {
-    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Designer Mode Mobile Menu */
+/* Mobile menu styling */
 .designer-mode #mobile-menu {
-    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700;
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
 }
 
-/* Designer Mode Project Cards */
+/* Project cards styling */
 .designer-mode #projects .rounded-lg {
-    @apply bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300;
+    overflow: hidden;
 }
 
-/* Designer Mode Game Container */
+/* Game container styling */
 .designer-mode #game-container {
-    @apply rounded-2xl overflow-hidden shadow-lg;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.designer-mode #game-container .border-2 {
-    @apply border-gray-200 dark:border-gray-700;
+.designer-mode #game-container .grid > div {
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.designer-mode #game-container .bg-gray-200 {
-    @apply bg-gray-100 dark:bg-gray-800;
+.designer-mode #game-start {
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
-/* Designer Mode Buttons */
-.designer-mode button:not(.toggle-btn) {
-    @apply shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5;
-}
-
-/* Icons and interactive elements */
+/* SVG styling */
 .designer-mode svg {
     transition: transform 0.3s ease;
 }
@@ -301,108 +354,193 @@ section {
 }
 
 /* ============================
-   GAME SPECIFIC STYLES
+   GAME STYLES
    ============================ */
 
-/* Game canvas styling */
+/* Game canvas */
 #game-canvas {
-    image-rendering: pixelated; /* Keep the pixel art crisp */
     background-color: transparent;
+    width: 100%;
+    height: 200px;
+    transition: height 0.3s ease;
 }
 
 /* Game container */
 #game-container {
-    opacity: 1;
-    display: block;
+    transition: all 0.3s ease;
+    margin: 0 auto;
 }
 
 /* Game background */
 #game-background {
     position: relative;
     overflow: hidden;
+    background-color: #87CEEB; /* Default sky color */
 }
 
-/* Sky elements */
+/* Sky elements container */
 .sky-elements {
-    transition: all var(--transition-speed) ease;
+    z-index: 0;
 }
 
-/* Day mode sky */
+/* Light mode sky */
 html:not(.dark) .sky-elements {
-    background: linear-gradient(to bottom, var(--game-sky-start) 0%, var(--game-sky-end) 100%);
+    background: linear-gradient(to bottom, #87CEEB, #E0F7FF);
 }
 
-/* Night mode sky */
+/* Dark mode sky */
 html.dark .sky-elements {
-    background: linear-gradient(to bottom, var(--game-sky-start) 0%, var(--game-sky-mid, var(--game-sky-start)) 50%, var(--game-sky-end) 100%);
+    background: linear-gradient(to bottom, #0F2027, #203A43);
 }
 
-/* Game container in Designer Mode */
-.designer-mode #game-container {
-    border-radius: 16px;
+/* Game score cards */
+#game-container .grid {
+    --grid-gap: 1rem;
+    gap: var(--grid-gap);
+}
+
+#game-container .bg-white,
+#game-container .dark\:bg-gray-900 {
+    transition: all 0.3s ease;
+}
+
+/* Score display */
+#game-score,
+#game-high-score {
+    transition: color 0.3s ease;
+}
+
+/* Game start button */
+#game-start {
+    transition: all 0.3s ease;
+    position: relative;
     overflow: hidden;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
-.designer-mode #game-canvas {
-    border-radius: 16px 16px 0 0;
+#game-start:active {
+    transform: scale(0.98);
 }
 
-/* Fix for game container corners */
-.designer-mode #game-container .rounded-lg {
-    border-radius: 16px !important;
+/* Designer mode specific styles */
+.designer-mode #game-container {
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Fix for game button in designer mode */
+.designer-mode #game-container .grid > div {
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
 .designer-mode #game-start {
-    background: var(--primary-color);
-    color: white;
-    font-weight: 600;
-    padding: 8px 16px;
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
-.designer-mode.dark #game-start {
-    background: var(--primary-color);
-    color: white;
-    border: none;
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    #game-canvas {
+        height: 150px;
+    }
+
+    #game-container .p-4 {
+        padding: 1rem;
+    }
+
+    #game-container .grid {
+        --grid-gap: 0.75rem;
+    }
+
+    #game-container .text-xl {
+        font-size: 1.125rem;
+    }
+
+    #game-start {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
 }
 
-/* Fix for game score text in dark mode */
-.designer-mode.dark #game-container span {
-    color: rgba(229, 231, 235, 0.9) !important;
+/* Dark mode specific styles */
+.dark #game-container .bg-white {
+    background-color: var(--bg-primary);
 }
 
-.designer-mode.dark #game-score,
-.designer-mode.dark #game-high-score {
-    color: var(--accent-color) !important;
-    font-weight: 600;
+.dark #game-score,
+.dark #game-high-score {
+    color: var(--text-primary);
+}
+
+.dark #game-container span {
+    color: var(--text-secondary);
 }
 
 /* ============================
    TOGGLE SWITCH STYLES
    ============================ */
 
-/* Toggle Switch Container */
+/* Toggle container */
 .toggle-container {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.5rem;
 }
 
-/* Toggle Switch */
+/* Mode label */
+.mode-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+/* Dark mode label */
+.dark .mode-label {
+    color: var(--text-secondary);
+}
+
+/* Active state for mode icons */
+.mode-label:first-of-type svg {
+    color: var(--text-secondary);
+}
+
+.mode-label:last-of-type svg {
+    color: var(--text-secondary);
+}
+
+/* Active state for mode icons - Developer mode */
+#mode-toggle:not(:checked) ~ .mode-label:first-of-type svg {
+    color: var(--primary-color);
+}
+
+/* Active state for mode icons - Designer mode */
+#mode-toggle:checked ~ .mode-label:last-of-type svg {
+    color: var(--primary-color);
+}
+
+/* Toggle switch */
 .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 50px;
+    width: 48px;
     height: 24px;
 }
 
+/* Hide default checkbox */
 .toggle-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
+/* Toggle slider */
 .toggle-slider {
     position: absolute;
     cursor: pointer;
@@ -410,11 +548,17 @@ html.dark .sky-elements {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--bg-tertiary);
+    background-color: #ccc;
     transition: .4s;
     border-radius: 24px;
 }
 
+/* Dark mode toggle slider */
+.dark .toggle-slider {
+    background-color: #4B5563;
+}
+
+/* Toggle slider button */
 .toggle-slider:before {
     position: absolute;
     content: "";
@@ -427,34 +571,53 @@ html.dark .sky-elements {
     border-radius: 50%;
 }
 
+/* Toggle slider when checked */
 input:checked + .toggle-slider {
-    background-color: var(--primary-color);
+    background-color: #ccc;
 }
 
+.dark input:checked + .toggle-slider {
+    background-color: #4B5563;
+}
+
+/* Remove pink outline on focus */
 input:focus + .toggle-slider {
-    box-shadow: 0 0 1px var(--primary-color);
+    box-shadow: none;
 }
 
+.toggle-switch:focus-within {
+    outline: none;
+}
+
+/* Toggle slider movement */
 input:checked + .toggle-slider:before {
-    transform: translateX(26px);
+    transform: translateX(24px);
 }
 
-/* Mode label */
-.mode-label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--text-secondary);
+/* Mobile header adjustments */
+@media (max-width: 768px) {
+    header {
+        padding-top: env(safe-area-inset-top);
+    }
+    
+    .toggle-container {
+        gap: 0.5rem;
+    }
+    
+    #mobile-menu {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
 }
 
 /* ============================
-   ANIMATIONS
+   ANIMATION STYLES
    ============================ */
 
-/* Typewriter cursor effect */
+/* Typed.js cursor */
 .typed-cursor {
-    color: inherit;
     opacity: 1;
     animation: blink 0.7s infinite;
+    color: var(--primary-color);
 }
 
 @keyframes blink {
@@ -462,48 +625,42 @@ input:checked + .toggle-slider:before {
     50% { opacity: 0; }
 }
 
-/* Pulsating animation */
 @keyframes pulse-ring {
     0% {
         transform: scale(0.8);
-        opacity: 0.5;
+        opacity: 0.8;
     }
     100% {
-        transform: scale(1.3);
+        transform: scale(2);
         opacity: 0;
     }
 }
 
-.pulse {
-    position: relative;
-}
-
+/* Pulse animation for "Open for Work" */
 .pulse::before {
     content: '';
     position: absolute;
-    left: -8px;
-    top: -8px;
-    right: -8px;
-    bottom: -8px;
+    width: 12px;
+    height: 12px;
+    background-color: #10B981;
     border-radius: 50%;
-    background-color: #10b981; /* Green color for pulse */
-    animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-    z-index: -1;
-    will-change: transform, opacity; /* Hint for browser optimization */
+    animation: pulse-ring 2s infinite;
+    z-index: 0;
 }
 
-/* Pulse animation enhancement for designer mode */
+/* Designer mode pulse */
 .designer-mode .pulse::before {
-    animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-    background: linear-gradient(45deg, #10b981, #0ea5e9);
+    animation-duration: 3s;
 }
 
-/* Mobile menu animation */
+/* ============================
+   MOBILE MENU STYLES
+   ============================ */
+
 #mobile-menu {
-    transition: max-height var(--transition-speed) ease;
     max-height: 0;
     overflow: hidden;
-    will-change: max-height; /* Hint for browser optimization */
+    transition: max-height 0.3s ease;
 }
 
 #mobile-menu.open {
@@ -511,99 +668,99 @@ input:checked + .toggle-slider:before {
 }
 
 /* ============================
-   TIMELINE STYLING
+   TIMELINE STYLES
    ============================ */
 
-/* Compact Timeline styling */
+/* Timeline item */
 .timeline-item {
     position: relative;
     padding-left: 2rem;
-    margin-left: 0.5rem;
+    margin-bottom: 2rem;
 }
 
+/* Timeline dot */
 .timeline-dot {
     position: absolute;
-    left: -0.3rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0.75rem;
-    height: 0.75rem;
+    left: 0;
+    top: 0.5rem;
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--secondary-color);
     border-radius: 50%;
-    border: 2px solid #9ca3af;
-    z-index: 10;
+    z-index: 2;
 }
 
-/* Dark mode timeline dots */
+/* Dark mode timeline dot */
 .dark .timeline-dot {
-    border-color: #6b7280;
+    background-color: var(--secondary-color);
 }
 
-/* Timeline content spacing */
+/* Timeline content */
 .timeline-content {
-    padding: 1rem 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
+    padding: 1rem;
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-md);
 }
 
-/* Timeline vertical line */
+/* Timeline line */
 .timeline-line {
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    border-left: 2px dashed #9ca3af;
-    height: 100%;
+    left: 0.5rem;
+    top: 1.5rem;
+    bottom: -2rem;
+    width: 2px;
+    background-color: #e5e7eb;
+    z-index: 1;
 }
 
 /* Dark mode timeline line */
 .dark .timeline-line {
-    border-left-color: #6b7280;
+    background-color: #374151;
 }
 
-/* Remove line extension for first and last items */
+/* First and last timeline items */
 .timeline-item:first-child .timeline-line {
-    top: 50%;
+    top: 1rem;
 }
 
 .timeline-item:last-child .timeline-line {
-    bottom: 50%;
+    display: none;
 }
 
 /* ============================
-   CUSTOM UTILITY CLASSES
+   TEXT ACCENT COLORS
    ============================ */
 
-/* Custom utility classes for accent colors */
 .text-accent-pink {
-    color: #ec4899;
+    color: var(--primary-color);
 }
 
 .text-accent-blue {
-    color: #38bdf8;
+    color: var(--secondary-color);
 }
 
 html:not(.dark) .text-accent-pink {
-    color: #3b82f6;
+    color: var(--primary-color);
 }
 
 html:not(.dark) .text-accent-blue {
-    color: #6366f1;
+    color: var(--secondary-color);
 }
 
-/* Custom focus styles for better accessibility */
+/* Accessibility focus styles */
 a:focus, button:focus {
-    outline: 2px solid currentColor;
+    outline: 2px solid var(--primary-color);
     outline-offset: 2px;
 }
 
 /* ============================
-   RESPONSIVE ADJUSTMENTS
+   RESPONSIVE STYLES
    ============================ */
 
 @media (max-width: 768px) {
     #game-canvas {
-        height: 180px;
+        height: 150px;
     }
     
     .timeline-item {
@@ -611,9 +768,8 @@ a:focus, button:focus {
     }
     
     .timeline-dot {
-        width: 0.6rem;
-        height: 0.6rem;
-        left: -0.25rem;
+        width: 0.75rem;
+        height: 0.75rem;
     }
     
     .ascii-raccoon pre {
@@ -621,9 +777,83 @@ a:focus, button:focus {
     }
 }
 
-/* ASCII art raccoon styling */
 .ascii-raccoon pre {
     line-height: 1.2;
     white-space: pre;
-    font-size: 0.75rem;
+    font-family: monospace;
+}
+
+/* Experience section specific styles */
+#experience h2 {
+    font-family: inherit;
+    transition: font-family var(--transition-speed) ease;
+}
+
+#experience h3 {
+    font-family: inherit;
+    transition: font-family var(--transition-speed) ease;
+}
+
+#experience .text-primary {
+    /* Override pink color for duration labels */
+    color: var(--text-secondary);
+}
+
+#experience a.text-primary {
+    /* Keep company links consistent with other text */
+    color: var(--text-secondary);
+}
+
+#experience a.text-primary:hover {
+    opacity: 0.8;
+}
+
+#experience .bg-secondary\/20,
+#experience .bg-primary\/10 {
+    transition: all 0.3s ease;
+}
+
+/* Designer mode experience section */
+.designer-mode #experience h2 {
+    font-family: var(--heading-font);
+    letter-spacing: -0.025em;
+}
+
+.designer-mode #experience h3,
+.designer-mode #experience .text-gray-600 {
+    font-family: var(--heading-font);
+    letter-spacing: -0.01em;
+}
+
+.designer-mode #experience .bg-secondary\/20,
+.designer-mode #experience .bg-primary\/10 {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Mobile responsive experience section */
+@media (max-width: 768px) {
+    #experience .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    #experience .flex-col {
+        gap: 0.5rem;
+    }
+    
+    #experience h3 {
+        font-size: 1.1rem;
+    }
+    
+    #experience .text-sm {
+        font-size: 0.75rem;
+    }
+    
+    #experience .space-y-8 > div {
+        margin-bottom: 1.5rem;
+    }
+    
+    #experience .flex-wrap {
+        gap: 0.5rem;
+    }
 } 
