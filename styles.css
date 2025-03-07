@@ -1,0 +1,180 @@
+/* Custom styles for Jeremy Venegas' personal website */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Account for fixed header when scrolling to anchors */
+section {
+    scroll-margin-top: 5rem;
+}
+
+/* Typewriter cursor effect */
+.typed-cursor {
+    color: inherit;
+    opacity: 1;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Game canvas styling */
+#game-canvas {
+    image-rendering: pixelated; /* Keep the pixel art crisp */
+    background-color: transparent;
+}
+
+/* Game background */
+#game-background {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Day mode sky */
+html:not(.dark) .sky-elements {
+    background: linear-gradient(to bottom, #87CEEB 0%, #B0E2FF 100%);
+}
+
+/* Night mode sky */
+html.dark .sky-elements {
+    background: linear-gradient(to bottom, #0F2027 0%, #203A43 50%, #2C5364 100%);
+}
+
+/* Custom transitions */
+.page-transition {
+    transition: all 0.3s ease;
+}
+
+/* Hover effects for cards */
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Custom focus styles for better accessibility */
+a:focus, button:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+/* Ensure proper contrast in both light and dark modes */
+@media (prefers-color-scheme: dark) {
+    .dark\:text-gray-200 {
+        color: #e5e7eb;
+    }
+}
+
+/* Mobile menu animation */
+#mobile-menu {
+    transition: max-height 0.3s ease;
+    max-height: 0;
+    overflow: hidden;
+}
+
+#mobile-menu.open {
+    max-height: 300px;
+}
+
+/* Hero section adjustments */
+#home {
+    padding-top: 5rem;
+}
+
+/* Compact Timeline styling */
+.timeline-item {
+    position: relative;
+    padding-left: 2rem;
+    margin-left: 0.5rem;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -0.3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    border: 2px solid #9ca3af;
+    z-index: 10;
+}
+
+/* Timeline content spacing */
+.timeline-content {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Timeline vertical line */
+.timeline-line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-left: 2px dashed #9ca3af;
+    height: 100%;
+}
+
+/* Remove line extension for first and last items */
+.timeline-item:first-child .timeline-line {
+    top: 50%;
+}
+
+.timeline-item:last-child .timeline-line {
+    bottom: 50%;
+}
+
+/* ASCII art raccoon styling */
+.ascii-raccoon pre {
+    line-height: 1.2;
+    white-space: pre;
+    font-size: 0.75rem;
+}
+
+/* Custom utility classes for accent colors */
+.text-accent-pink {
+    color: #ec4899;
+}
+
+.text-accent-blue {
+    color: #38bdf8;
+}
+
+html:not(.dark) .text-accent-pink {
+    color: #3b82f6;
+}
+
+html:not(.dark) .text-accent-blue {
+    color: #6366f1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #game-canvas {
+        height: 180px;
+    }
+    
+    .timeline-item {
+        padding-left: 1.5rem;
+    }
+    
+    .timeline-dot {
+        width: 0.6rem;
+        height: 0.6rem;
+        left: -0.25rem;
+    }
+    
+    .ascii-raccoon pre {
+        font-size: 0.6rem;
+    }
+}
+
+/* Fixed header navigation */
+header {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+} 
