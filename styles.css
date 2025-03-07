@@ -51,51 +51,101 @@ section {
    THEME STYLES (LIGHT/DARK)
    ============================ */
 
-/* Base theme colors */
+/* Base theme colors using CSS variables for better maintainability */
 :root {
+    /* Brand colors */
     --primary-color: #ec4899;
     --secondary-color: #38bdf8;
+    
+    /* Theme colors - light mode defaults */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+    --text-tertiary: #6b7280;
+    
+    --border-primary: #e5e7eb;
+    --border-secondary: #d1d5db;
+    
+    /* Game colors */
+    --game-ground: #94a3b8;
+    --game-sky-start: #87CEEB;
+    --game-sky-end: #B0E2FF;
+    
+    /* Transition speeds */
+    --transition-speed: 0.3s;
 }
 
-/* Dark mode specific fixes for nested elements */
-.dark .bg-white {
-    @apply bg-gray-900;
+/* Dark mode theme variables */
+.dark {
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --bg-tertiary: #374151;
+    
+    --text-primary: #f9fafb;
+    --text-secondary: #e5e7eb;
+    --text-tertiary: #d1d5db;
+    
+    --border-primary: #374151;
+    --border-secondary: #4b5563;
+    
+    /* Game colors */
+    --game-ground: #64748b;
+    --game-sky-start: #0F2027;
+    --game-sky-mid: #203A43;
+    --game-sky-end: #2C5364;
 }
 
-.dark .bg-gray-50,
-.dark .bg-gray-100,
-.dark .bg-gray-200 {
-    @apply bg-gray-800;
+/* Apply CSS variables to elements */
+.bg-white {
+    background-color: var(--bg-primary);
 }
 
-.dark .border-gray-200,
-.dark .border-gray-300 {
-    @apply border-gray-700;
+.bg-gray-50, 
+.bg-gray-100 {
+    background-color: var(--bg-secondary);
 }
 
-.dark .text-gray-800,
-.dark .text-gray-900 {
-    @apply text-gray-100;
+.bg-gray-200 {
+    background-color: var(--bg-tertiary);
 }
 
-.dark .text-gray-600,
-.dark .text-gray-700 {
-    @apply text-gray-400;
+.text-gray-800,
+.text-gray-900 {
+    color: var(--text-primary);
 }
 
-/* Fix for mobile navigation in dark mode */
-.dark #mobile-menu {
-    @apply bg-gray-900 border-gray-700;
+.text-gray-600,
+.text-gray-700 {
+    color: var(--text-secondary);
 }
 
-/* Fix for game container in dark mode */
-.dark #game-container .border-gray-300,
-.dark #game-container .border-2 {
-    @apply border-gray-700;
+.text-gray-400,
+.text-gray-500 {
+    color: var(--text-tertiary);
 }
 
-.dark #game-container .bg-gray-200 {
-    @apply bg-gray-800;
+.border-gray-200,
+.border-gray-300 {
+    border-color: var(--border-primary);
+}
+
+/* Fix for mobile navigation */
+#mobile-menu {
+    background-color: var(--bg-primary);
+    border-color: var(--border-primary);
+}
+
+/* Fix for game container */
+#game-container .border-gray-300,
+#game-container .border-2 {
+    border-color: var(--border-primary);
+}
+
+#game-container .bg-gray-200 {
+    background-color: var(--bg-tertiary);
 }
 
 /* ============================
@@ -274,17 +324,17 @@ section {
 
 /* Sky elements */
 .sky-elements {
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) ease;
 }
 
 /* Day mode sky */
 html:not(.dark) .sky-elements {
-    background: linear-gradient(to bottom, #87CEEB 0%, #B0E2FF 100%);
+    background: linear-gradient(to bottom, var(--game-sky-start) 0%, var(--game-sky-end) 100%);
 }
 
 /* Night mode sky */
 html.dark .sky-elements {
-    background: linear-gradient(to bottom, #0F2027 0%, #203A43 50%, #2C5364 100%);
+    background: linear-gradient(to bottom, var(--game-sky-start) 0%, var(--game-sky-mid, var(--game-sky-start)) 50%, var(--game-sky-end) 100%);
 }
 
 /* Game container in Designer Mode */
@@ -360,13 +410,9 @@ html.dark .sky-elements {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: var(--bg-tertiary);
     transition: .4s;
     border-radius: 24px;
-}
-
-.dark .toggle-slider {
-    background-color: #4B5563 !important; /* Dark gray in dark mode */
 }
 
 .toggle-slider:before {
@@ -382,15 +428,11 @@ html.dark .sky-elements {
 }
 
 input:checked + .toggle-slider {
-    background-color: #FF5A5F !important;
-}
-
-.dark input:checked + .toggle-slider {
-    background-color: #FF5A5F !important;
+    background-color: var(--primary-color);
 }
 
 input:focus + .toggle-slider {
-    box-shadow: 0 0 1px #FF5A5F;
+    box-shadow: 0 0 1px var(--primary-color);
 }
 
 input:checked + .toggle-slider:before {
@@ -401,10 +443,7 @@ input:checked + .toggle-slider:before {
 .mode-label {
     font-size: 0.8rem;
     font-weight: 500;
-}
-
-.dark .mode-label {
-    color: #E5E7EB !important; /* Light gray in dark mode */
+    color: var(--text-secondary);
 }
 
 /* ============================
@@ -435,6 +474,10 @@ input:checked + .toggle-slider:before {
     }
 }
 
+.pulse {
+    position: relative;
+}
+
 .pulse::before {
     content: '';
     position: absolute;
@@ -446,6 +489,7 @@ input:checked + .toggle-slider:before {
     background-color: #10b981; /* Green color for pulse */
     animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
     z-index: -1;
+    will-change: transform, opacity; /* Hint for browser optimization */
 }
 
 /* Pulse animation enhancement for designer mode */
@@ -456,9 +500,10 @@ input:checked + .toggle-slider:before {
 
 /* Mobile menu animation */
 #mobile-menu {
-    transition: max-height 0.3s ease;
+    transition: max-height var(--transition-speed) ease;
     max-height: 0;
     overflow: hidden;
+    will-change: max-height; /* Hint for browser optimization */
 }
 
 #mobile-menu.open {
