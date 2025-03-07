@@ -3,6 +3,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     initTypewriter();
     initThemeToggle();
+    initModeToggle();
     initMobileMenu();
     initGame();
     initSmoothScrolling();
@@ -41,13 +42,225 @@ function initThemeToggle() {
         document.documentElement.classList.remove('dark');
     }
     
+    // Initial update of theme-dependent elements
+    updateThemeElements(document.documentElement.classList.contains('dark'));
+    
     // Toggle theme when button is clicked
     themeToggleBtn.addEventListener('click', function() {
         const isDark = document.documentElement.classList.toggle('dark');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         
-        // Update game sky elements if game exists
-        updateGameSky();
+        // Update all theme-dependent elements
+        updateThemeElements(isDark);
+        
+        // Reset and restart game if it exists
+        if (window.game) {
+            resetGame();
+            // Wait a brief moment for theme transition
+            setTimeout(() => {
+                startGame();
+            }, 300);
+        }
+    });
+}
+
+// Helper function to update all theme-dependent elements
+function updateThemeElements(isDark) {
+    // Ensure HTML element has correct class for dark mode
+    if (isDark) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+    
+    // Update game sky elements
+    updateGameSky();
+    
+    // Update toggle switch appearance
+    const toggleSlider = document.querySelector('.toggle-slider');
+    if (toggleSlider) {
+        toggleSlider.classList.toggle('dark-mode', isDark);
+    }
+    
+    // If in designer mode, update designer-specific elements
+    if (document.body.classList.contains('designer-mode')) {
+        updateDesignerMode(true);
+    }
+}
+
+// Designer/Developer Mode Toggle
+function initModeToggle() {
+    const modeToggle = document.getElementById('mode-toggle');
+    const body = document.body;
+    
+    // Check for saved mode preference
+    const savedMode = localStorage.getItem('designMode');
+    
+    // Apply saved mode or default to developer mode
+    if (savedMode === 'designer') {
+        body.classList.add('designer-mode');
+        modeToggle.checked = true;
+        updateDesignerMode(true);
+    } else {
+        body.classList.remove('designer-mode');
+        modeToggle.checked = false;
+    }
+    
+    // Toggle mode when the switch is clicked
+    modeToggle.addEventListener('change', function() {
+        const isDesigner = this.checked;
+        const isDark = document.documentElement.classList.contains('dark');
+        
+        if (isDesigner) {
+            body.classList.add('designer-mode');
+            localStorage.setItem('designMode', 'designer');
+        } else {
+            body.classList.remove('designer-mode');
+            localStorage.setItem('designMode', 'developer');
+        }
+        
+        updateDesignerMode(isDesigner);
+        
+        // If in dark mode, ensure theme-specific elements are updated
+        if (isDark) {
+            updateDesignerModeForTheme(isDark);
+        }
+    });
+}
+
+// Update elements for designer mode
+function updateDesignerMode(isDesigner) {
+    // Elements to update
+    const buttons = document.querySelectorAll('button:not(.toggle-btn)');
+    const cards = document.querySelectorAll('.bg-white, .dark .bg-gray-800');
+    const sections = document.querySelectorAll('section');
+    const body = document.body;
+    
+    // Reset all inline styles first to avoid conflicts
+    resetAllInlineStyles();
+    
+    if (isDesigner) {
+        // Apply designer styles to buttons
+        buttons.forEach(button => {
+            button.classList.add('transition-all', 'duration-300');
+        });
+        
+        // Apply designer styles to cards
+        cards.forEach(card => {
+            card.classList.add('transition-all', 'duration-300');
+        });
+        
+        // Apply spacing and styling to sections
+        sections.forEach(section => {
+            section.classList.add('py-24'); // More padding in designer mode
+        });
+        
+        // Apply designer mode class
+        body.classList.add('designer-mode');
+        
+        // Update game elements for designer mode
+        const gameStartBtn = document.getElementById('game-start');
+        if (gameStartBtn) {
+            gameStartBtn.classList.add('transition-all', 'duration-300', 'transform', 'hover:scale-105');
+        }
+        
+        // Style game score display
+        const scoreElements = document.querySelectorAll('#game-score, #game-high-score');
+        scoreElements.forEach(el => {
+            el.classList.add('font-bold');
+        });
+    } else {
+        // Remove designer mode class
+        body.classList.remove('designer-mode');
+        
+        // Remove designer-specific classes
+        buttons.forEach(button => {
+            button.classList.remove('transition-all', 'duration-300');
+        });
+        
+        cards.forEach(card => {
+            card.classList.remove('transition-all', 'duration-300');
+        });
+        
+        sections.forEach(section => {
+            section.classList.remove('py-24');
+        });
+        
+        // Remove designer styles from game elements
+        const gameStartBtn = document.getElementById('game-start');
+        if (gameStartBtn) {
+            gameStartBtn.classList.remove('transition-all', 'duration-300', 'transform', 'hover:scale-105');
+        }
+        
+        // Remove designer styles from score elements
+        const scoreElements = document.querySelectorAll('#game-score, #game-high-score');
+        scoreElements.forEach(el => {
+            el.classList.remove('font-bold');
+        });
+    }
+    
+    // Update game sky elements
+    updateGameSky();
+}
+
+// Helper function to reset all inline styles
+function resetAllInlineStyles() {
+    // Remove all inline styles from body
+    document.body.removeAttribute('style');
+    
+    // Remove all inline styles from header
+    const header = document.querySelector('header');
+    if (header) {
+        header.removeAttribute('style');
+    }
+    
+    // Remove all inline styles from sections
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        section.removeAttribute('style');
+    });
+    
+    // Remove all inline styles from footer
+    const footer = document.querySelector('footer');
+    if (footer) {
+        footer.removeAttribute('style');
+    }
+    
+    // Remove all inline styles from mobile menu
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenu) {
+        mobileMenu.removeAttribute('style');
+    }
+    
+    // Remove all inline styles from game elements
+    const gameElements = document.querySelectorAll('#game-container, #game-canvas, #game-background, .sky-elements');
+    gameElements.forEach(el => {
+        el.removeAttribute('style');
+    });
+    
+    // Remove all inline styles from project cards
+    const projectCards = document.querySelectorAll('#projects .rounded-lg, #projects .p-6');
+    projectCards.forEach(card => {
+        card.removeAttribute('style');
+    });
+    
+    // Remove all inline styles from toggle elements
+    const toggleElements = document.querySelectorAll('.toggle-container, .toggle-switch, .toggle-slider');
+    toggleElements.forEach(el => {
+        el.removeAttribute('style');
+    });
+    
+    // Remove all inline styles from text elements
+    const textElements = document.querySelectorAll('h1, h2, h3, p, span, a');
+    textElements.forEach(el => {
+        el.removeAttribute('style');
+    });
+    
+    // Remove all event listeners for hover states
+    const hoverElements = document.querySelectorAll('[class*="hover:bg-gray"]');
+    hoverElements.forEach(el => {
+        el.removeEventListener('mouseenter', null);
+        el.removeEventListener('mouseleave', null);
     });
 }
 
@@ -96,32 +309,41 @@ function initSmoothScrolling() {
     });
 }
 
-// Updates the game sky based on current theme
+// Helper function to update game sky elements
 function updateGameSky() {
-    const skyElements = document.querySelector('.sky-elements');
-    if (!skyElements) return;
-    
     const isDark = document.documentElement.classList.contains('dark');
+    const skyElements = document.querySelector('.sky-elements');
     
-    // Remove existing elements
-    skyElements.innerHTML = '';
+    if (skyElements) {
+        // Apply appropriate sky gradient based on theme
+        if (isDark) {
+            skyElements.style.background = 'linear-gradient(to bottom, #0F2027 0%, #203A43 50%, #2C5364 100%)';
+        } else {
+            skyElements.style.background = 'linear-gradient(to bottom, #87CEEB 0%, #B0E2FF 100%)';
+        }
+    }
     
-    if (isDark) {
-        // Add moon
-        const moon = document.createElement('div');
-        moon.className = 'absolute w-16 h-16 bg-gray-200';
-        moon.style.right = '3rem';
-        moon.style.top = '2rem';
-        moon.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.5)';
-        skyElements.appendChild(moon);
-    } else {
-        // Add sun
-        const sun = document.createElement('div');
-        sun.className = 'absolute w-16 h-16 bg-yellow-300';
-        sun.style.right = '3rem';
-        sun.style.top = '2rem';
-        sun.style.boxShadow = '0 0 40px rgba(250, 204, 21, 0.6)';
-        skyElements.appendChild(sun);
+    // Update raccoon SVG colors for dark mode
+    const raccoonSvg = document.getElementById('raccoon-svg-container');
+    if (raccoonSvg) {
+        const svgElements = raccoonSvg.querySelectorAll('rect');
+        svgElements.forEach(rect => {
+            const currentFill = rect.getAttribute('fill');
+            // Only update colors that need to change
+            if (isDark) {
+                if (currentFill === '#808080') {
+                    rect.setAttribute('fill', '#9ca3af');
+                } else if (currentFill === '#404040') {
+                    rect.setAttribute('fill', '#6b7280');
+                }
+            } else {
+                if (currentFill === '#9ca3af') {
+                    rect.setAttribute('fill', '#808080');
+                } else if (currentFill === '#6b7280') {
+                    rect.setAttribute('fill', '#404040');
+                }
+            }
+        });
     }
 }
 
@@ -448,11 +670,11 @@ function initGame() {
         const isDark = document.documentElement.classList.contains('dark');
         
         // Draw background cityscape with parallax
-        ctx.fillStyle = isDark ? 'rgba(51, 65, 85, 0.3)' : 'rgba(148, 163, 184, 0.3)';
+        ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.4)' : 'rgba(148, 163, 184, 0.3)'; // Brighter in dark mode
         
         // Create a more randomized cityscape that spawns from the right
         // Significantly reduce the speed to create distant background effect
-        const baseSpeed = 0.15; // Reduced from 0.2 to 0.15 for even slower movement
+        const baseSpeed = 0.15;
         const scrollSpeed = gameSpeed * baseSpeed;
         
         // Store building data in a persistent array if it doesn't exist yet
@@ -510,56 +732,67 @@ function initGame() {
             
             // If building is completely off-screen to the left, move it to the right
             if (building.x + building.width < 0) {
-                // Find the rightmost building
                 const rightmostX = Math.max(...window.cityBuildings.map(b => b.x + b.width));
-                
-                // Randomize building properties for reuse
                 building.width = 40 + Math.random() * 60;
                 building.height = 30 + Math.random() * 50;
                 const gap = 15 + Math.random() * 30;
-                
-                // Position it off-screen to the right with a gap
                 building.x = rightmostX + gap;
                 
                 // Generate new window pattern
-                const windowSize = 6;
-                const windowMargin = 10;
-                const windowRows = Math.floor(building.height / windowMargin) - 1;
+                const windowRows = Math.floor(building.height / 10) - 1;
                 const windowCols = Math.floor(building.width / 15);
                 building.windows = [];
                 
-                // Generate persistent window pattern
                 for (let row = 0; row < windowRows; row++) {
                     for (let col = 0; col < windowCols; col++) {
-                        // Randomly decide if this window should be visible
                         if (Math.random() > 0.3) {
-                            building.windows.push({
-                                row: row,
-                                col: col
-                            });
+                            building.windows.push({ row, col });
                         }
                     }
                 }
             }
             
-            // Draw building
-            ctx.fillStyle = isDark ? 'rgba(51, 65, 85, 0.3)' : 'rgba(148, 163, 184, 0.3)';
+            // Draw building with better contrast in dark mode
+            ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.4)' : 'rgba(148, 163, 184, 0.3)';
             ctx.fillRect(building.x, groundLevel - building.height, building.width, building.height);
             
-            // Add windows to buildings
-            ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(51, 65, 85, 0.2)';
+            // Add windows to buildings with better visibility in dark mode
+            ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(51, 65, 85, 0.2)';
             
-            // Draw pre-generated windows
+            // Draw windows
             const windowSize = 6;
             const windowMargin = 10;
             
             building.windows.forEach(window => {
                 const windowX = building.x + (window.col + 1) * (building.width / (Math.floor(building.width / 15) + 1)) - windowSize/2;
                 const windowY = groundLevel - building.height + windowMargin + window.row * windowMargin;
-                
                 ctx.fillRect(windowX, windowY, windowSize, windowSize);
             });
         });
+        
+        // Draw sun/moon
+        const centerX = canvas.width * 0.8;
+        const centerY = canvas.height * 0.2;
+        const size = 24; // Size of the cube
+        
+        if (isDark) {
+            // Moon - simple white square
+            ctx.fillStyle = '#e5e7eb'; // Light gray for moon
+            ctx.fillRect(centerX - size/2, centerY - size/2, size, size);
+            
+            // Simple pixel details
+            ctx.fillStyle = '#d1d5db'; // Slightly darker for details
+            ctx.fillRect(centerX - size/4, centerY - size/4, size/4, size/4);
+            ctx.fillRect(centerX + size/8, centerY + size/8, size/4, size/4);
+        } else {
+            // Sun - yellow square
+            ctx.fillStyle = '#fbbf24'; // Warm yellow for sun
+            ctx.fillRect(centerX - size/2, centerY - size/2, size, size);
+            
+            // Simple pixel details
+            ctx.fillStyle = '#fcd34d'; // Lighter yellow for details
+            ctx.fillRect(centerX - size/4, centerY - size/4, size/2, size/2);
+        }
         
         // Ground
         ctx.fillStyle = isDark ? '#64748b' : '#94a3b8';

@@ -8,65 +8,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Typed.js -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <!-- Fira Code Font -->
+    <!-- Fira Code Font (Developer Mode) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fira-code@6.2.0/distr/fira_code.css">
+    <!-- Designer Mode Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Remove focus outline */
-        *:focus {
-            outline: none !important;
-            box-shadow: none !important;
-        }
-        
-        /* Pulsating animation */
-        @keyframes pulse-ring {
-            0% {
-                transform: scale(0.8);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(1.3);
-                opacity: 0;
-            }
-        }
-        
-        .pulse::before {
-            content: '';
-            position: absolute;
-            left: -8px;
-            top: -8px;
-            right: -8px;
-            bottom: -8px;
-            border-radius: 50%;
-            background-color: #10b981; /* Green color for pulse */
-            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-            z-index: -1;
-        }
-        
-        /* Fade-in animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-400 { animation-delay: 0.4s; }
-        .delay-500 { animation-delay: 0.5s; }
-        
-        /* Game container */
-        #game-container {
-            opacity: 1;
-            display: block;
-        }
-    </style>
     <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
@@ -89,27 +38,38 @@
         }
     </script>
 </head>
-<body class="font-mono bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+<body class="font-mono bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-200">
     <!-- Header Section -->
-    <header class="fixed w-full bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50 h-[100px]">
+    <header class="fixed w-full bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-700 z-50 h-[100px] backdrop-blur-sm transition-colors duration-200">
         <div class="container mx-auto px-4 h-full flex justify-between items-center">
-            <!-- Theme toggle button moved to left -->
-            <div>
-                <button id="theme-toggle" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">
+            <!-- Toggles moved to left -->
+            <div class="flex items-center space-x-4">
+                <!-- Theme toggle button -->
+                <button id="theme-toggle" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 toggle-btn transition-colors duration-200">
                     <!-- Sun icon for dark mode -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                     <!-- Moon icon for light mode -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
                 </button>
+                
+                <!-- Mode toggle switch (Developer/Designer) -->
+                <div class="toggle-container">
+                    <span class="mode-label text-gray-800 dark:text-gray-200">Developer</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="mode-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="mode-label text-gray-800 dark:text-gray-200">Designer</span>
+                </div>
             </div>
             
             <!-- Centered name with lighter weight -->
             <div class="absolute left-1/2 transform -translate-x-1/2">
-                <h1 class="text-xl md:text-2xl font-normal text-gray-800 dark:text-gray-200 text-center">Jeremy Venegas</h1>
+                <h1 class="text-xl md:text-2xl font-normal text-gray-800 dark:text-gray-200 text-center transition-colors duration-200">Jeremy Venegas</h1>
                 <p class="text-xs md:text-sm text-secondary text-center">Developer & Designer</p>
             </div>
             
@@ -121,370 +81,379 @@
             </nav>
             
             <!-- Mobile menu button -->
-            <button id="menu-toggle" class="md:hidden rounded-md p-2 hover:bg-gray-100 dark:hover:bg-gray-800 ml-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button id="menu-toggle" class="md:hidden rounded-md p-2 hover:bg-gray-100 dark:hover:bg-gray-800 ml-auto toggle-btn transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
         </div>
         <!-- Mobile menu (hidden by default) -->
-        <div id="mobile-menu" class="md:hidden hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
-                <a href="#home" class="py-2 hover:text-primary-light dark:hover:text-primary-dark transition-colors">Home</a>
-                <a href="#experience" class="py-2 hover:text-primary-light dark:hover:text-primary-dark transition-colors">Experience</a>
-                <a href="#projects" class="py-2 hover:text-primary-light dark:hover:text-primary-dark transition-colors">Projects</a>
+        <div id="mobile-menu" class="md:hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
+            <div class="container mx-auto px-4 py-2">
+                <a href="#home" class="block py-2 text-primary hover:opacity-80 transition-colors">Home</a>
+                <a href="#experience" class="block py-2 text-primary hover:opacity-80 transition-colors">Experience</a>
+                <a href="#projects" class="block py-2 text-primary hover:opacity-80 transition-colors">Projects</a>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col lg:flex-row items-center gap-20">
-                <!-- Typewriter effect moved to left -->
-                <div class="w-full lg:w-1/2 flex items-center justify-center">
-                    <h2 class="text-2xl md:text-4xl font-bold"><span id="typed-text"></span></h2>
-                </div>
-                
-                <!-- Profile/About Column moved to right -->
-                <div class="w-full lg:w-1/2">
-                    <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
-                        <!-- Profile Image updated with day/night photos -->
-                        <div class="w-48 h-48 rounded-full overflow-hidden">
-                            <img src="/img/day_photo.jpg" class="w-full h-full object-cover dark:hidden" alt="Profile photo - day">
-                            <img src="/img/night_photo.jpeg" class="w-full h-full object-cover hidden dark:block" alt="Profile photo - night">
+    <!-- Main Content -->
+    <main class="pt-[100px]">
+        <!-- Home Section -->
+        <section id="home" class="bg-white dark:bg-gray-900 transition-colors duration-200">
+            <div class="container mx-auto px-4 py-24">
+                <div class="flex flex-col lg:flex-row items-center gap-20">
+                    <!-- Typewriter effect moved to left -->
+                    <div class="w-full lg:w-1/2 flex items-center justify-center">
+                        <h2 class="text-2xl md:text-4xl font-bold"><span id="typed-text"></span></h2>
+                    </div>
+                    
+                    <!-- Profile/About Column moved to right -->
+                    <div class="w-full lg:w-1/2">
+                        <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
+                            <!-- Profile Image updated with day/night photos -->
+                            <div class="w-48 h-48 rounded-full overflow-hidden">
+                                <img src="/img/day_photo.jpg" class="w-full h-full object-cover dark:hidden" alt="Profile photo - day">
+                                <img src="/img/night_photo.jpeg" class="w-full h-full object-cover hidden dark:block" alt="Profile photo - night">
+                            </div>
+                            
+                            <!-- Contact Info -->
+                            <div class="space-y-3">
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    <a href="mailto:jeremymvenegas@gmail.com" class="hover:text-primary-light dark:hover:text-primary-dark">jeremymvenegas@gmail.com</a>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                    <a href="https://www.linkedin.com/in/jeremyvenegas/" target="_blank" rel="noopener noreferrer" class="hover:text-primary-light dark:hover:text-primary-dark">linkedin.com/in/jeremyvenegas</a>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                    </svg>
+                                    <a href="https://github.com/jerv" target="_blank" rel="noopener noreferrer" class="hover:text-primary-light dark:hover:text-primary-dark">github.com/jerv</a>
+                                </div>
+                            </div>
                         </div>
                         
-                        <!-- Contact Info -->
-                        <div class="space-y-3">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                <a href="mailto:jeremymvenegas@gmail.com" class="hover:text-primary-light dark:hover:text-primary-dark">jeremymvenegas@gmail.com</a>
-                            </div>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                </svg>
-                                <a href="https://www.linkedin.com/in/jeremyvenegas/" target="_blank" rel="noopener noreferrer" class="hover:text-primary-light dark:hover:text-primary-dark">linkedin.com/in/jeremyvenegas</a>
-                            </div>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                                </svg>
-                                <a href="https://github.com/jerv" target="_blank" rel="noopener noreferrer" class="hover:text-primary-light dark:hover:text-primary-dark">github.com/jerv</a>
-                            </div>
+                        <!-- About Me -->
+                        <div class="mb-6">
+                            <p class="text-base md:text-lg mb-4">
+                                Developer with 7+ years in frontend and UI/UX, now focused on full-stack and AI projects. 
+                                Skilled in <span class="text-secondary">Python, Node.js, and React</span>, 
+                                with a knack for problem-solving and utilizing modern tools.
+                            </p>
+                            <p class="text-base md:text-lg">
+                                I've built web apps, designed user flows, and also do game development—always chasing clean, impactful code.
+                                Let's solve something tough together.
+                            </p>
+                        </div>
+                        
+                        <!-- Skills Tags -->
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">JavaScript</span>
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">React</span>
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Node.js</span>
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Python</span>
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">UI/UX</span>
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Frontend</span>
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Full-stack</span>
                         </div>
                     </div>
-                    
-                    <!-- About Me -->
-                    <div class="mb-6">
-                        <p class="text-base md:text-lg mb-4">
-                            Developer with 7+ years in frontend and UI/UX, now focused on full-stack and AI projects. 
-                            Skilled in <span class="text-secondary">Python, Node.js, and React</span>, 
-                            with a knack for problem-solving and utilizing modern tools.
-                        </p>
-                        <p class="text-base md:text-lg">
-                            I've built web apps, designed user flows, and also do game development—always chasing clean, impactful code.
-                            Let's solve something tough together.
-                        </p>
-                    </div>
-                    
-                    <!-- Skills Tags -->
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">JavaScript</span>
-                        <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">React</span>
-                        <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Node.js</span>
-                        <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Python</span>
-                        <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">UI/UX</span>
-                        <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Frontend</span>
-                        <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Full-stack</span>
-                    </div>
+                </div>
+                
+                <!-- Scroll Down Indicator -->
+                <div class="flex justify-center mt-12">
+                    <a href="#experience" class="animate-bounce p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                    </a>
                 </div>
             </div>
-            
-            <!-- Scroll Down Indicator -->
-            <div class="flex justify-center mt-12">
-                <a href="#experience" class="animate-bounce p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Experience Section -->
-    <section id="experience" class="py-16 bg-gray-50 dark:bg-gray-800">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-10 text-center text-primary-light dark:text-primary-dark">Experience</h2>
-            
-            <!-- Open for Work Banner -->
-            <div class="max-w-3xl mx-auto mb-12">
-                <div class="bg-white dark:bg-gray-900 rounded-lg p-6 flex items-center justify-between border-2 border-emerald-500">
+        <!-- Experience Section -->
+        <section id="experience" class="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-200">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-10 text-center text-primary">Experience</h2>
+                
+                <!-- Open for Work Banner -->
+                <div class="max-w-3xl mx-auto mb-12">
+                    <div class="bg-white dark:bg-gray-900 rounded-lg p-6 flex items-center justify-between border-2 border-emerald-500 transition-colors duration-200">
+                        <div class="flex items-center">
+                            <div class="relative">
+                                <div class="w-3 h-3 bg-emerald-500 rounded-full pulse"></div>
+                            </div>
+                            <span class="ml-6 text-lg font-bold text-emerald-500">Open for Work</span>
+                        </div>
+                        <div class="text-gray-600 dark:text-gray-400 transition-colors duration-200">
+                            Looking for new opportunities
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Experience items -->
+                <div class="max-w-3xl mx-auto space-y-8">
+                    <!-- Job 0 -->
                     <div class="flex items-center">
-                        <div class="relative">
-                            <div class="w-3 h-3 bg-emerald-500 rounded-full pulse"></div>
-                        </div>
-                        <span class="ml-6 text-lg font-bold text-emerald-500">Open for Work</span>
-                    </div>
-                    <div class="text-gray-600 dark:text-gray-400">
-                        Looking for new opportunities
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Experience items -->
-            <div class="max-w-3xl mx-auto space-y-8">
-                <!-- Job 0 -->
-                <div class="flex items-center">
-                    <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center w-full">
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Developer & Designer</h3>
-                                <div class="text-gray-600 dark:text-gray-400">
-                                    <a href="https://www.luxerone.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Self-employed</a>
+                        <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center w-full">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Developer & Designer</h3>
+                                    <div class="text-gray-600 dark:text-gray-400">
+                                        <a href="https://www.luxerone.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Self-employed</a>
+                                    </div>
                                 </div>
+                                <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">Current</span>
                             </div>
-                            <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">Current</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Job 1 -->
-                <div class="flex items-center">
-                    <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center w-full">
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Product Marketing Specialist</h3>
-                                <div class="text-gray-600 dark:text-gray-400">
-                                    <a href="https://www.luxerone.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80">Luxer One</a>
+                    <!-- Job 1 -->
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center w-full">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Product Marketing Specialist</h3>
+                                    <div class="text-gray-600 dark:text-gray-400">
+                                        <a href="https://www.luxerone.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80">Luxer One</a>
+                                    </div>
                                 </div>
+                                <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2022 - 2024</span>
                             </div>
-                            <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2022 - 2024</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Job 2 -->
-                <div class="flex items-center">
-                    <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center w-full">
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">UI UX Designer</h3>
-                                <div class="text-gray-600 dark:text-gray-400">
-                                    <a href="https://www.regroup.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80">Regroup Mass Notification</a>
+                    <!-- Job 2 -->
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center w-full">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">UI UX Designer</h3>
+                                    <div class="text-gray-600 dark:text-gray-400">
+                                        <a href="https://www.regroup.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:opacity-80">Regroup Mass Notification</a>
+                                    </div>
                                 </div>
+                                <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2019 - 2022</span>
                             </div>
-                            <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2019 - 2022</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Job 3 -->
-                <div class="flex items-center">
-                    <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center w-full">
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">UI UX Designer & Developer</h3>
-                                <div class="text-gray-600 dark:text-gray-400">Self-employed</div>
+                    <!-- Job 3 -->
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center w-full">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">UI UX Designer & Developer</h3>
+                                    <div class="text-gray-600 dark:text-gray-400">Self-employed</div>
+                                </div>
+                                <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2016 - 2022</span>
                             </div>
-                            <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2016 - 2022</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Job 4 -->
-                <div class="flex items-center">
-                    <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center w-full">
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Front End Developer</h3>
-                                <div class="text-gray-600 dark:text-gray-400">Knack Studios</div>
+                    <!-- Job 4 -->
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center w-full">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Front End Developer</h3>
+                                    <div class="text-gray-600 dark:text-gray-400">Knack Studios</div>
+                                </div>
+                                <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2015 - 2019</span>
                             </div>
-                            <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2015 - 2019</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Job 5 -->
-                <div class="flex items-center">
-                    <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center w-full">
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Front End Developer, UI UX Designer</h3>
-                                <div class="text-gray-600 dark:text-gray-400">Bixly</div>
+                    <!-- Job 5 -->
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-secondary rounded-full mr-4"></div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center w-full">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Front End Developer, UI UX Designer</h3>
+                                    <div class="text-gray-600 dark:text-gray-400">Bixly</div>
+                                </div>
+                                <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2012 - 2015</span>
                             </div>
-                            <span class="bg-secondary/20 text-secondary text-sm px-3 py-1 rounded-full">2012 - 2015</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="py-20">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-8 text-center text-primary-light dark:text-primary-dark">Projects</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project 1 -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                    <div class="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">AI-Enhanced Workflow Platform</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">A full-stack application that uses AI to optimize task management and user productivity.</p>
-                        <div class="flex space-x-2 text-sm mb-4">
-                            <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">React</span>
-                            <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">Node.js</span>
-                            <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">Python</span>
-                        </div>
-                        <a href="#" class="text-primary-light dark:text-primary-dark hover:opacity-80">View Project →</a>
-                    </div>
-                </div>
-                <!-- Project 2 -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                    <div class="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Mobile Geolocation App</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">A mobile-first application that uses geolocation to help users find nearby points of interest.</p>
-                        <div class="flex space-x-2 text-sm mb-4">
-                            <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">JavaScript</span>
-                            <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">API Integration</span>
-                            <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">Geolocation</span>
-                        </div>
-                        <a href="#" class="text-primary-light dark:text-primary-dark hover:opacity-80">View Project →</a>
-                    </div>
-                </div>
-                <!-- Project 3 -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                    <div class="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                        </svg>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">CSS Animation Library</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">A creative CSS animation library focused on smooth, nature-inspired movements for modern web interfaces.</p>
-                        <div class="flex space-x-2 text-sm mb-4">
-                            <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">CSS</span>
-                            <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">Animation</span>
-                            <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">UX</span>
-                        </div>
-                        <a href="#" class="text-primary-light dark:text-primary-dark hover:opacity-80">View Project →</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Game Section -->
-    <section id="game" class="py-20 bg-gray-50 dark:bg-gray-800">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-4 text-center text-primary-light dark:text-primary-dark">Thanks for Looking!</h2>
-            <p class="text-center max-w-2xl mx-auto mb-8 text-gray-600 dark:text-gray-400">Play Raccoon Trashcan Jumper before you go?</p>
-            
-            <div id="game-container" class="max-w-2xl mx-auto">
-                <div class="border-2 border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
-                    <div id="game-background" class="relative">
-                        <div class="sky-elements absolute inset-0 w-full h-full"></div>
-                        <canvas id="game-canvas" class="w-full h-48 md:h-64 relative z-10"></canvas>
-                        <!-- Add raccoon SVG (hidden initially) -->
-                        <div id="raccoon-svg-container" class="absolute z-20 top-0 left-0" style="display: none; pointer-events: none;">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" width="48" height="48">
-                              <!-- Frame 1: Right leg lifted, left leg down, body down -->
-                              <g id="frame1">
-                                <!-- Head -->
-                                <rect x="7" y="1" width="1" height="1" fill="#808080"/> <!-- Left ear -->
-                                <rect x="10" y="1" width="1" height="1" fill="#808080"/> <!-- Right ear -->
-                                <rect x="7" y="2" width="5" height="1" fill="#808080"/> <!-- Top of head -->
-                                <rect x="7" y="3" width="1" height="1" fill="#000000"/> <!-- Mask left -->
-                                <rect x="8" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Left eye -->
-                                <rect x="9" y="3" width="1" height="1" fill="#000000"/> <!-- Mask middle -->
-                                <rect x="10" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Right eye -->
-                                <rect x="11" y="3" width="1" height="1" fill="#000000"/> <!-- Mask right -->
-                                <rect x="7" y="4" width="5" height="1" fill="#808080"/> <!-- Middle of head -->
-                                <rect x="7" y="5" width="5" height="1" fill="#808080"/> <!-- Bottom of head -->
-                                <!-- Nose (prominent) -->
-                                <rect x="11" y="4" width="1" height="1" fill="#FF69B4"/>
-                                <!-- Body -->
-                                <rect x="5" y="6" width="6" height="4" fill="#808080"/>
-                                <!-- Arm pointing right -->
-                                <rect x="11" y="7" width="3" height="1" fill="#808080"/>
-                                <!-- Legs -->
-                                <rect x="6" y="10" width="2" height="2" fill="#808080"/> <!-- Left leg down -->
-                                <rect x="9" y="9" width="2" height="1" fill="#808080"/> <!-- Right leg lifted -->
-                                <!-- Tail -->
-                                <rect x="4" y="8" width="1" height="3" fill="#808080"/> <!-- Tail light stripe -->
-                                <rect x="3" y="8" width="1" height="3" fill="#404040"/> <!-- Tail dark stripe -->
-                              </g>
-                              
-                              <!-- Frame 2: Left leg lifted, right leg down, body up -->
-                              <g id="frame2" transform="translate(0, -1)">
-                                <!-- Head -->
-                                <rect x="7" y="1" width="1" height="1" fill="#808080"/> <!-- Left ear -->
-                                <rect x="10" y="1" width="1" height="1" fill="#808080"/> <!-- Right ear -->
-                                <rect x="7" y="2" width="5" height="1" fill="#808080"/> <!-- Top of head -->
-                                <rect x="7" y="3" width="1" height="1" fill="#000000"/> <!-- Mask left -->
-                                <rect x="8" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Left eye -->
-                                <rect x="9" y="3" width="1" height="1" fill="#000000"/> <!-- Mask middle -->
-                                <rect x="10" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Right eye -->
-                                <rect x="11" y="3" width="1" height="1" fill="#000000"/> <!-- Mask right -->
-                                <rect x="7" y="4" width="5" height="1" fill="#808080"/> <!-- Middle of head -->
-                                <rect x="7" y="5" width="5" height="1" fill="#808080"/> <!-- Bottom of head -->
-                                <!-- Nose (prominent) -->
-                                <rect x="11" y="4" width="1" height="1" fill="#FF69B4"/>
-                                <!-- Body -->
-                                <rect x="5" y="6" width="6" height="4" fill="#808080"/>
-                                <!-- Arm pointing right -->
-                                <rect x="11" y="7" width="3" height="1" fill="#808080"/>
-                                <!-- Legs -->
-                                <rect x="6" y="9" width="2" height="1" fill="#808080"/> <!-- Left leg lifted -->
-                                <rect x="9" y="10" width="2" height="2" fill="#808080"/> <!-- Right leg down -->
-                                <!-- Tail -->
-                                <rect x="4" y="8" width="1" height="3" fill="#808080"/> <!-- Tail light stripe -->
-                                <rect x="3" y="8" width="1" height="3" fill="#404040"/> <!-- Tail dark stripe -->
-                              </g>
-                              
-                              <!-- Animation -->
-                              <animate xlink:href="#frame1" attributeName="opacity" values="1;0" dur="0.5s" repeatCount="indefinite" calcMode="discrete"/>
-                              <animate xlink:href="#frame2" attributeName="opacity" values="0;1" dur="0.5s" repeatCount="indefinite" calcMode="discrete"/>
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 bg-white dark:bg-gray-900 transition-colors duration-200">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-8 text-center text-primary">Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project 1 -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200">
+                        <div class="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                         </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">AI-Enhanced Workflow Platform</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">A full-stack application that uses AI to optimize task management and user productivity.</p>
+                            <div class="flex space-x-2 text-sm mb-4">
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">React</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">Node.js</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">Python</span>
+                            </div>
+                            <a href="#" class="text-primary-light dark:text-primary-dark hover:opacity-80">View Project →</a>
+                        </div>
                     </div>
-                    <div class="p-3 bg-gray-200 dark:bg-gray-800 flex justify-between">
-                        <button id="game-start" class="bg-primary text-white py-1 px-4 rounded-md hover:opacity-90 transition-all duration-300 transform hover:scale-105">
-                            Play Game
-                        </button>
-                        <div>
-                            <span>Score: <span id="game-score">0</span></span>
-                            <span class="ml-4">High Score: <span id="game-high-score">0</span></span>
+                    <!-- Project 2 -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200">
+                        <div class="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Mobile Geolocation App</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">A mobile-first application that uses geolocation to help users find nearby points of interest.</p>
+                            <div class="flex space-x-2 text-sm mb-4">
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">JavaScript</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">API Integration</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">Geolocation</span>
+                            </div>
+                            <a href="#" class="text-primary-light dark:text-primary-dark hover:opacity-80">View Project →</a>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200">
+                        <div class="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                            </svg>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">CSS Animation Library</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">A creative CSS animation library focused on smooth, nature-inspired movements for modern web interfaces.</p>
+                            <div class="flex space-x-2 text-sm mb-4">
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">CSS</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">Animation</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded text-xs">UX</span>
+                            </div>
+                            <a href="#" class="text-primary-light dark:text-primary-dark hover:opacity-80">View Project →</a>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <p class="text-center max-w-2xl mx-auto mt-8 text-gray-600 dark:text-gray-400">Click/tap or press spacebar to jump. Try night mode for more difficulty!</p>
-        </div>
-    </section>
+        <!-- Game Section -->
+        <section id="game" class="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-200">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-4 text-center text-primary">Thanks for Looking!</h2>
+                <p class="text-center max-w-2xl mx-auto mb-8 text-gray-600 dark:text-gray-400 transition-colors duration-200">Play Raccoon Trashcan Jumper before you go?</p>
+                
+                <div id="game-container" class="max-w-2xl mx-auto">
+                    <div class="border-2 border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden transition-colors duration-200">
+                        <div id="game-background" class="relative">
+                            <div class="sky-elements absolute inset-0 w-full h-full"></div>
+                            <canvas id="game-canvas" class="w-full h-48 md:h-64 relative z-10"></canvas>
+                            <!-- Add raccoon SVG (hidden initially) -->
+                            <div id="raccoon-svg-container" class="absolute z-20 top-0 left-0" style="display: none; pointer-events: none;">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" width="48" height="48">
+                                  <!-- Frame 1: Right leg lifted, left leg down, body down -->
+                                  <g id="frame1">
+                                    <!-- Head -->
+                                    <rect x="7" y="1" width="1" height="1" fill="#808080"/> <!-- Left ear -->
+                                    <rect x="10" y="1" width="1" height="1" fill="#808080"/> <!-- Right ear -->
+                                    <rect x="7" y="2" width="5" height="1" fill="#808080"/> <!-- Top of head -->
+                                    <rect x="7" y="3" width="1" height="1" fill="#000000"/> <!-- Mask left -->
+                                    <rect x="8" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Left eye -->
+                                    <rect x="9" y="3" width="1" height="1" fill="#000000"/> <!-- Mask middle -->
+                                    <rect x="10" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Right eye -->
+                                    <rect x="11" y="3" width="1" height="1" fill="#000000"/> <!-- Mask right -->
+                                    <rect x="7" y="4" width="5" height="1" fill="#808080"/> <!-- Middle of head -->
+                                    <rect x="7" y="5" width="5" height="1" fill="#808080"/> <!-- Bottom of head -->
+                                    <!-- Nose (prominent) -->
+                                    <rect x="11" y="4" width="1" height="1" fill="#FF69B4"/>
+                                    <!-- Body -->
+                                    <rect x="5" y="6" width="6" height="4" fill="#808080"/>
+                                    <!-- Arm pointing right -->
+                                    <rect x="11" y="7" width="3" height="1" fill="#808080"/>
+                                    <!-- Legs -->
+                                    <rect x="6" y="10" width="2" height="2" fill="#808080"/> <!-- Left leg down -->
+                                    <rect x="9" y="9" width="2" height="1" fill="#808080"/> <!-- Right leg lifted -->
+                                    <!-- Tail -->
+                                    <rect x="4" y="8" width="1" height="3" fill="#808080"/> <!-- Tail light stripe -->
+                                    <rect x="3" y="8" width="1" height="3" fill="#404040"/> <!-- Tail dark stripe -->
+                                  </g>
+                                  
+                                  <!-- Frame 2: Left leg lifted, right leg down, body up -->
+                                  <g id="frame2" transform="translate(0, -1)">
+                                    <!-- Head -->
+                                    <rect x="7" y="1" width="1" height="1" fill="#808080"/> <!-- Left ear -->
+                                    <rect x="10" y="1" width="1" height="1" fill="#808080"/> <!-- Right ear -->
+                                    <rect x="7" y="2" width="5" height="1" fill="#808080"/> <!-- Top of head -->
+                                    <rect x="7" y="3" width="1" height="1" fill="#000000"/> <!-- Mask left -->
+                                    <rect x="8" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Left eye -->
+                                    <rect x="9" y="3" width="1" height="1" fill="#000000"/> <!-- Mask middle -->
+                                    <rect x="10" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Right eye -->
+                                    <rect x="11" y="3" width="1" height="1" fill="#000000"/> <!-- Mask right -->
+                                    <rect x="7" y="4" width="5" height="1" fill="#808080"/> <!-- Middle of head -->
+                                    <rect x="7" y="5" width="5" height="1" fill="#808080"/> <!-- Bottom of head -->
+                                    <!-- Nose (prominent) -->
+                                    <rect x="11" y="4" width="1" height="1" fill="#FF69B4"/>
+                                    <!-- Body -->
+                                    <rect x="5" y="6" width="6" height="4" fill="#808080"/>
+                                    <!-- Arm pointing right -->
+                                    <rect x="11" y="7" width="3" height="1" fill="#808080"/>
+                                    <!-- Legs -->
+                                    <rect x="6" y="9" width="2" height="1" fill="#808080"/> <!-- Left leg lifted -->
+                                    <rect x="9" y="10" width="2" height="2" fill="#808080"/> <!-- Right leg down -->
+                                    <!-- Tail -->
+                                    <rect x="4" y="8" width="1" height="3" fill="#808080"/> <!-- Tail light stripe -->
+                                    <rect x="3" y="8" width="1" height="3" fill="#404040"/> <!-- Tail dark stripe -->
+                                  </g>
+                                  
+                                  <!-- Animation -->
+                                  <animate xlink:href="#frame1" attributeName="opacity" values="1;0" dur="0.5s" repeatCount="indefinite" calcMode="discrete"/>
+                                  <animate xlink:href="#frame2" attributeName="opacity" values="0;1" dur="0.5s" repeatCount="indefinite" calcMode="discrete"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-gray-200 dark:bg-gray-800 flex justify-between items-center">
+                            <button id="game-start" class="bg-primary text-white py-2 px-6 rounded-md hover:opacity-90 transition-all duration-300 transform hover:scale-105 w-36 text-center font-medium">
+                                Play Game
+                            </button>
+                            <div class="flex items-center space-x-8">
+                                <div class="flex items-center">
+                                    <span class="mr-2 text-sm">Score:</span>
+                                    <span id="game-score" class="font-medium min-w-[32px] text-center">0</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="mr-2 text-sm">High Score:</span>
+                                    <span id="game-high-score" class="font-medium min-w-[32px] text-center">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-center max-w-2xl mx-auto mt-8 text-gray-600 dark:text-gray-400">Click/tap or press spacebar to jump. Try night mode for more difficulty!</p>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer with contact info and back to top link -->
-    <footer class="py-8 border-t border-gray-200 dark:border-gray-700">
+    <footer class="py-8 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-colors duration-200">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
@@ -504,7 +473,7 @@
                     </a>
                     <a href="https://github.com/jerv" target="_blank" rel="noopener noreferrer" class="text-sm text-primary hover:opacity-80 flex items-center">
                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.688.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
                         </svg>
                         <span class="ml-2">GitHub</span>
                     </a>
