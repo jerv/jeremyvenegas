@@ -663,7 +663,14 @@ function initGame() {
         raccoon.velocityY = 0;
         scoreDisplay.textContent = score;
         highScoreDisplay.textContent = highScore;
-        gameStartBtn.textContent = 'Reset Game';
+        
+        // Update button text and icon
+        document.getElementById('game-button-text').textContent = 'Reset Game';
+        
+        // Hide play icon, show reset icon
+        document.querySelector('.play-icon').classList.add('hidden');
+        document.querySelector('.try-again-icon').classList.add('hidden');
+        document.querySelector('.reset-icon').classList.remove('hidden');
         
         // Start game loop
         lastObstacleTime = performance.now();
@@ -673,7 +680,14 @@ function initGame() {
     function resetGame() {
         cancelAnimationFrame(animationId);
         gameActive = false;
-        gameStartBtn.textContent = 'Start Game';
+        
+        // Update button text and icon
+        document.getElementById('game-button-text').textContent = 'Play Game';
+        
+        // Show play icon, hide other icons
+        document.querySelector('.play-icon').classList.remove('hidden');
+        document.querySelector('.try-again-icon').classList.add('hidden');
+        document.querySelector('.reset-icon').classList.add('hidden');
         
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -686,7 +700,14 @@ function initGame() {
     
     function gameOver() {
         gameActive = false;
-        gameStartBtn.textContent = 'Try Again';
+        
+        // Update button text and icon
+        document.getElementById('game-button-text').textContent = 'Try Again';
+        
+        // Show try again icon, hide other icons
+        document.querySelector('.play-icon').classList.add('hidden');
+        document.querySelector('.try-again-icon').classList.remove('hidden');
+        document.querySelector('.reset-icon').classList.add('hidden');
         
         // Hide the SVG raccoon
         if (raccoonSvgContainer) {
@@ -919,7 +940,9 @@ function initResumeDownload() {
 function generateResume() {
     // Show loading state
     const downloadButton = document.getElementById('download-resume');
-    const originalText = downloadButton.innerHTML;
+    const originalButtonContent = downloadButton.innerHTML;
+    
+    // Set button to loading state
     downloadButton.innerHTML = `
         <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -932,7 +955,7 @@ function generateResume() {
     // Check if libraries are loaded
     if (typeof jspdf === 'undefined' || !jspdf.jsPDF) {
         console.error('jsPDF library not loaded properly');
-        downloadButton.innerHTML = originalText;
+        downloadButton.innerHTML = originalButtonContent;
         downloadButton.disabled = false;
         alert('PDF generation library not loaded. Please refresh the page and try again.');
         return;
@@ -940,7 +963,7 @@ function generateResume() {
 
     if (typeof html2canvas === 'undefined') {
         console.error('html2canvas library not loaded properly');
-        downloadButton.innerHTML = originalText;
+        downloadButton.innerHTML = originalButtonContent;
         downloadButton.disabled = false;
         alert('PDF generation library not loaded. Please refresh the page and try again.');
         return;
@@ -952,8 +975,9 @@ function generateResume() {
         resumeContainer.id = 'resume-container';
         resumeContainer.style.position = 'absolute';
         resumeContainer.style.left = '-9999px';
-        resumeContainer.style.width = '800px'; // PDF width
+        resumeContainer.style.width = '750px'; // Slightly reduced width
         resumeContainer.style.backgroundColor = '#ffffff'; // Ensure white background
+        resumeContainer.style.fontFamily = "'Inter', sans-serif"; // Set font directly
         document.body.appendChild(resumeContainer);
 
         // Get data from the website
@@ -1030,43 +1054,47 @@ function generateResume() {
             });
         }
         
-        // Get bio text
-        const bioText = Array.from(document.querySelectorAll('#home p.text-base, #home p.text-lg')).map(p => p.textContent.trim()).join(' ');
+        // Get bio text - limit length to reduce file size
+        const bioText = Array.from(document.querySelectorAll('#home p.text-base, #home p.text-lg'))
+            .map(p => p.textContent.trim())
+            .join(' ')
+            .substring(0, 500) + (Array.from(document.querySelectorAll('#home p.text-base, #home p.text-lg')).map(p => p.textContent.trim()).join(' ').length > 500 ? '...' : '');
         
-        // Get experience items
-        const experienceItems = Array.from(document.querySelectorAll('#experience .space-y-8 > div')).map(item => {
-            const title = item.querySelector('h3')?.textContent.trim() || '';
-            const companyElement = item.querySelector('h3 + div');
-            const company = companyElement ? companyElement.textContent.trim() : '';
-            const durationElement = item.querySelector('.whitespace-nowrap');
-            const duration = durationElement ? durationElement.textContent.trim() : '';
-            return { title, company, duration };
-        }).filter(item => item.title && item.company); // Filter out any incomplete items
+        // Get experience items - include all jobs
+        const experienceItems = Array.from(document.querySelectorAll('#experience .space-y-8 > div'))
+            .map(item => {
+                const title = item.querySelector('h3')?.textContent.trim() || '';
+                const companyElement = item.querySelector('h3 + div');
+                const company = companyElement ? companyElement.textContent.trim() : '';
+                const durationElement = item.querySelector('.whitespace-nowrap');
+                const duration = durationElement ? durationElement.textContent.trim() : '';
+                return { title, company, duration };
+            }).filter(item => item.title && item.company); // Filter out any incomplete items
 
-        // Build the resume HTML with improved styling
+        // Build the resume HTML with optimized styling for smaller file size
         resumeContainer.innerHTML = `
-            <div style="font-family: 'Inter', sans-serif; color: #1f2937; padding: 40px; box-sizing: border-box; background-color: #ffffff;">
+            <div style="color:#1f2937;padding:30px;box-sizing:border-box;background-color:#fff;">
                 <!-- Header -->
-                <div style="margin-bottom: 35px; border-bottom: 2px solid #ec4899; padding-bottom: 20px;">
-                    <h1 style="font-size: 28px; margin: 0 0 5px 0; color: #1f2937;">${name}</h1>
-                    <p style="font-size: 18px; margin: 0; color: #38bdf8;">${title}</p>
+                <div style="margin-bottom:25px;border-bottom:2px solid #ec4899;padding-bottom:15px;">
+                    <h1 style="font-size:24px;margin:0 0 4px 0;color:#1f2937;">${name}</h1>
+                    <p style="font-size:16px;margin:0;color:#38bdf8;">${title}</p>
                 </div>
                 
                 <!-- Two-column layout for Contact and About Me -->
-                <div style="display: flex; gap: 40px; margin-bottom: 35px;">
+                <div style="display:flex;gap:30px;margin-bottom:25px;">
                     <!-- Left column - Contact -->
-                    <div style="flex: 1;">
-                        <h2 style="font-size: 18px; margin: 0 0 14px 0; color: #ec4899;">Contact</h2>
-                        <div style="border-top: 1px solid #e5e7eb; padding-top: 14px; margin-bottom: 20px;">
-                            <ul style="list-style: none; padding: 0; margin: 0;">
+                    <div style="flex:1;">
+                        <h2 style="font-size:16px;margin:0 0 10px 0;color:#ec4899;">Contact</h2>
+                        <div style="border-top:1px solid #e5e7eb;padding-top:10px;margin-bottom:15px;">
+                            <ul style="list-style:none;padding:0;margin:0;">
                                 ${contactLinks.map(link => `
-                                    <li style="margin-bottom: 12px;">
+                                    <li style="margin-bottom:10px;">
                                         ${link.href 
-                                            ? `<a href="${link.href}" style="color: #4b5563; text-decoration: none; display: flex; align-items: center;">`
-                                            : `<span style="color: #4b5563; display: flex; align-items: center;">`
+                                            ? `<a href="${link.href}" style="color:#4b5563;text-decoration:none;display:flex;align-items:center;">`
+                                            : `<span style="color:#4b5563;display:flex;align-items:center;">`
                                         }
-                                            <span style="margin-right: 10px; font-size: 18px; min-width: 24px; text-align: center;">${link.icon}</span>
-                                            <span style="font-size: 14px;">${link.text}</span>
+                                            <span style="margin-right:8px;font-size:16px;min-width:20px;text-align:center;">${link.icon}</span>
+                                            <span style="font-size:13px;">${link.text}</span>
                                         ${link.href ? `</a>` : `</span>`}
                                     </li>
                                 `).join('')}
@@ -1075,24 +1103,24 @@ function generateResume() {
                     </div>
                     
                     <!-- Right column - About Me -->
-                    <div style="flex: 1.5;">
-                        <h2 style="font-size: 18px; margin: 0 0 14px 0; color: #ec4899;">About Me</h2>
-                        <div style="border-top: 1px solid #e5e7eb; padding-top: 14px;">
-                            <p style="margin: 0; color: #4b5563; line-height: 1.6; font-size: 15px;">${bioText}</p>
+                    <div style="flex:1.5;">
+                        <h2 style="font-size:16px;margin:0 0 10px 0;color:#ec4899;">About Me</h2>
+                        <div style="border-top:1px solid #e5e7eb;padding-top:10px;">
+                            <p style="margin:0;color:#4b5563;line-height:1.5;font-size:13px;">${bioText}</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Professional Experience (full width) -->
                 <div>
-                    <h2 style="font-size: 18px; margin: 0 0 14px 0; color: #ec4899;">Professional Experience</h2>
-                    <div style="border-top: 1px solid #e5e7eb; padding-top: 14px;">
+                    <h2 style="font-size:16px;margin:0 0 10px 0;color:#ec4899;">Professional Experience</h2>
+                    <div style="border-top:1px solid #e5e7eb;padding-top:10px;">
                         ${experienceItems.map(exp => `
-                            <div style="margin-bottom: 22px; padding-bottom: 15px; border-bottom: 1px solid #f3f4f6;">
-                                <h3 style="font-size: 17px; margin: 0 0 6px 0; color: #1f2937;">${exp.title}</h3>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                    <p style="margin: 0; color: #4b5563; font-weight: 500; font-size: 15px;">${exp.company}</p>
-                                    <p style="margin: 0; color: #6b7280; font-size: 14px;">${exp.duration}</p>
+                            <div style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #f3f4f6;">
+                                <h3 style="font-size:14px;margin:0 0 3px 0;color:#1f2937;">${exp.title}</h3>
+                                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                                    <p style="margin:0;color:#4b5563;font-weight:500;font-size:12px;">${exp.company}</p>
+                                    <p style="margin:0;color:#6b7280;font-size:11px;">${exp.duration}</p>
                                 </div>
                             </div>
                         `).join('')}
@@ -1100,8 +1128,8 @@ function generateResume() {
                 </div>
                 
                 <!-- Footer -->
-                <div style="margin-top: 40px; border-top: 1px solid #e5e7eb; padding-top: 20px; text-align: center; color: #6b7280; font-size: 12px;">
-                    <p style="margin: 0;">This resume was automatically generated from my personal website: <a href="https://jeremyvenegas.com" style="color: #38bdf8; text-decoration: none;">jeremyvenegas.com</a></p>
+                <div style="margin-top:30px;border-top:1px solid #e5e7eb;padding-top:15px;text-align:center;color:#6b7280;font-size:11px;">
+                    <p style="margin:0;">Resume generated from: <a href="https://jeremyvenegas.com" style="color:#38bdf8;text-decoration:none;">jeremyvenegas.com</a></p>
                 </div>
             </div>
         `;
@@ -1109,19 +1137,29 @@ function generateResume() {
         // Use html2canvas and jsPDF to generate the PDF
         setTimeout(() => {
             html2canvas(resumeContainer, {
-                scale: 2, // Higher scale for better quality
+                scale: 1.5, // Reduced scale for smaller file size while maintaining readability
                 useCORS: true,
                 logging: false,
-                backgroundColor: '#ffffff'
+                backgroundColor: '#ffffff',
+                imageTimeout: 0, // No timeout for image loading
+                onclone: function(clonedDoc) {
+                    // Optimize any images in the cloned document if needed
+                    const images = clonedDoc.querySelectorAll('img');
+                    images.forEach(img => {
+                        img.style.imageRendering = 'optimizeSpeed';
+                    });
+                }
             }).then(canvas => {
                 try {
-                    const imgData = canvas.toDataURL('image/png');
+                    // Optimize the canvas image quality for smaller file size
+                    const imgData = canvas.toDataURL('image/jpeg', 0.8); // Use JPEG with 80% quality instead of PNG
                     
-                    // Create PDF document
+                    // Create PDF document with compression
                     const pdf = new jspdf.jsPDF({
                         orientation: 'portrait',
                         unit: 'mm',
-                        format: 'a4'
+                        format: 'a4',
+                        compress: true // Enable compression
                     });
                     
                     // Calculate dimensions
@@ -1133,32 +1171,49 @@ function generateResume() {
                     const imgX = (pdfWidth - imgWidth * ratio) / 2;
                     const imgY = 0;
                     
-                    // Add image to PDF
-                    pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                    // Add image to PDF with compression
+                    pdf.addImage(imgData, 'JPEG', imgX, imgY, imgWidth * ratio, imgHeight * ratio, undefined, 'FAST');
                     
-                    // Save the PDF
-                    pdf.save('Jeremy_Venegas_Resume.pdf');
+                    // Set PDF metadata with minimal info to reduce size
+                    pdf.setProperties({
+                        title: 'Jeremy Venegas Resume',
+                        subject: 'Resume',
+                        creator: 'Resume Generator'
+                    });
+                    
+                    // Optimize PDF for web viewing
+                    pdf.setLanguage('en-US');
+                    
+                    // Save the PDF with compression
+                    const pdfOutput = pdf.output('arraybuffer');
+                    const blob = new Blob([pdfOutput], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Jeremy_Venegas_Resume.pdf';
+                    a.click();
+                    URL.revokeObjectURL(url);
                     
                     // Clean up
                     document.body.removeChild(resumeContainer);
-                    downloadButton.innerHTML = originalText;
+                    downloadButton.innerHTML = originalButtonContent;
                     downloadButton.disabled = false;
                 } catch (err) {
                     console.error('Error creating PDF:', err);
-                    downloadButton.innerHTML = originalText;
+                    downloadButton.innerHTML = originalButtonContent;
                     downloadButton.disabled = false;
                     alert('There was an error creating your resume PDF. Please try again.');
                 }
             }).catch(err => {
                 console.error('Error generating canvas:', err);
-                downloadButton.innerHTML = originalText;
+                downloadButton.innerHTML = originalButtonContent;
                 downloadButton.disabled = false;
                 alert('There was an error generating your resume. Please try again.');
             });
         }, 500);
     } catch (error) {
         console.error('Error preparing resume data:', error);
-        downloadButton.innerHTML = originalText;
+        downloadButton.innerHTML = originalButtonContent;
         downloadButton.disabled = false;
         alert('There was an error preparing your resume data. Please try again.');
     }
