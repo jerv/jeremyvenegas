@@ -43,12 +43,11 @@ function initThemeToggle() {
     const themeToggleBtn = document.getElementById('theme-toggle');
     if (!themeToggleBtn) return;
     
-    // Check for saved theme preference or use device preference
+    // Check for saved theme preference, otherwise use light mode as default
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
-    // Apply the appropriate theme
-    const shouldUseDarkTheme = savedTheme === 'dark' || (!savedTheme && prefersDark);
+    // Apply the appropriate theme - default to light mode
+    const shouldUseDarkTheme = savedTheme === 'dark';
     if (shouldUseDarkTheme) {
         document.documentElement.classList.add('dark');
     } else {
