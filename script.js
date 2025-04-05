@@ -703,10 +703,10 @@ function initGame() {
         // Update button text and icon
         document.getElementById('game-button-text').textContent = 'Try Again';
         
-        // Show try again icon, hide other icons
+        // Show reset icon instead of try again icon, hide play icon
         document.querySelector('.play-icon').classList.add('hidden');
-        document.querySelector('.try-again-icon').classList.remove('hidden');
-        document.querySelector('.reset-icon').classList.add('hidden');
+        document.querySelector('.try-again-icon').classList.add('hidden');
+        document.querySelector('.reset-icon').classList.remove('hidden');
         
         // Hide the SVG raccoon
         if (raccoonSvgContainer) {
@@ -983,17 +983,16 @@ function generateResume() {
         const name = document.querySelector('header h1').textContent.trim();
         const title = document.querySelector('header p').textContent.trim();
         
-        // Get contact info including phone and location
+        // Get contact info including phone, email, website and location
         const contactLinks = [];
         
-        // Phone - get from hidden element (listed first)
+        // Phone - get from hidden element
         const phoneElement = document.getElementById('phone-for-pdf');
         if (phoneElement) {
             contactLinks.push({
                 text: phoneElement.textContent.trim(),
                 href: phoneElement.getAttribute('href'),
-                type: 'phone',
-                icon: '📱' // Phone icon
+                type: 'phone'
             });
         }
         
@@ -1003,20 +1002,7 @@ function generateResume() {
             contactLinks.push({
                 text: emailElement.textContent.trim(),
                 href: emailElement.getAttribute('href'),
-                type: 'email',
-                icon: '✉️' // Email icon
-            });
-        }
-        
-        // Location
-        const locationElement = document.querySelector('.space-y-2 svg[d*="M17.657 16.657"], .space-y-3 svg[d*="M17.657 16.657"]');
-        if (locationElement) {
-            const locationText = locationElement.closest('div').querySelector('span').textContent.trim();
-            contactLinks.push({
-                text: locationText,
-                href: null,
-                type: 'location',
-                icon: '📍' // Location icon
+                type: 'email'
             });
         }
         
@@ -1026,38 +1012,12 @@ function generateResume() {
             contactLinks.push({
                 text: websiteElement.textContent.trim(),
                 href: websiteElement.getAttribute('href'),
-                type: 'website',
-                icon: '🌐' // Website icon
+                type: 'website'
             });
         }
         
-        // LinkedIn
-        const linkedinElement = document.querySelector('a[href*="linkedin.com"]');
-        if (linkedinElement) {
-            contactLinks.push({
-                text: linkedinElement.textContent.trim(),
-                href: linkedinElement.getAttribute('href'),
-                type: 'linkedin',
-                icon: '🔗' // LinkedIn icon
-            });
-        }
-        
-        // GitHub
-        const githubElement = document.querySelector('a[href*="github.com"]');
-        if (githubElement) {
-            contactLinks.push({
-                text: githubElement.textContent.trim(),
-                href: githubElement.getAttribute('href'),
-                type: 'github',
-                icon: '💻' // GitHub icon
-            });
-        }
-        
-        // Get bio text - limit length to reduce file size
-        const bioText = Array.from(document.querySelectorAll('#home p.text-base, #home p.text-lg'))
-            .map(p => p.textContent.trim())
-            .join(' ')
-            .substring(0, 500) + (Array.from(document.querySelectorAll('#home p.text-base, #home p.text-lg')).map(p => p.textContent.trim()).join(' ').length > 500 ? '...' : '');
+        // Location - set directly 
+        const locationText = "Los Angeles, CA";
         
         // Get experience items - include all jobs
         const experienceItems = Array.from(document.querySelectorAll('#experience .space-y-8 > div'))
@@ -1070,65 +1030,44 @@ function generateResume() {
                 return { title, company, duration };
             }).filter(item => item.title && item.company); // Filter out any incomplete items
 
-        // Build the resume HTML with optimized styling for smaller file size
+        // Build the resume HTML with grayscale styling and contacts in header
         resumeContainer.innerHTML = `
-            <div style="color:#1f2937;padding:30px;box-sizing:border-box;background-color:#fff;">
-                <!-- Header -->
-                <div style="margin-bottom:25px;border-bottom:2px solid #ec4899;padding-bottom:15px;">
-                    <h1 style="font-size:24px;margin:0 0 4px 0;color:#1f2937;">${name}</h1>
-                    <p style="font-size:16px;margin:0;color:#38bdf8;">${title}</p>
-                </div>
-                
-                <!-- Two-column layout for Contact and About Me -->
-                <div style="display:flex;gap:30px;margin-bottom:25px;">
-                    <!-- Left column - Contact -->
-                    <div style="flex:1;">
-                        <h2 style="font-size:16px;margin:0 0 10px 0;color:#ec4899;">Contact</h2>
-                        <div style="border-top:1px solid #e5e7eb;padding-top:10px;margin-bottom:15px;">
-                            <ul style="list-style:none;padding:0;margin:0;">
-                                ${contactLinks.map(link => `
-                                    <li style="margin-bottom:10px;">
-                                        ${link.href 
-                                            ? `<a href="${link.href}" style="color:#4b5563;text-decoration:none;display:flex;align-items:center;">`
-                                            : `<span style="color:#4b5563;display:flex;align-items:center;">`
-                                        }
-                                            <span style="margin-right:8px;font-size:16px;min-width:20px;text-align:center;">${link.icon}</span>
-                                            <span style="font-size:13px;">${link.text}</span>
-                                        ${link.href ? `</a>` : `</span>`}
-                                    </li>
-                                `).join('')}
-                            </ul>
+            <div style="color:#333333;padding:30px;box-sizing:border-box;background-color:#fff;">
+                <!-- Header with integrated contact info -->
+                <div style="margin-bottom:25px;border-bottom:1px solid #666666;padding-bottom:15px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                        <div>
+                            <h1 style="font-size:24px;margin:0 0 4px 0;color:#333333;">${name}</h1>
+                            <p style="font-size:16px;margin:0 0 8px 0;color:#555555;">${title}</p>
+                            <p style="font-size:13px;margin:0;color:#666666;">${locationText}</p>
                         </div>
-                    </div>
-                    
-                    <!-- Right column - About Me -->
-                    <div style="flex:1.5;">
-                        <h2 style="font-size:16px;margin:0 0 10px 0;color:#ec4899;">About Me</h2>
-                        <div style="border-top:1px solid #e5e7eb;padding-top:10px;">
-                            <p style="margin:0;color:#4b5563;line-height:1.5;font-size:13px;">${bioText}</p>
+                        <div style="text-align:right;">
+                            ${contactLinks.map(link => `
+                                <div style="margin-bottom:4px;">
+                                    ${link.href 
+                                        ? `<a href="${link.href}" style="color:#555555;text-decoration:none;font-size:13px;">${link.text}</a>`
+                                        : `<span style="color:#555555;font-size:13px;">${link.text}</span>`
+                                    }
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
                 </div>
                 
-                <!-- Professional Experience (full width) -->
+                <!-- Professional Experience (full width) - now first section -->
                 <div>
-                    <h2 style="font-size:16px;margin:0 0 10px 0;color:#ec4899;">Professional Experience</h2>
-                    <div style="border-top:1px solid #e5e7eb;padding-top:10px;">
+                    <h2 style="font-size:16px;margin:0 0 10px 0;color:#444444;">Professional Experience</h2>
+                    <div style="border-top:1px solid #dddddd;padding-top:10px;">
                         ${experienceItems.map(exp => `
-                            <div style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #f3f4f6;">
-                                <h3 style="font-size:14px;margin:0 0 3px 0;color:#1f2937;">${exp.title}</h3>
+                            <div style="margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid #eeeeee;">
+                                <h3 style="font-size:14px;margin:0 0 3px 0;color:#333333;">${exp.title}</h3>
                                 <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                                    <p style="margin:0;color:#4b5563;font-weight:500;font-size:12px;">${exp.company}</p>
-                                    <p style="margin:0;color:#6b7280;font-size:11px;">${exp.duration}</p>
+                                    <p style="margin:0;color:#555555;font-weight:500;font-size:12px;">${exp.company}</p>
+                                    <p style="margin:0;color:#666666;font-size:11px;">${exp.duration}</p>
                                 </div>
                             </div>
                         `).join('')}
                     </div>
-                </div>
-                
-                <!-- Footer -->
-                <div style="margin-top:30px;border-top:1px solid #e5e7eb;padding-top:15px;text-align:center;color:#6b7280;font-size:11px;">
-                    <p style="margin:0;">Resume generated from: <a href="https://jeremyvenegas.com" style="color:#38bdf8;text-decoration:none;">jeremyvenegas.com</a></p>
                 </div>
             </div>
         `;
