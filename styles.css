@@ -941,23 +941,6 @@ a:focus, button:focus {
     transition: all 0.3s ease;
 }
 
-/* Resume download button */
-#download-resume {
-    /* Styles now handled by .action-button */
-}
-
-#download-resume:hover {
-    /* Styles now handled by .action-button:hover */
-}
-
-#download-resume:active {
-    /* Styles now handled by .action-button:active */
-}
-
-#download-resume:disabled {
-    /* Styles now handled by .action-button:disabled */
-}
-
 /* Loading animation */
 @keyframes spin {
     from {
@@ -970,42 +953,6 @@ a:focus, button:focus {
 
 .animate-spin {
     animation: spin 1s linear infinite;
-}
-
-/* Designer mode styles for resume button */
-.designer-mode #download-resume {
-    background-color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-    color: white;
-    font-family: var(--heading-font, 'Plus Jakarta Sans', sans-serif);
-    letter-spacing: -0.01em;
-    transition: all 0.3s ease;
-}
-
-.designer-mode #download-resume:hover {
-    background-color: #d03a86; /* Darker shade of primary color */
-    border-color: #d03a86;
-    color: white;
-}
-
-.designer-mode #download-resume svg {
-    transition: transform 0.3s ease;
-}
-
-.designer-mode #download-resume:hover svg {
-    transform: translateY(-2px);
-}
-
-#download-resume.designer-mode-active {
-    background-color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-    color: white;
-}
-
-#download-resume.designer-mode-active:hover {
-    background-color: #d03a86; /* Darker shade of primary color */
-    border-color: #d03a86;
-    color: white;
 }
 
 /* Transition theme */
@@ -1087,7 +1034,6 @@ a,
 svg,
 .action-button,
 .action-button svg,
-#download-resume,
 #game-start,
 header,
 section,

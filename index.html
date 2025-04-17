@@ -115,8 +115,8 @@
                         <div class="flex flex-row gap-4 md:gap-8 items-center mb-6 md:mb-8">
                             <!-- Profile Image updated with day/night photos -->
                             <div class="w-24 h-24 md:w-48 md:h-48 rounded-full overflow-hidden flex-shrink-0">
-                                <img src="/img/day_photo.jpg" class="w-full h-full object-cover dark:hidden" alt="Profile photo - day">
-                                <img src="/img/night_photo.jpeg" class="w-full h-full object-cover hidden dark:block" alt="Profile photo - night">
+                                <img src="img/day_photo.jpg" class="w-full h-full object-cover dark:hidden" alt="Profile photo - day">
+                                <img src="img/night_photo.jpeg" class="w-full h-full object-cover hidden dark:block" alt="Profile photo - night">
                             </div>
                             
                             <!-- Contact Info -->
@@ -127,20 +127,12 @@
                                     </svg>
                                     <a href="mailto:jeremymvenegas@gmail.com" class="hover:text-primary-light dark:hover:text-primary-dark text-sm md:text-base">jeremymvenegas@gmail.com</a>
                                 </div>
-                                <!-- Phone number hidden on website but available in DOM for PDF generation -->
-                                <div class="hidden">
-                                    <a href="tel:+15595380167" id="phone-for-pdf">(559) 538-0167</a>
-                                </div>
                                 <div class="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                                     <span class="text-sm md:text-base">Los Angeles, CA</span>
-                                </div>
-                                <!-- Website URL hidden on website but available in DOM for PDF generation -->
-                                <div class="hidden">
-                                    <a href="https://jeremyvenegas.com" id="website-for-pdf">jeremyvenegas.com</a>
                                 </div>
                                 <div class="flex items-center">
                                     <svg class="h-5 w-5 mr-3 text-primary" fill="currentColor" viewBox="0 0 24 24">
@@ -164,21 +156,15 @@
                                 Skilled in <span class="text-secondary">Python, Node.js, and React</span>, 
                                 with a knack for problem-solving and utilizing modern tools.
                             </p>
-                            <p class="text-base md:text-lg">
-                                I've built web apps, designed user flows, and also do game development—always chasing clean, impactful code.
-                                Let's solve something tough together.
-                            </p>
                         </div>
                         
                         <!-- Skills Tags -->
                         <div class="flex flex-wrap gap-2 mb-4 md:mb-6">
                             <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">JavaScript</span>
                             <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">React</span>
-                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Node.js</span>
                             <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Python</span>
                             <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">UI/UX</span>
                             <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Frontend</span>
-                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Full-stack</span>
                         </div>
                     </div>
                 </div>
@@ -215,116 +201,141 @@
                 </div>
                 
                 <!-- Experience items -->
-                <div class="max-w-4xl mx-auto space-y-8">
-                    <!-- Current Job -->
-                    <div class="flex items-start">
-                        <div class="w-2 h-2 bg-secondary rounded-full mr-4 mt-3"></div>
-                        <div class="flex-grow">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-2">
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Developer & Designer</h3>
-                                    <div class="text-gray-600 dark:text-gray-400">Self-employed</div>
-                                </div>
-                                <div class="text-gray-600 dark:text-gray-400 text-right whitespace-nowrap">
-                                    <span class="font-bold">Current</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                <div class="max-w-4xl mx-auto space-y-12">
                     <!-- Luxer One -->
-                    <div class="flex items-start">
-                        <div class="w-2 h-2 bg-secondary rounded-full mr-4 mt-3"></div>
-                        <div class="flex-grow">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-2">
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Product Marketing Specialist</h3>
-                                    <div class="text-gray-600 dark:text-gray-400">
-                                        <a href="https://www.luxerone.com/" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:opacity-80">Luxer One</a>
-                                    </div>
-                                </div>
-                                <div class="text-gray-600 dark:text-gray-400 text-right whitespace-nowrap">
-                                    <span class="font-bold">Aug 2022 - Nov 2024</span> · 2 years, 3 months
-                                </div>
+                    <div>
+                        <div class="flex items-start mb-4">
+                            <div class="w-10 h-10 bg-white dark:bg-gray-800 rounded-md flex-shrink-0 flex items-center justify-center mr-4 overflow-hidden">
+                                <img src="img/luxer_one_logo.jpeg" alt="Luxer One logo" class="w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Luxer One</h3>
+                                <div class="text-gray-600 dark:text-gray-400 text-sm">2 years 4 months</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product Marketing & Design Manager -->
+                        <div class="ml-14 mb-6">
+                            <h4 class="text-base font-bold text-gray-800 dark:text-gray-200">Product Marketing & Design Manager</h4>
+                            <div class="text-gray-600 dark:text-gray-400 text-sm mb-1">Apr 2024 - Nov 2024</div>
+                            <div class="text-gray-600 dark:text-gray-400 text-xs">
+                                <p>Managed and designed the company's product roadmap.</p>
+                                <p>Designed and distributed creative assets for the Product, Marketing, and Sales teams.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Product Marketing Specialist -->
+                        <div class="ml-14">
+                            <h4 class="text-base font-bold text-gray-800 dark:text-gray-200">Product Marketing Specialist</h4>
+                            <div class="text-gray-600 dark:text-gray-400 text-sm mb-1">Aug 2022 - Mar 2024</div>
+                            <div class="text-gray-600 dark:text-gray-400 text-xs">
+                                <p>Translated product value to the sales & marketing departments.</p>
+                                <p>Implemented and operated new internal communications systems to share product release updates with the rest of the company.</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Self-employed UX -->
-                    <div class="flex items-start">
-                        <div class="w-2 h-2 bg-secondary rounded-full mr-4 mt-3"></div>
-                        <div class="flex-grow">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-2">
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">UI UX Designer & Developer</h3>
-                                    <div class="text-gray-600 dark:text-gray-400">Self-employed</div>
-                                </div>
-                                <div class="text-gray-600 dark:text-gray-400 text-right whitespace-nowrap">
-                                    <span class="font-bold">Mar 2022 - July 2022</span> · 5 months
-                                </div>
+                    
+                    <!-- Designer & Developer Freelance -->
+                    <div>
+                        <div class="flex items-start mb-4">
+                            <div class="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-md flex-shrink-0 flex items-center justify-center mr-4">
+                                <span class="text-lg font-bold text-primary">F</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Designer & Developer</h3>
+                                <div class="text-gray-600 dark:text-gray-400 font-medium">Freelance</div>
+                                <div class="text-gray-600 dark:text-gray-400 text-sm">Mar 2022 - Jul 2022 · 5 months</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-14">
+                            <div class="text-gray-600 dark:text-gray-400 text-xs">
+                                <p>Front End Development, UI/UX Design, Marketing & SEO, Business Development (Tech)</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Regroup -->
-                    <div class="flex items-start">
-                        <div class="w-2 h-2 bg-secondary rounded-full mr-4 mt-3"></div>
-                        <div class="flex-grow">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-2">
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">UI UX Designer</h3>
-                                    <div class="text-gray-600 dark:text-gray-400">
-                                        <a href="https://www.regroup.com/" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:opacity-80">Regroup Mass Notification</a>
-                                    </div>
-                                </div>
-                                <div class="text-gray-600 dark:text-gray-400 text-right whitespace-nowrap">
-                                    <span class="font-bold">Jan 2019 - Feb 2022</span> · 3 years, 1 month
-                                </div>
+                    
+                    <!-- Regroup Mass Notification -->
+                    <div>
+                        <div class="flex items-start mb-4">
+                            <div class="w-10 h-10 bg-white dark:bg-gray-800 rounded-md flex-shrink-0 flex items-center justify-center mr-4 overflow-hidden">
+                                <img src="img/regroup_com_logo.jpeg" alt="Regroup Mass Notification logo" class="w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">UI UX Designer</h3>
+                                <div class="text-gray-600 dark:text-gray-400 font-medium">Regroup Mass Notification</div>
+                                <div class="text-gray-600 dark:text-gray-400 text-sm">Jan 2019 - Feb 2022 · 3 years 2 months</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-14">
+                            <div class="text-gray-600 dark:text-gray-400 text-xs">
+                                <p>Acted as the UI/UX expert on the product team.</p>
+                                <p>Oversaw the implementation of design changes to a mass notification web product.</p>
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- Knack Studios -->
-                    <div class="flex items-start">
-                        <div class="w-2 h-2 bg-secondary rounded-full mr-4 mt-3"></div>
-                        <div class="flex-grow">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-2">
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Front End Developer</h3>
-                                    <div class="text-gray-600 dark:text-gray-400">Knack Studios</div>
-                                </div>
-                                <div class="text-gray-600 dark:text-gray-400 text-right whitespace-nowrap">
-                                    <span class="font-bold">Feb 2015 - Jan 2019</span> · 3 years, 11 months
-                                </div>
+                    <div>
+                        <div class="flex items-start mb-4">
+                            <div class="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-md flex-shrink-0 flex items-center justify-center mr-4">
+                                <span class="text-lg font-bold text-primary">KS</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Front End Developer</h3>
+                                <div class="text-gray-600 dark:text-gray-400 font-medium">Knack Studios</div>
+                                <div class="text-gray-600 dark:text-gray-400 text-sm">Feb 2015 - Jan 2019 · 4 years</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-14">
+                            <div class="text-gray-600 dark:text-gray-400 text-xs">
+                                <p>UI/UX Designer & Front End Developer for a startup specialized mostly in Ruby on Rails projects</p>
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- Bixly -->
-                    <div class="flex items-start">
-                        <div class="w-2 h-2 bg-secondary rounded-full mr-4 mt-3"></div>
-                        <div class="flex-grow">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-2">
-                                <div>
-                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Front End Developer, UI UX Designer</h3>
-                                    <div class="text-gray-600 dark:text-gray-400">Bixly</div>
-                                </div>
-                                <div class="text-gray-600 dark:text-gray-400 text-right whitespace-nowrap">
-                                    <span class="font-bold">Mar 2012 - Feb 2015</span> · 2 years, 11 months
-                                </div>
+                    <div>
+                        <div class="flex items-start mb-4">
+                            <div class="w-10 h-10 bg-white dark:bg-gray-800 rounded-md flex-shrink-0 flex items-center justify-center mr-4 overflow-hidden">
+                                <img src="img/bixly_logo.jpeg" alt="Bixly logo" class="w-full h-full object-contain">
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Bixly</h3>
+                                <div class="text-gray-600 dark:text-gray-400 text-sm">3 years</div>
+                            </div>
+                        </div>
+                        
+                        <!-- UI UX Designer -->
+                        <div class="ml-14 mb-6">
+                            <h4 class="text-base font-bold text-gray-800 dark:text-gray-200">UI UX Designer</h4>
+                            <div class="text-gray-600 dark:text-gray-400 text-sm mb-1">Sep 2013 - Feb 2015</div>
+                            <div class="text-gray-600 dark:text-gray-400 text-xs">
+                                <p>UI/UX Designer & Front End Developer for a dev shop specialized in mostly Python/Django projects</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Web Designer -->
+                        <div class="ml-14 mb-6">
+                            <h4 class="text-base font-bold text-gray-800 dark:text-gray-200">Web Designer</h4>
+                            <div class="text-gray-600 dark:text-gray-400 text-sm mb-1">Sep 2012 - Sep 2013</div>
+                            <div class="text-gray-600 dark:text-gray-400 text-xs">
+                                <p>Mockups & wireframes</p>
+                                <p>HTML/CSS</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Marketing Assistant -->
+                        <div class="ml-14">
+                            <h4 class="text-base font-bold text-gray-800 dark:text-gray-200">Marketing Assistant</h4>
+                            <div class="text-gray-600 dark:text-gray-400 text-sm mb-1">2012 - Sep 2012</div>
+                            <div class="text-gray-600 dark:text-gray-400 text-xs">
+                                <p>Google AdWords</p>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Resume Download Button -->
-                <div class="flex justify-center mt-12">
-                    <button id="download-resume" class="action-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Download Resume
-                    </button>
                 </div>
             </div>
         </section>
@@ -338,7 +349,7 @@
                     <!-- Data Playground Project -->
                     <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div class="h-48 bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
-                            <img src="/img/dataplayground.png" alt="Data Playground screenshot" class="w-full h-full object-cover">
+                            <img src="img/dataplayground.png" alt="Data Playground screenshot" class="w-full h-full object-cover">
                         </div>
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-gray-200">Data Playground</h3>
@@ -361,7 +372,7 @@
                     <!-- Unnamed Game Project -->
                     <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div class="h-48 bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
-                            <img src="/img/unamedgame.png" alt="Unnamed Game Project screenshot" class="w-full h-full object-cover">
+                            <img src="img/unamedgame.png" alt="Unnamed Game Project screenshot" class="w-full h-full object-cover">
                         </div>
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-gray-200">Unnamed Game Project</h3>
@@ -565,9 +576,6 @@
 
     <!-- Load JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <!-- PDF Generation Libraries -->
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
         // Show body after resources are loaded
         window.addEventListener('load', () => document.body.classList.add('loaded'));
