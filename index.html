@@ -166,6 +166,16 @@
                             <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">UI/UX</span>
                             <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Frontend</span>
                         </div>
+
+                        <!-- Anchor Link to Work Examples -->
+                        <div class="mt-4">
+                            <a href="#projects" class="inline-flex items-center text-primary hover:underline">
+                                View Work Examples
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 
@@ -343,74 +353,282 @@
         <!-- Projects Section -->
         <section id="projects" class="py-8 md:py-16 bg-white dark:bg-gray-900 transition-colors duration-300">
             <div class="container mx-auto px-4">
-                <h2 class="text-4xl font-bold mb-10 text-center text-primary">Projects</h2>
+                <h2 class="text-4xl font-bold mb-4 text-center text-primary">Work Examples</h2>
+                <!-- Professional Disclaimer -->
+                <p class="text-center text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 text-sm md:text-base">
+                    Below is a small selection of personal projects and design concepts. Most of my professional work involves proprietary systems and cannot be shared publicly.
+                </p>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <!-- Data Playground Project -->
-                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <div class="h-48 bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
-                            <img src="img/dataplayground.png" alt="Data Playground screenshot" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-gray-200">Data Playground</h3>
-                            <p class="text-gray-600 dark:text-gray-400 mb-4">A webapp for exploring and visualizing data using React, MongoDB, TypeScript, and Tailwind CSS.</p><p  class="text-gray-600 dark:text-gray-400 mb-4">Message me on LinkedIn for the access code</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">React</span>
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">MongoDB</span>
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">TypeScript</span>
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">Tailwind</span>
+                <!-- Portfolio Gallery -->
+                <div class="portfolio-gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
+                    <!-- Portfolio Item 1: Medical App (WebM with PNG thumb) -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300" data-type="video" data-video-src="img/portfolio/Medical React App.webm">
+                        <img src="img/portfolio/medical-app-thumb.png" alt="Medical React Application Thumbnail" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Medical App Interface</h3>
+                            <p class="text-gray-200 text-sm mb-2">Patient management application built with React</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">React</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Ionic</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Front End Dev</span>
                             </div>
-                            <a href="https://dataplayground.jeremyvenegas.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-primary hover:underline">
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 2: ConnectSphere -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/ConnectSphere Landing page.png" alt="ConnectSphere Landing Page" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Landing Page</h3>
+                            <p class="text-gray-200 text-sm mb-2">Modern social networking platform landing page design</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">UI/UX</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">React</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Tailwind</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 3: Digital Playground -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/digital playground.gif" alt="Digital Playground Animation" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Digital Playground</h3>
+                            <p class="text-gray-200 text-sm mb-2">Interactive data visualization tool</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">React</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">MongoDB</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">TypeScript</span>
+                            </div>
+                            <a href="https://dataplayground.jeremyvenegas.com/" target="_blank" rel="noopener noreferrer" class="visit-project-link text-secondary hover:underline text-sm mt-1 inline-flex items-center self-start z-10 relative">
                                 Visit Project
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                 </svg>
                             </a>
                         </div>
                     </div>
-                    
-                    <!-- Unnamed Game Project -->
-                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <div class="h-48 bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
-                            <img src="img/unamedgame.png" alt="Unnamed Game Project screenshot" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-gray-200">Unnamed Game Project</h3>
-                            <p class="text-gray-600 dark:text-gray-400 mb-4">MMO Action RPG built using Godot. Now considering SpacetimeDB for the backend.</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">Godot</span>
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">SpacetimeDB</span>
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">Pixel Art</span>
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">3D Modeling</span>
+
+                    <!-- Portfolio Item 4: Data Permissions UI -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/data playground permissions.png" alt="Data Playground Permissions Screen" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Data Permissions UI</h3>
+                            <p class="text-gray-200 text-sm mb-2">Role-based access control interface for data platform</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">React</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">MongoDB</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">TypeScript</span>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Commented out Project template for future use -->
-                    <!--
-                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <div class="h-48 bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="text-4xl font-bold text-gray-400 dark:text-gray-600">P1</div>
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-gray-200">Project Name</h3>
-                            <p class="text-gray-600 dark:text-gray-400 mb-4">Description of the project goes here. Explain what it does and the technologies used.</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">Tech 1</span>
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">Tech 2</span>
-                                <span class="px-2 py-1 bg-secondary/20 text-secondary rounded-full text-xs">Tech 3</span>
-                            </div>
-                            <a href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-primary hover:underline">
+                            <a href="https://dataplayground.jeremyvenegas.com/" target="_blank" rel="noopener noreferrer" class="visit-project-link text-secondary hover:underline text-sm mt-1 inline-flex items-center self-start z-10 relative">
                                 Visit Project
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                 </svg>
                             </a>
                         </div>
                     </div>
-                    -->
+
+                    <!-- Portfolio Item 5: Modern Login UI -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/Login Page.png" alt="Modern Login Page Design" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Modern Login UI</h3>
+                            <p class="text-gray-200 text-sm mb-2">Clean and intuitive authentication interface</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">React</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">MongoDB</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">TypeScript</span>
+                            </div>
+                            <a href="https://dataplayground.jeremyvenegas.com/" target="_blank" rel="noopener noreferrer" class="visit-project-link text-secondary hover:underline text-sm mt-1 inline-flex items-center self-start z-10 relative">
+                                Visit Project
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 6: Custom PC E-commerce -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/Shopify Custom PC Website.png" alt="Shopify Custom PC E-commerce" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Custom PC E-commerce</h3>
+                            <p class="text-gray-200 text-sm mb-2">Shopify-based custom PC builder and store</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Shopify</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Liquid</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">E-commerce</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Portfolio Item 7: Messaging App Concept -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/Messaging App Concept.png" alt="Messaging App Concept" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Messaging App Concept</h3>
+                            <p class="text-gray-200 text-sm mb-2">Modern chat interface with dark mode support</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">UI/UX</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Design Concept</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 8: Product Dashboard -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/Product Dashboard Design Preview.png" alt="Product Dashboard Design" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Product Dashboard</h3>
+                            <p class="text-gray-200 text-sm mb-2">Analytics Dashboard Theme</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Dashboard Design</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Data Visualization</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Portfolio Item 9: Purely Natural Homepage -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/purely-natural-homepage.png" alt="Purely Natural Homepage" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Purely Natural Homepage</h3>
+                            <p class="text-gray-200 text-sm mb-2">Organic skincare e-commerce website homepage</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">E-commerce</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Responsive Design</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Shopify</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 10: Purely Natural Product Info (Moved) -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/purely-natural-product-info.png" alt="Purely Natural Product Info Page" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Purely Natural Product Detail</h3>
+                            <p class="text-gray-200 text-sm mb-2">Detailed product page for e-commerce site</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">E-commerce</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">UI Design</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Shopify</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 11: Style Guide Preview -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/Style Guide Preview.png" alt="Style Guide Preview" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Style Guide</h3>
+                            <p class="text-gray-200 text-sm mb-2">Comprehensive design system style guide preview</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Design System</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">UI Components</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Figma</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 12: Show Finder -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/Show Finder.png" alt="Show Finder App Concept" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Show Finder App</h3>
+                            <p class="text-gray-200 text-sm mb-2">Concept for a show discovery application</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Mobile App Design</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">UI/UX</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Prototyping</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 13: Logo Concept -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/logo-concept.png" alt="Abstract Logo Concept" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Logo Concept</h3>
+                            <p class="text-gray-200 text-sm mb-2">Logo design exploration</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Logo Design</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Branding</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Illustrator</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Portfolio Item 14: Unnamed Game Project (Added Back) -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/unamedgame.png" alt="Unnamed Game Project screenshot" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Unnamed Game Project</h3>
+                            <p class="text-gray-200 text-sm mb-2">Action RPG built using Godot.</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Godot</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Pixel Art</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">3D Modeling</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 15: Raccoon Jumper -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                        <img src="img/portfolio/raccoon trashcan jumper.gif" alt="Raccoon Trashcan Jumper Game" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                            <h3 class="text-white text-lg font-bold">Raccoon Trashcan Jumper</h3>
+                            <p class="text-gray-200 text-sm mb-2">Pixel art endless runner game with JavaScript</p>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">JavaScript</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">HTML5 Canvas</span>
+                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Pixel Art</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Modal for Full Image View -->
+            <div id="portfolio-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4">
+                <div class="relative max-w-7xl w-full mx-auto">
+                    <!-- Close button -->
+                    <button id="modal-close" class="absolute top-4 right-4 z-20 text-white hover:text-primary transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <span class="sr-only">Close</span>
+                    </button>
+
+                    <!-- Navigation buttons -->
+                    <button id="prev-button" class="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 text-white hover:text-primary transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        <span class="sr-only">Previous</span>
+                    </button>
+
+                    <button id="next-button" class="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 text-white hover:text-primary transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                        <span class="sr-only">Next</span>
+                    </button>
+
+                    <!-- Content container with scrollable area -->
+                    <div class="overflow-auto max-h-[80vh] relative z-10">
+                        <!-- Media container (for images, videos, etc) -->
+                        <div id="modal-content" class="flex items-center justify-center">
+                            <!-- Content will be inserted here via JavaScript -->
+                        </div>
+                        
+                        <!-- Caption and info -->
+                        <div id="modal-info" class="text-white p-4 bg-black/50 mt-4 rounded-lg">
+                            <h3 id="modal-title" class="text-xl font-bold"></h3>
+                            <p id="modal-description" class="text-gray-300 mt-2"></p>
+                            <div id="modal-tags" class="flex flex-wrap gap-2 mt-2"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

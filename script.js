@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
     initSmoothScrolling();
     initGame();
+    initPortfolio(); // Initialize portfolio gallery functionality
 });
 
 /**
@@ -922,4 +923,181 @@ function initGame() {
     // Initialize the game
     resizeCanvas();
     resetGame();
+}
+
+/**
+ * Initialize portfolio gallery functionality
+ * Handles click events, modal display, and navigation between items
+ */
+function initPortfolio() {
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const modal = document.getElementById('portfolio-modal');
+    const modalContent = document.getElementById('modal-content');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalTags = document.getElementById('modal-tags');
+    const closeButton = document.getElementById('modal-close');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+    
+    if (!portfolioItems.length || !modal) return;
+    
+    let currentIndex = 0;
+    
+    // Add click event to each portfolio item
+    portfolioItems.forEach((item, index) => {
+        item.addEventListener('click', (e) => {
+            // Prevent modal from opening if the 'Visit Project' link was clicked
+            if (e.target.closest('.visit-project-link')) {
+                return; 
+            }
+            openModal(item, index);
+        });
+    });
+    
+    // Close modal when close button is clicked
+    closeButton.addEventListener('click', closeModal);
+    
+    // Close modal when clicking outside content
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        } else if (e.key === 'ArrowLeft' && modal.classList.contains('active')) {
+            navigate(-1);
+        } else if (e.key === 'ArrowRight' && modal.classList.contains('active')) {
+            navigate(1);
+        }
+    });
+    
+    // Navigation buttons
+    prevButton.addEventListener('click', () => navigate(-1));
+    nextButton.addEventListener('click', () => navigate(1));
+    
+    /**
+     * Open the modal with the selected portfolio item
+     * @param {HTMLElement} item - The portfolio item element
+     * @param {number} index - The index of the item in the collection
+     */
+    function openModal(item, index) {
+        currentIndex = index;
+        
+        // Get item details
+        const img = item.querySelector('img');
+        const overlay = item.querySelector('.absolute');
+        const title = overlay.querySelector('h3').textContent;
+        const description = overlay.querySelector('p').textContent;
+        const tags = Array.from(overlay.querySelectorAll('.px-2')).map(tag => tag.textContent);
+        
+        // Clear previous content
+        modalContent.innerHTML = '';
+        modalTags.innerHTML = '';
+        
+        // Set title and description
+        modalTitle.textContent = title;
+        modalDescription.textContent = description;
+        
+        // Add tags
+        tags.forEach(tag => {
+            const tagEl = document.createElement('span');
+            tagEl.className = 'px-2 py-1 bg-primary/40 text-white rounded-full text-xs';
+            tagEl.textContent = tag;
+            modalTags.appendChild(tagEl);
+        });
+        
+        // Check if it's an image, gif, or video
+        if (item.hasAttribute('data-type') && item.getAttribute('data-type') === 'video') {
+            // For video - use data-video-src if available, otherwise fallback (though fallback shouldn't be needed now)
+            const videoSrc = item.getAttribute('data-video-src') || img.src;
+            const video = document.createElement('video');
+            video.src = videoSrc;
+            video.controls = true;
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = false; // Keep sound off by default for autoplay
+            video.className = 'max-w-full';
+            modalContent.appendChild(video);
+        } else {
+            // For images and GIFs
+            const src = img.src;
+            const isTall = isTallImage(img);
+            
+            if (isTall) {
+                // For tall images, create a scrollable container
+                const container = document.createElement('div');
+                container.className = 'tall-image-container';
+                
+                const newImg = document.createElement('img');
+                newImg.src = src;
+                newImg.alt = img.alt;
+                
+                container.appendChild(newImg);
+                modalContent.appendChild(container);
+            } else {
+                // For regular images
+                const newImg = document.createElement('img');
+                newImg.src = src;
+                newImg.alt = img.alt;
+                modalContent.appendChild(newImg);
+            }
+        }
+        
+        // Show modal
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling behind modal
+    }
+    
+    /**
+     * Close the modal
+     */
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+        
+        // Stop any videos that might be playing
+        const video = modalContent.querySelector('video');
+        if (video) {
+            video.pause();
+        }
+    }
+    
+    /**
+     * Navigate to the next or previous portfolio item
+     * @param {number} direction - Direction to navigate (1 for next, -1 for previous)
+     */
+    function navigate(direction) {
+        currentIndex = (currentIndex + direction + portfolioItems.length) % portfolioItems.length;
+        openModal(portfolioItems[currentIndex], currentIndex);
+    }
+    
+    /**
+     * Check if an image is tall (height significantly greater than width)
+     * @param {HTMLImageElement} img - The image element to check
+     * @returns {boolean} - True if the image is tall, false otherwise
+     */
+    function isTallImage(img) {
+        // Check if image is significantly taller than wide
+        const src = img.src;
+        const filename = src.split('/').pop().toLowerCase();
+        
+        // Explicitly check filenames of known tall images
+        const tallImages = [
+            'data playground permissions.png',
+            'purely-natural-product-info.png',
+        ];
+        
+        for (const tallImage of tallImages) {
+            if (filename.includes(tallImage.toLowerCase())) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }
