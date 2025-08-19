@@ -8,9 +8,9 @@ Move the two floral AI work examples to the front/top of the portfolio section i
 - [x] 2. Create a new portfolio item showcasing the Floral AI logo
 - [x] 3. Move all three Floral AI items to the front of the portfolio section
 - [x] 4. Update the portfolio item numbering accordingly
-- [ ] 5. Test the changes locally to ensure proper display
-- [ ] 6. Commit the changes with descriptive message
-- [ ] 7. Push the changes to the repository
+- [x] 5. Test the changes locally to ensure proper display
+- [x] 6. Commit the changes with descriptive message
+- [x] 7. Push the changes to the repository
 
 ## Guardrails (Forbidden Actions):
 - Do NOT create files larger than 500 lines
