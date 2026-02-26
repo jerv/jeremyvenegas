@@ -1,1117 +1,257 @@
-// Jeremy Venegas - Personal Website JavaScript
+// Hero dot grid with mouse parallax + color wave
+(function () {
+    const canvas = document.getElementById('heroDots');
+    if (!canvas) return;
 
-/**
- * Main initialization function that runs when the DOM is fully loaded
- * Sets up all interactive elements and functionality
- */
-document.addEventListener('DOMContentLoaded', function() {
-    initTypewriter();
-    initThemeToggle();
-    initModeToggle();
-    initMobileMenu();
-    initSmoothScrolling();
-    initGame();
-    initPortfolio(); // Initialize portfolio gallery functionality
-});
-
-/**
- * Initialize typewriter effect on the homepage
- * Uses Typed.js library for text animation
- */
-function initTypewriter() {
-    const options = {
-        strings: [
-            "Hi, I'm Jeremy Venegas",
-            "Developer & Designer",
-            "Building impactful digital experiences"
-        ],
-        typeSpeed: 50,
-        backSpeed: 30,
-        backDelay: 2000,
-        startDelay: 500,
-        loop: true
-    };
-    
-    new Typed('#typed-text', options);
-}
-
-/**
- * Initialize dark/light theme toggle functionality
- * Handles user preference, localStorage persistence, and theme switching
- */
-function initThemeToggle() {
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    if (!themeToggleBtn) return;
-    
-    // Check for saved theme preference, otherwise use light mode as default
-    const savedTheme = localStorage.getItem('theme');
-    
-    // Apply the appropriate theme - default to light mode
-    const shouldUseDarkTheme = savedTheme === 'dark';
-    if (shouldUseDarkTheme) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
-    
-    // Initial update of theme-dependent elements
-    updateThemeElements(document.documentElement.classList.contains('dark'));
-    
-    // Toggle theme when button is clicked
-    themeToggleBtn.addEventListener('click', function() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        
-        // Update all theme-dependent elements
-        updateThemeElements(isDark);
-        
-        // Reset and restart game if it exists
-        if (window.game) {
-            resetGame();
-            // Wait a brief moment for theme transition
-            setTimeout(() => {
-                startGame();
-            }, 300);
-        }
-    });
-}
-
-/**
- * Update all theme-dependent elements based on current theme
- * @param {boolean} isDark - Whether dark mode is active
- */
-function updateThemeElements(isDark) {
-    // Ensure HTML element has correct class for dark mode
-    if (isDark) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
-    
-    // Update game sky elements
-    updateGameSky();
-    
-    // Update toggle switch appearance
-    const toggleSlider = document.querySelector('.toggle-slider');
-    if (toggleSlider) {
-        toggleSlider.classList.toggle('dark-mode', isDark);
-    }
-    
-    // If in designer mode, update designer-specific elements
-    if (document.body.classList.contains('designer-mode')) {
-        updateDesignerMode(true);
-    }
-
-    // Update game elements if they exist
-    const gameContainer = document.getElementById('game-container');
-    if (gameContainer) {
-        gameContainer.style.maxWidth = '700px';
-        gameContainer.style.borderRadius = '16px';
-        gameContainer.style.overflow = 'hidden';
-        
-        const gameCanvas = document.getElementById('game-canvas');
-        if (gameCanvas) {
-            gameCanvas.style.borderRadius = '0';
-        }
-    }
-
-    // Apply consistent styling to action buttons
-    const actionButtons = document.querySelectorAll('.action-button');
-    actionButtons.forEach(button => {
-        button.style.borderRadius = '8px';
-        button.style.fontWeight = '500';
-        button.style.letterSpacing = '0.5px';
-        
-        // Ensure the button has the correct background color in designer mode
-        if (button.id === 'download-resume') {
-            // Remove designer-mode-active class if it exists
-            button.classList.remove('designer-mode-active');
-        }
-    });
-}
-
-/**
- * Initialize designer/developer mode toggle functionality
- * Handles user preference and localStorage persistence
- */
-function initModeToggle() {
-    const modeToggle = document.getElementById('mode-toggle');
-    if (!modeToggle) return;
-    
-    const body = document.body;
-    
-    // Check for saved mode preference
-    const savedMode = localStorage.getItem('designMode');
-    
-    // Apply saved mode or default to developer mode
-    if (savedMode === 'designer') {
-        body.classList.add('designer-mode');
-        modeToggle.checked = true;
-        updateDesignerMode(true);
-    } else {
-        body.classList.remove('designer-mode');
-        modeToggle.checked = false;
-        updateDesignerMode(false);
-    }
-    
-    // Toggle mode when switch is clicked
-    modeToggle.addEventListener('change', function() {
-        const isDesigner = this.checked;
-        
-        if (isDesigner) {
-            body.classList.add('designer-mode');
-            localStorage.setItem('designMode', 'designer');
-        } else {
-            body.classList.remove('designer-mode');
-            localStorage.setItem('designMode', 'developer');
-        }
-        
-        updateDesignerMode(isDesigner);
-        
-        // Reset and restart game if it exists
-        if (window.game) {
-            resetGame();
-            // Wait a brief moment for mode transition
-            setTimeout(() => {
-                startGame();
-            }, 300);
-        }
-    });
-}
-
-/**
- * Update all designer-mode specific elements
- * @param {boolean} isDesigner - Whether designer mode is active
- */
-function updateDesignerMode(isDesigner) {
-    // Get all elements that need to be updated
-    const body = document.body;
-    const isDark = document.documentElement.classList.contains('dark');
-    
-    // Reset any inline styles that might have been applied
-    resetAllInlineStyles();
-    
-    if (isDesigner) {
-        // Apply designer mode styles
-        document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(heading => {
-            heading.style.fontFamily = "'Montserrat', sans-serif";
-            heading.style.fontWeight = "600";
-        });
-        
-        document.querySelectorAll('p, span, a, button, li').forEach(element => {
-            if (!element.closest('.toggle-container') && !element.classList.contains('mode-label')) {
-                element.style.fontFamily = "'Inter', sans-serif";
-            }
-        });
-        
-        // Apply rounded corners to various elements
-        document.querySelectorAll('.rounded-md, .rounded-lg, .rounded-full').forEach(element => {
-            const currentBorderRadius = window.getComputedStyle(element).borderRadius;
-            if (currentBorderRadius !== '0px') {
-                element.style.borderRadius = '12px';
-            }
-        });
-        
-        // Adjust button styles
-        document.querySelectorAll('button:not(.toggle-btn):not(.action-button)').forEach(button => {
-            button.style.fontWeight = "500";
-        });
-        
-        // Update game elements if they exist
-        const gameContainer = document.getElementById('game-container');
-        if (gameContainer) {
-            gameContainer.style.maxWidth = '700px';
-            gameContainer.style.borderRadius = '16px';
-            gameContainer.style.overflow = 'hidden';
-            
-            const gameCanvas = document.getElementById('game-canvas');
-            if (gameCanvas) {
-                gameCanvas.style.borderRadius = '0';
-            }
-            
-            const gameStart = document.getElementById('game-start');
-            if (gameStart) {
-                gameStart.style.borderRadius = '8px';
-                gameStart.style.fontWeight = '500';
-                gameStart.style.letterSpacing = '0.5px';
-            }
-        }
-    } else {
-        // Reset to developer mode (default styles will apply via CSS)
-    }
-    
-    // Update game sky regardless of mode
-    updateGameSky();
-}
-
-/**
- * Reset all inline styles that might have been applied by mode switching
- * This ensures clean transitions between modes
- */
-function resetAllInlineStyles() {
-    // Reset heading styles
-    document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(heading => {
-        heading.style.fontFamily = '';
-        heading.style.fontWeight = '';
-    });
-    
-    // Reset text element styles
-    document.querySelectorAll('p, span, a, button, li').forEach(element => {
-        element.style.fontFamily = '';
-    });
-    
-    // Reset rounded elements
-    document.querySelectorAll('.rounded-md, .rounded-lg, .rounded-full').forEach(element => {
-        element.style.borderRadius = '';
-    });
-    
-    // Reset button styles
-    document.querySelectorAll('button').forEach(button => {
-        button.style.fontWeight = '';
-        button.style.letterSpacing = '';
-    });
-    
-    // Reset game container styles
-    const gameContainer = document.getElementById('game-container');
-    if (gameContainer) {
-        gameContainer.style.maxWidth = '';
-        gameContainer.style.borderRadius = '';
-        gameContainer.style.overflow = '';
-        
-        const gameCanvas = document.getElementById('game-canvas');
-        if (gameCanvas) {
-            gameCanvas.style.borderRadius = '';
-        }
-        
-        const gameStart = document.getElementById('game-start');
-        if (gameStart) {
-            gameStart.style.borderRadius = '';
-            gameStart.style.fontWeight = '';
-            gameStart.style.letterSpacing = '';
-        }
-    }
-}
-
-/**
- * Initialize mobile menu toggle functionality
- */
-function initMobileMenu() {
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    if (!menuToggle || !mobileMenu) return;
-    
-    menuToggle.addEventListener('click', function() {
-        mobileMenu.classList.toggle('open');
-        
-        // Accessibility: Update aria attributes
-        const isExpanded = mobileMenu.classList.contains('open');
-        menuToggle.setAttribute('aria-expanded', isExpanded);
-        mobileMenu.setAttribute('aria-hidden', !isExpanded);
-    });
-}
-
-/**
- * Initialize smooth scrolling for anchor links
- */
-function initSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (!targetElement) return;
-            
-            // Close mobile menu if it's open
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenu && mobileMenu.classList.contains('open')) {
-                mobileMenu.classList.remove('open');
-            }
-            
-            // Scroll to the target element
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-        });
-    });
-}
-
-// Helper function to update game sky elements
-function updateGameSky() {
-    const isDark = document.documentElement.classList.contains('dark');
-    const skyElements = document.querySelector('.sky-elements');
-    
-    if (skyElements) {
-        // Apply appropriate sky gradient based on theme
-        if (isDark) {
-            skyElements.style.background = 'linear-gradient(to bottom, #0F2027 0%, #203A43 50%, #2C5364 100%)';
-        } else {
-            skyElements.style.background = 'linear-gradient(to bottom, #87CEEB 0%, #B0E2FF 100%)';
-        }
-    }
-    
-    // Update raccoon SVG colors for dark mode
-    const raccoonSvg = document.getElementById('raccoon-svg-container');
-    if (raccoonSvg) {
-        const svgElements = raccoonSvg.querySelectorAll('rect');
-        svgElements.forEach(rect => {
-            const currentFill = rect.getAttribute('fill');
-            // Only update colors that need to change
-            if (isDark) {
-                if (currentFill === '#808080') {
-                    rect.setAttribute('fill', '#9ca3af');
-                } else if (currentFill === '#404040') {
-                    rect.setAttribute('fill', '#6b7280');
-                }
-            } else {
-                if (currentFill === '#9ca3af') {
-                    rect.setAttribute('fill', '#808080');
-                } else if (currentFill === '#6b7280') {
-                    rect.setAttribute('fill', '#404040');
-                }
-            }
-        });
-    }
-}
-
-// Raccoon Game Implementation
-function initGame() {
-    // Cache DOM elements
-    const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
-    const gameStartBtn = document.getElementById('game-start');
-    const scoreDisplay = document.getElementById('game-score');
-    const highScoreDisplay = document.getElementById('game-high-score');
-    const raccoonSvgContainer = document.getElementById('raccoon-svg-container');
-    
-    // Game constants
-    const INITIAL_GAME_SPEED = 5;
-    const GRAVITY = 0.6;
-    const JUMP_FORCE = 12;
-    const INITIAL_OBSTACLE_INTERVAL = 1800;
-    const MIN_OBSTACLE_INTERVAL = 1000;
-    const RACCOON_X_POSITION = 50;
-    const GROUND_OFFSET = 20;
-    const DIFFICULTY_INCREASE_INTERVAL = 5; // Score points between difficulty increases
-    
-    // Game state variables
-    let gameActive = false;
-    let score = 0;
-    let highScore = parseInt(localStorage.getItem('raccoonGameHighScore') || 0);
-    let gameSpeed = INITIAL_GAME_SPEED;
-    let obstacleInterval = INITIAL_OBSTACLE_INTERVAL;
-    let lastObstacleTime = 0;
-    let animationId;
-    let groundLevel;
-    let difficultyLevel = 1;
-    let obstacles = [];
-    
-    // Initialize sky elements for day/night
-    updateGameSky();
-    
-    // Game objects
-    const raccoon = {
-        x: RACCOON_X_POSITION,
-        y: 0,
-        width: 30,
-        height: 40,
-        velocityY: 0,
-        jumping: false,
-        
-        update() {
-            // Apply gravity
-            this.velocityY += GRAVITY;
-            this.y += this.velocityY;
-            
-            // Ground collision
-            if (this.y + this.height > groundLevel) {
-                this.y = groundLevel - this.height;
-                this.velocityY = 0;
-                this.jumping = false;
-            }
-        },
-        
-        jump() {
-            if (!this.jumping) {
-                this.velocityY = -JUMP_FORCE;
-                this.jumping = true;
-            }
-        },
-        
-        // Fallback draw method if SVG isn't available
-        draw() {
-            // Body
-            ctx.fillStyle = '#525252';
-            ctx.fillRect(this.x, this.y, this.width, this.height - 10);
-            
-            // Legs animation
-            const legOffset = Math.sin(Date.now() / 100) * 5;
-            ctx.fillStyle = '#424242';
-            // Front leg
-            ctx.fillRect(this.x + 5, this.y + this.height - 10, 6, 10 + legOffset);
-            // Back leg
-            ctx.fillRect(this.x + this.width - 11, this.y + this.height - 10, 6, 10 - legOffset);
-            
-            // Face mask
-            ctx.fillStyle = '#F8FAFC';
-            ctx.fillRect(this.x + 5, this.y + 10, this.width - 10, 15);
-            
-            // Eyes
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(this.x + 8, this.y + 15, 4, 4);
-            ctx.fillRect(this.x + this.width - 12, this.y + 15, 4, 4);
-            
-            // Nose
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(this.x + (this.width/2) - 2, this.y + 22, 4, 4);
-        }
-    };
-    
-    // SVG raccoon renderer
-    function drawRaccoonSvg(x, y) {
-        if (raccoonSvgContainer) {
-            raccoonSvgContainer.style.display = 'block';
-            // Position adjustment to place the raccoon on the ground
-            raccoonSvgContainer.style.transform = `translate(${x}px, ${y + 8}px) scale(1)`;
-            raccoonSvgContainer.style.transformOrigin = 'top left';
-        } else {
-            // Fallback to original drawing if SVG not available
-            raccoon.draw();
-        }
-    }
-    
-    // Override the raccoon's draw method to use SVG
-    raccoon.draw = function() {
-        drawRaccoonSvg(this.x, this.y);
-    };
-    
-    // Make the game object available globally for potential extensions
-    window.game = {
-        raccoon: raccoon,
-        drawPlayer: drawRaccoonSvg
-    };
-    
-    // Obstacle class
-    class Obstacle {
-        constructor() {
-            const isDark = document.documentElement.classList.contains('dark');
-            
-            // Vary the width and height based on difficulty
-            const maxHeight = 15 + (difficultyLevel * 2);
-            const minHeight = 15;
-            
-            // Add more height variation
-            this.width = 20 + Math.random() * 15;
-            
-            // Make obstacles significantly taller in night mode
-            if (isDark) {
-                // Much taller obstacles in night mode
-                const nightModeHeightBonus = 20 + (difficultyLevel * 3); // Additional height for night mode
-                this.height = minHeight + Math.random() * (maxHeight - minHeight) + nightModeHeightBonus;
-            } else {
-                // Normal height in day mode
-                const heightVariation = Math.random() * 10;
-                this.height = minHeight + Math.random() * (maxHeight - minHeight) + heightVariation;
-            }
-            
-            this.x = canvas.width;
-            this.y = groundLevel - this.height;
-            this.passed = false;
-            
-            // Vary the color for visual interest
-            const hue = Math.floor(Math.random() * 360);
-            
-            // Make obstacles bright and easy to see in both modes
-            if (isDark) {
-                // Brighter colors in night mode for better visibility
-                this.color = `hsl(${hue}, 50%, 45%)`; // More saturated and brighter
-                this.lidColor = `hsl(${hue}, 40%, 65%)`; // Brighter lid
-            } else {
-                this.color = `hsl(${hue}, 30%, 40%)`;
-                this.lidColor = `hsl(${hue}, 20%, 60%)`;
-            }
-        }
-        
-        draw() {
-            // Draw a colorful trash can
-            ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-            
-            // Trash can lid
-            ctx.fillStyle = this.lidColor;
-            ctx.fillRect(this.x - 2, this.y, this.width + 4, 5);
-            
-            // Add some lines for detail with better contrast
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(this.x + 3, this.y + this.height / 2);
-            ctx.lineTo(this.x + this.width - 3, this.y + this.height / 2);
-            ctx.stroke();
-        }
-        
-        update() {
-            this.x -= gameSpeed;
-            
-            // Check if obstacle is passed and update score
-            if (!this.passed && this.x + this.width < raccoon.x) {
-                score++;
-                this.passed = true;
-                scoreDisplay.textContent = score;
-                
-                // Update high score if needed
-                if (score > highScore) {
-                    highScore = score;
-                    highScoreDisplay.textContent = highScore;
-                    localStorage.setItem('raccoonGameHighScore', highScore);
+    const spacing = 20;
+    const baseRadius = 0.75;
+    const parallaxStrength = 12;
+
+    // Zune HD palette
+    const colors = [
+        { r: 255, g: 78, b: 0 },    // orange
+        { r: 236, g: 0, b: 140 },    // pink
+        { r: 0, g: 180, b: 216 },    // cyan
+    ];
+
+    let dots = [];
+    let mouse = { x: -1000, y: -1000 };
+    let animFrame;
+
+    // Color wave state — supports multiple concurrent waves
+    const waveSpeed = 300;
+    const waveThickness = 120;
+    let waves = [];
+
+    function createDots() {
+        dots = [];
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const cols = Math.ceil(rect.width / spacing) + 1;
+        const rows = Math.ceil(rect.height / spacing) + 1;
+
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const colorChance = Math.random();
+                let color;
+                let alpha;
+
+                if (colorChance < 0.04) {
+                    color = colors[Math.floor(Math.random() * colors.length)];
+                    alpha = 0.25 + Math.random() * 0.2;
+                } else {
+                    color = { r: 255, g: 255, b: 255 };
+                    alpha = 0.06 + Math.random() * 0.06;
                 }
-                
-                // Increase difficulty based on score
-                if (score % DIFFICULTY_INCREASE_INTERVAL === 0) {
-                    increaseDifficulty();
-                }
-            }
-            
-            return this.x + this.width < 0; // Return true if obstacle is off screen
-        }
-    }
-    
-    // Increase game difficulty
-    function increaseDifficulty() {
-        const isDark = document.documentElement.classList.contains('dark');
-        difficultyLevel += 0.5;
-        
-        // Make the game harder in night mode
-        if (isDark) {
-            gameSpeed += 0.8; // Much faster in night mode (0.8 instead of 0.4)
-            
-            // Decrease obstacle interval much more aggressively in night mode
-            obstacleInterval = Math.max(
-                MIN_OBSTACLE_INTERVAL - 300, // Much lower minimum interval in night mode
-                INITIAL_OBSTACLE_INTERVAL - (difficultyLevel * 200) // Much faster decrease
-            );
-        } else {
-            gameSpeed += 0.4;
-            
-            // Normal difficulty in day mode
-            obstacleInterval = Math.max(
-                MIN_OBSTACLE_INTERVAL,
-                INITIAL_OBSTACLE_INTERVAL - (difficultyLevel * 100)
-            );
-        }
-    }
-    
-    // Resize canvas to fit its container properly
-    function resizeCanvas() {
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientHeight;
-        groundLevel = canvas.height - GROUND_OFFSET;
-        
-        // Reset raccoon position after resize
-        if (!gameActive) {
-            raccoon.y = groundLevel - raccoon.height;
-        } else {
-            // If game is active, reset and restart it
-            resetGame();
-            setTimeout(() => {
-                startGame();
-            }, 100); // Small delay to ensure proper canvas sizing
-        }
-    }
-    
-    // Event listeners
-    let resizeTimeout;
-    window.addEventListener('resize', function() {
-        // Debounce resize event to prevent multiple resets
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(resizeCanvas, 250);
-    });
-    
-    document.addEventListener('keydown', function(e) {
-        if (e.code === 'Space' && gameActive) {
-            e.preventDefault(); // Prevent page scroll on spacebar
-            raccoon.jump();
-        }
-    });
-    
-    canvas.addEventListener('click', function() {
-        if (gameActive) {
-            raccoon.jump();
-        }
-    });
-    
-    gameStartBtn.addEventListener('click', function() {
-        if (!gameActive) {
-            startGame();
-        } else {
-            resetGame();
-        }
-    });
-    
-    // Game state management
-    function startGame() {
-        resizeCanvas();
-        gameActive = true;
-        score = 0;
-        gameSpeed = INITIAL_GAME_SPEED;
-        difficultyLevel = 1;
-        obstacleInterval = INITIAL_OBSTACLE_INTERVAL;
-        obstacles = [];
-        raccoon.y = groundLevel - raccoon.height;
-        raccoon.velocityY = 0;
-        scoreDisplay.textContent = score;
-        highScoreDisplay.textContent = highScore;
-        
-        // Update button text and icon
-        document.getElementById('game-button-text').textContent = 'Reset Game';
-        
-        // Hide play icon, show reset icon
-        document.querySelector('.play-icon').classList.add('hidden');
-        document.querySelector('.try-again-icon').classList.add('hidden');
-        document.querySelector('.reset-icon').classList.remove('hidden');
-        
-        // Start game loop
-        lastObstacleTime = performance.now();
-        requestAnimationFrame(gameLoop);
-    }
-    
-    function resetGame() {
-        cancelAnimationFrame(animationId);
-        gameActive = false;
-        
-        // Update button text and icon
-        document.getElementById('game-button-text').textContent = 'Play Game';
-        
-        // Show play icon, hide other icons
-        document.querySelector('.play-icon').classList.remove('hidden');
-        document.querySelector('.try-again-icon').classList.add('hidden');
-        document.querySelector('.reset-icon').classList.add('hidden');
-        
-        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Show initial state
-        drawBackground();
-        raccoon.y = groundLevel - raccoon.height;
-        raccoon.draw();
-    }
-    
-    function gameOver() {
-        gameActive = false;
-        
-        // Update button text and icon
-        document.getElementById('game-button-text').textContent = 'Try Again';
-        
-        // Show reset icon instead of try again icon, hide play icon
-        document.querySelector('.play-icon').classList.add('hidden');
-        document.querySelector('.try-again-icon').classList.add('hidden');
-        document.querySelector('.reset-icon').classList.remove('hidden');
-        
-        // Hide the SVG raccoon
-        if (raccoonSvgContainer) {
-            raccoonSvgContainer.style.display = 'none';
-        }
-        
-        // Draw game over message with better visibility
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 20px "Fira Code", monospace';
-        ctx.textAlign = 'center';
-        ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
-        ctx.font = '16px "Fira Code", monospace';
-        ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 30);
-    }
-    
-    // Game rendering
-    function drawBackground() {
-        const isDark = document.documentElement.classList.contains('dark');
-        
-        // Draw background cityscape with parallax
-        ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.4)' : 'rgba(148, 163, 184, 0.3)'; // Brighter in dark mode
-        
-        // Create a more randomized cityscape that spawns from the right
-        // Significantly reduce the speed to create distant background effect
-        const baseSpeed = 0.15;
-        const scrollSpeed = gameSpeed * baseSpeed;
-        
-        // Store building data in a persistent array if it doesn't exist yet
-        if (!window.cityBuildings) {
-            // Initialize buildings array with randomized properties
-            window.cityBuildings = [];
-            
-            // Create enough buildings to fill the screen plus buffer for off-screen
-            const screenWidth = canvas.width;
-            let currentX = 0;
-            
-            // Add buildings until we've covered the screen width plus buffer
-            while (currentX < screenWidth * 2) {
-                // Randomize building properties
-                const width = 40 + Math.random() * 60; // Random width between 40-100
-                const height = 30 + Math.random() * 50; // Random height between 30-80
-                const gap = 15 + Math.random() * 30; // Random gap between buildings
-                
-                // Pre-generate window pattern to avoid flickering
-                const windowSize = 6;
-                const windowMargin = 10;
-                const windowRows = Math.floor(height / windowMargin) - 1;
-                const windowCols = Math.floor(width / 15);
-                const windows = [];
-                
-                // Generate persistent window pattern
-                for (let row = 0; row < windowRows; row++) {
-                    for (let col = 0; col < windowCols; col++) {
-                        // Randomly decide if this window should be visible
-                        if (Math.random() > 0.3) {
-                            windows.push({
-                                row: row,
-                                col: col
-                            });
-                        }
-                    }
-                }
-                
-                // Add building to array
-                window.cityBuildings.push({
-                    x: currentX,
-                    width: width,
-                    height: height,
-                    windows: windows
+
+                dots.push({
+                    baseX: col * spacing,
+                    baseY: row * spacing,
+                    x: col * spacing,
+                    y: row * spacing,
+                    color,
+                    baseColor: { ...color },
+                    alpha,
+                    baseAlpha: alpha,
+                    waveColor: colors[Math.floor(Math.random() * colors.length)],
                 });
-                
-                // Move to next building position
-                currentX += width + gap;
             }
         }
-        
-        // Update building positions based on game speed
-        window.cityBuildings.forEach(building => {
-            building.x -= scrollSpeed;
-            
-            // If building is completely off-screen to the left, move it to the right
-            if (building.x + building.width < 0) {
-                const rightmostX = Math.max(...window.cityBuildings.map(b => b.x + b.width));
-                building.width = 40 + Math.random() * 60;
-                building.height = 30 + Math.random() * 50;
-                const gap = 15 + Math.random() * 30;
-                building.x = rightmostX + gap;
-                
-                // Generate new window pattern
-                const windowRows = Math.floor(building.height / 10) - 1;
-                const windowCols = Math.floor(building.width / 15);
-                building.windows = [];
-                
-                for (let row = 0; row < windowRows; row++) {
-                    for (let col = 0; col < windowCols; col++) {
-                        if (Math.random() > 0.3) {
-                            building.windows.push({ row, col });
-                        }
+    }
+
+    function triggerWave(x, y) {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const maxRadius = Math.sqrt(rect.width * rect.width + rect.height * rect.height);
+        waves.push({
+            originX: x,
+            originY: y,
+            startTime: performance.now(),
+            maxRadius: maxRadius,
+        });
+    }
+
+    function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        ctx.scale(dpr, dpr);
+        createDots();
+    }
+
+    function draw(timestamp) {
+        const rect = canvas.getBoundingClientRect();
+        const w = rect.width;
+        const h = rect.height;
+        ctx.clearRect(0, 0, w, h);
+
+        // Update waves and prune finished ones
+        for (let wi = waves.length - 1; wi >= 0; wi--) {
+            const wv = waves[wi];
+            const elapsed = (timestamp - wv.startTime) / 1000;
+            wv.radius = elapsed * waveSpeed;
+            if (wv.radius > wv.maxRadius + waveThickness) {
+                waves.splice(wi, 1);
+            }
+        }
+
+        for (let i = 0; i < dots.length; i++) {
+            const dot = dots[i];
+
+            // Mouse parallax
+            const mdx = mouse.x - dot.baseX;
+            const mdy = mouse.y - dot.baseY;
+            const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+            const maxDist = 200;
+
+            if (mDist < maxDist) {
+                const force = (1 - mDist / maxDist);
+                dot.x = dot.baseX - (mdx / mDist) * force * parallaxStrength;
+                dot.y = dot.baseY - (mdy / mDist) * force * parallaxStrength;
+            } else {
+                dot.x = dot.baseX;
+                dot.y = dot.baseY;
+            }
+
+            // Wave interference — real water physics
+            // Each wave contributes a signed value (crest/trough)
+            // Overlapping waves sum: crests amplify, crest+trough cancel
+            let drawColor = dot.baseColor;
+            let drawAlpha = dot.baseAlpha;
+            let drawRadius = baseRadius;
+            let sumAmplitude = 0;
+            let colorR = 0, colorG = 0, colorB = 0;
+            let colorWeight = 0;
+
+            for (let wi = 0; wi < waves.length; wi++) {
+                const wv = waves[wi];
+                const wdx = dot.baseX - wv.originX;
+                const wdy = dot.baseY - wv.originY;
+                const wDist = Math.sqrt(wdx * wdx + wdy * wdy);
+                const distFromFront = wv.radius - wDist;
+
+                if (distFromFront > 0 && distFromFront < waveThickness) {
+                    const t = distFromFront / waveThickness;
+                    // Signed wave: full sine cycle gives crest then trough
+                    const amplitude = Math.sin(t * Math.PI * 2);
+                    sumAmplitude += amplitude;
+
+                    // Color banding: front=cyan, middle=pink, back=orange
+                    const absAmp = Math.abs(amplitude);
+                    let cr, cg, cb;
+                    if (t < 0.5) {
+                        const blend = t / 0.5;
+                        cr = colors[2].r + (colors[1].r - colors[2].r) * blend;
+                        cg = colors[2].g + (colors[1].g - colors[2].g) * blend;
+                        cb = colors[2].b + (colors[1].b - colors[2].b) * blend;
+                    } else {
+                        const blend = (t - 0.5) / 0.5;
+                        cr = colors[1].r + (colors[0].r - colors[1].r) * blend;
+                        cg = colors[1].g + (colors[0].g - colors[1].g) * blend;
+                        cb = colors[1].b + (colors[0].b - colors[1].b) * blend;
                     }
+                    // Weight color contribution by how strong this wave is here
+                    colorR += cr * absAmp;
+                    colorG += cg * absAmp;
+                    colorB += cb * absAmp;
+                    colorWeight += absAmp;
                 }
             }
-            
-            // Draw building with better contrast in dark mode
-            ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.4)' : 'rgba(148, 163, 184, 0.3)';
-            ctx.fillRect(building.x, groundLevel - building.height, building.width, building.height);
-            
-            // Add windows to buildings with better visibility in dark mode
-            ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(51, 65, 85, 0.2)';
-            
-            // Draw windows
-            const windowSize = 6;
-            const windowMargin = 10;
-            
-            building.windows.forEach(window => {
-                const windowX = building.x + (window.col + 1) * (building.width / (Math.floor(building.width / 15) + 1)) - windowSize/2;
-                const windowY = groundLevel - building.height + windowMargin + window.row * windowMargin;
-                ctx.fillRect(windowX, windowY, windowSize, windowSize);
-            });
-        });
-        
-        // Draw sun/moon
-        const centerX = canvas.width * 0.8;
-        const centerY = canvas.height * 0.2;
-        const size = 24; // Size of the cube
-        
-        if (isDark) {
-            // Moon - simple white square
-            ctx.fillStyle = '#e5e7eb'; // Light gray for moon
-            ctx.fillRect(centerX - size/2, centerY - size/2, size, size);
-            
-            // Simple pixel details
-            ctx.fillStyle = '#d1d5db'; // Slightly darker for details
-            ctx.fillRect(centerX - size/4, centerY - size/4, size/4, size/4);
-            ctx.fillRect(centerX + size/8, centerY + size/8, size/4, size/4);
-        } else {
-            // Sun - yellow square
-            ctx.fillStyle = '#fbbf24'; // Warm yellow for sun
-            ctx.fillRect(centerX - size/2, centerY - size/2, size, size);
-            
-            // Simple pixel details
-            ctx.fillStyle = '#fcd34d'; // Lighter yellow for details
-            ctx.fillRect(centerX - size/4, centerY - size/4, size/2, size/2);
-        }
-        
-        // Ground
-        ctx.fillStyle = isDark ? '#64748b' : '#94a3b8';
-        ctx.fillRect(0, groundLevel, canvas.width, canvas.height - groundLevel);
-    }
-    
-    // Collision detection
-    function checkCollision(raccoon, obstacle) {
-        // Use a slightly smaller hitbox for more forgiving gameplay
-        const raccoonHitbox = {
-            x: raccoon.x + 5,
-            y: raccoon.y + 5,
-            width: raccoon.width - 10,
-            height: raccoon.height - 5
-        };
-        
-        return raccoonHitbox.x < obstacle.x + obstacle.width - 2 &&
-               raccoonHitbox.x + raccoonHitbox.width - 2 > obstacle.x &&
-               raccoonHitbox.y < obstacle.y + obstacle.height - 2 &&
-               raccoonHitbox.y + raccoonHitbox.height > obstacle.y;
-    }
-    
-    // Main game loop
-    function gameLoop(timestamp) {
-        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw background
-        drawBackground();
-        
-        // Update raccoon position
-        raccoon.update();
-        raccoon.draw();
-        
-        // Generate obstacles periodically, with variable timing
-        if (timestamp - lastObstacleTime > obstacleInterval) {
-            obstacles.push(new Obstacle());
-            lastObstacleTime = timestamp;
-            
-            // Randomize next obstacle timing based on difficulty
-            const variability = 400 - (difficultyLevel * 20);
-            obstacleInterval = Math.max(
-                MIN_OBSTACLE_INTERVAL,
-                obstacleInterval - (difficultyLevel * 10) + (Math.random() * variability)
-            );
-        }
-        
-        // Update and draw obstacles, removing those that are off screen
-        obstacles = obstacles.filter(obstacle => {
-            obstacle.draw();
-            const isOffScreen = obstacle.update();
-            
-            // Check for collision
-            if (checkCollision(raccoon, obstacle)) {
-                gameOver();
-                return false;
-            }
-            
-            return !isOffScreen; // Keep obstacles that are still on screen
-        });
-        
-        // Continue game loop
-        if (gameActive) {
-            animationId = requestAnimationFrame(gameLoop);
-        }
-    }
-    
-    // Initialize the game
-    resizeCanvas();
-    resetGame();
-}
 
-/**
- * Initialize portfolio gallery functionality
- * Handles click events, modal display, and navigation between items
- */
-function initPortfolio() {
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-    const modal = document.getElementById('portfolio-modal');
-    const modalContent = document.getElementById('modal-content');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const modalTags = document.getElementById('modal-tags');
-    const closeButton = document.getElementById('modal-close');
-    const prevButton = document.getElementById('prev-button');
-    const nextButton = document.getElementById('next-button');
-    
-    if (!portfolioItems.length || !modal) return;
-    
-    let currentIndex = 0;
-    
-    // Add click event to each portfolio item
-    portfolioItems.forEach((item, index) => {
-        item.addEventListener('click', (e) => {
-            // Prevent modal from opening if the 'Visit Project' link was clicked
-            if (e.target.closest('.visit-project-link')) {
-                return; 
-            }
-            openModal(item, index);
-        });
-    });
-    
-    // Close modal when close button is clicked
-    closeButton.addEventListener('click', closeModal);
-    
-    // Close modal when clicking outside content
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-    
-    // Close modal with Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeModal();
-        } else if (e.key === 'ArrowLeft' && modal.classList.contains('active')) {
-            navigate(-1);
-        } else if (e.key === 'ArrowRight' && modal.classList.contains('active')) {
-            navigate(1);
-        }
-    });
-    
-    // Navigation buttons
-    prevButton.addEventListener('click', () => navigate(-1));
-    nextButton.addEventListener('click', () => navigate(1));
-    
-    /**
-     * Open the modal with the selected portfolio item
-     * @param {HTMLElement} item - The portfolio item element
-     * @param {number} index - The index of the item in the collection
-     */
-    function openModal(item, index) {
-        currentIndex = index;
-        
-        // Get item details
-        const img = item.querySelector('img');
-        const overlay = item.querySelector('.absolute');
-        const title = overlay.querySelector('h3').textContent;
-        const description = overlay.querySelector('p').textContent;
-        const tags = Array.from(overlay.querySelectorAll('.px-2')).map(tag => tag.textContent);
-        const projectUrl = item.getAttribute('data-project-url'); // Get project URL
-        
-        // Clear previous content
-        modalContent.innerHTML = '';
-        modalTags.innerHTML = '';
-        
-        // Set title and description
-        modalTitle.textContent = title;
-        modalDescription.textContent = description;
+            if (colorWeight > 0) {
+                // Constructive interference can push past 1.0 — that's the fun part
+                const absSum = Math.min(Math.abs(sumAmplitude), 2.0);
+                const intensity = absSum > 1.0
+                    ? 1.0 + (absSum - 1.0) * 0.5  // diminishing returns past 1
+                    : absSum;
 
-        // Add Visit Project link to description if URL exists
-        if (projectUrl) {
-            const linkHTML = `
-                <a href="${projectUrl}" target="_blank" rel="noopener noreferrer" class="text-secondary hover:underline text-sm mt-2 inline-flex items-center">
-                    Visit Project
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                </a>
-            `;
-            modalDescription.innerHTML += linkHTML; // Append link to the description
-        }
-        
-        // Add tags
-        tags.forEach(tag => {
-            const tagEl = document.createElement('span');
-            tagEl.className = 'px-2 py-1 bg-primary/40 text-white rounded-full text-xs';
-            tagEl.textContent = tag;
-            modalTags.appendChild(tagEl);
-        });
-        
-        // Check if it's an image, gif, or video
-        if (item.hasAttribute('data-type') && item.getAttribute('data-type') === 'video') {
-            // For video - use data-video-src if available, otherwise fallback (though fallback shouldn't be needed now)
-            const videoSrc = item.getAttribute('data-video-src') || img.src;
-            const video = document.createElement('video');
-            video.src = videoSrc;
-            video.controls = true;
-            video.autoplay = true;
-            video.loop = true;
-            video.muted = false; // Keep sound off by default for autoplay
-            video.className = 'max-w-full';
-            modalContent.appendChild(video);
-        } else {
-            // For images and GIFs
-            const src = img.src;
-            const isTall = isTallImage(img);
-            
-            if (isTall) {
-                // For tall images, create a scrollable container
-                const container = document.createElement('div');
-                container.className = 'tall-image-container';
-                
-                const newImg = document.createElement('img');
-                newImg.src = src;
-                newImg.alt = img.alt;
-                
-                container.appendChild(newImg);
-                modalContent.appendChild(container);
-            } else {
-                // For regular images
-                const newImg = document.createElement('img');
-                newImg.src = src;
-                newImg.alt = img.alt;
-                modalContent.appendChild(newImg);
+                // Weighted average color from all contributing waves
+                const waveColor = {
+                    r: Math.round(colorR / colorWeight),
+                    g: Math.round(colorG / colorWeight),
+                    b: Math.round(colorB / colorWeight),
+                };
+
+                const blendAmt = Math.min(intensity, 1.0);
+                drawColor = {
+                    r: Math.round(dot.baseColor.r + (waveColor.r - dot.baseColor.r) * blendAmt),
+                    g: Math.round(dot.baseColor.g + (waveColor.g - dot.baseColor.g) * blendAmt),
+                    b: Math.round(dot.baseColor.b + (waveColor.b - dot.baseColor.b) * blendAmt),
+                };
+                drawAlpha = dot.baseAlpha + intensity * 0.4;
+                drawRadius = baseRadius + intensity * 0.8;
             }
-        }
-        
-        // Show modal
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling behind modal
-    }
-    
-    /**
-     * Close the modal
-     */
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
-        
-        // Stop any videos that might be playing
-        const video = modalContent.querySelector('video');
-        if (video) {
-            video.pause();
-        }
-    }
-    
-    /**
-     * Navigate to the next or previous portfolio item
-     * @param {number} direction - Direction to navigate (1 for next, -1 for previous)
-     */
-    function navigate(direction) {
-        currentIndex = (currentIndex + direction + portfolioItems.length) % portfolioItems.length;
-        openModal(portfolioItems[currentIndex], currentIndex);
-    }
-    
-    /**
-     * Check if an image is tall (height significantly greater than width)
-     * @param {HTMLImageElement} img - The image element to check
-     * @returns {boolean} - True if the image is tall, false otherwise
-     */
-    function isTallImage(img) {
-        // Check if image is significantly taller than wide
-        const src = img.src;
-        const filename = src.split('/').pop().toLowerCase();
-        
-        // Explicitly check filenames of known tall images
-        const tallImages = [
-            'data playground permissions.png',
-            'purely-natural-product-info.png',
-        ];
-        
-        for (const tallImage of tallImages) {
-            if (filename.includes(tallImage.toLowerCase())) {
-                return true;
+
+            // Mouse proximity boost (on top of wave)
+            if (mDist < maxDist) {
+                const force = (1 - mDist / maxDist);
+                drawAlpha = drawAlpha + force * 0.15;
             }
+
+            ctx.beginPath();
+            ctx.arc(dot.x, dot.y, drawRadius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${drawColor.r}, ${drawColor.g}, ${drawColor.b}, ${drawAlpha})`;
+            ctx.fill();
         }
-        
-        return false;
+
+        animFrame = requestAnimationFrame(draw);
     }
-}
+
+    // Mouse events
+    canvas.parentElement.addEventListener('mousemove', function (e) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+    });
+
+    canvas.parentElement.addEventListener('click', function (e) {
+        const rect = canvas.getBoundingClientRect();
+        triggerWave(e.clientX - rect.left, e.clientY - rect.top);
+    });
+
+    canvas.parentElement.addEventListener('mouseleave', function () {
+        mouse.x = -1000;
+        mouse.y = -1000;
+    });
+
+    // Touch events — tap to wave, drag for parallax
+    canvas.parentElement.addEventListener('touchstart', function (e) {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        mouse.x = x;
+        mouse.y = y;
+        triggerWave(x, y);
+    }, { passive: true });
+
+    canvas.parentElement.addEventListener('touchmove', function (e) {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = touch.clientX - rect.left;
+        mouse.y = touch.clientY - rect.top;
+    }, { passive: true });
+
+    canvas.parentElement.addEventListener('touchend', function () {
+        mouse.x = -1000;
+        mouse.y = -1000;
+    });
+
+    window.addEventListener('resize', function () {
+        cancelAnimationFrame(animFrame);
+        resize();
+        draw(performance.now());
+    });
+
+    resize();
+
+    // Trigger the initial wave on page load from top-left area
+    setTimeout(function () {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        triggerWave(rect.width * 0.15, rect.height * 0.3);
+    }, 400);
+
+    draw(performance.now());
+})();

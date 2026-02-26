@@ -1,952 +1,299 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Jeremy Venegas - Full Stack Developer and Designer specializing in modern web applications and user experiences">
-    <meta name="theme-color" content="#ec4899">
-    <title>Jeremy Venegas | Developer & Designer</title>
-    
-    <!-- Preload critical assets -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/fira-code@6.2.0/distr/fira_code.css" as="style">
-    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" as="script">
-    
+    <meta name="description" content="Jeremy Venegas — Product-minded builder with over 10 years shipping web and mobile products.">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Jeremy Venegas</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Jeremy Venegas">
+    <meta property="og:description" content="Product-minded builder with over 10 years shipping web and mobile products.">
+    <meta property="og:image" content="https://jerv.github.io/jeremyvenegas/img/og-image.png">
+    <meta property="og:url" content="https://jerv.github.io/jeremyvenegas/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='3' y='3' width='10' height='10' fill='%23808080'/><rect x='4' y='5' width='2' height='2' fill='white'/><rect x='10' y='5' width='2' height='2' fill='white'/><rect x='4' y='8' width='8' height='2' fill='black'/></svg>" type="image/svg+xml">
-    
-    <!-- Critical CSS -->
-    <style>
-        /* Critical path CSS inlined for faster initial render */
-        :root {
-            --primary-color: #ec4899;
-            --secondary-color: #38bdf8;
-        }
-        body { opacity: 0; transition: opacity 0.3s ease; }
-        .loaded { opacity: 1; }
-    </style>
-    
-    <!-- External Resources -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fira-code@6.2.0/distr/fira_code.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text x='2' y='13' font-size='13' fill='white'>J</text></svg>" type="image/svg+xml">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Tailwind Configuration -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        mono: ['"Fira Code"', 'monospace'],
-                    },
-                    colors: {
-                        primary: { DEFAULT: '#ec4899' },
-                        secondary: { DEFAULT: '#38bdf8' }
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-<body class="font-mono bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-    <!-- Skip to main content link for accessibility -->
-    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-primary">Skip to main content</a>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Header Section -->
-    <header class="fixed w-full bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-700 z-50 h-[70px] md:h-[100px] backdrop-blur-sm transition-colors duration-300" role="banner">
-        <div class="container mx-auto px-4 h-full flex items-center">
-            <!-- Left side: Theme toggle -->
-            <div class="w-[50px]">
-                <button id="theme-toggle" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 toggle-btn transition-colors duration-300" aria-label="Toggle dark mode">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                </button>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <div class="header-brand">
+                <a href="#" class="header-name">Jeremy Venegas</a>
+                <span class="header-subtitle">Product-minded builder</span>
             </div>
-            
-            <!-- Center: Site title -->
-            <div class="flex-1 text-left md:text-center">
-                <h1 class="text-lg md:text-2xl font-normal text-gray-800 dark:text-gray-200 transition-colors duration-300">Jeremy Venegas</h1>
-                <p class="text-xs md:text-sm text-gray-800 dark:text-gray-200 transition-colors duration-300">Developer & Designer</p>
-            </div>
-            
-            <!-- Right side: Mode toggle -->
-            <div class="w-[100px] flex justify-end">
-                <div class="toggle-container" role="group" aria-label="View mode toggle">
-                    <button class="mode-label text-gray-800 dark:text-gray-200" aria-label="Developer mode" onclick="document.getElementById('mode-toggle').checked = false; document.getElementById('mode-toggle').dispatchEvent(new Event('change'));">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                        </svg>
-                    </button>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="mode-toggle" aria-label="Switch between developer and designer mode">
-                        <span class="toggle-slider" aria-hidden="true"></span>
-                    </label>
-                    <button class="mode-label text-gray-800 dark:text-gray-200" aria-label="Designer mode" onclick="document.getElementById('mode-toggle').checked = true; document.getElementById('mode-toggle').dispatchEvent(new Event('change'));">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
+            <nav class="header-nav">
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main id="main" class="pt-[70px] md:pt-[100px]" role="main">
-        <!-- Home Section -->
-        <section id="home" class="bg-white dark:bg-gray-900 transition-colors duration-300">
-            <div class="container mx-auto px-4 py-12 md:py-24">
-                <div class="flex flex-col lg:flex-row items-center gap-10 md:gap-20">
-                    <!-- Typewriter effect moved to left -->
-                    <div class="w-full lg:w-1/2 flex items-center justify-center">
-                        <h2 class="text-2xl md:text-4xl font-bold"><span id="typed-text"></span></h2>
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <canvas class="hero-dots" id="heroDots"></canvas>
+            <div class="hero-glow"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Design, code, ship.</h1>
+                    <div class="hero-bio">
+                        <p>Over a decade shipping web and mobile products — designing interfaces, writing code, and thinking about what makes a product actually useful. I've built at dev shops, designed for SaaS platforms, and shipped my own apps to the App Store.</p>
                     </div>
-                    
-                    <!-- Profile/About Column moved to right -->
-                    <div class="w-full lg:w-1/2">
-                        <div class="flex flex-row gap-4 md:gap-8 items-center mb-6 md:mb-8">
-                            <!-- Profile Image updated with day/night photos -->
-                            <div class="w-24 h-24 md:w-48 md:h-48 rounded-full overflow-hidden flex-shrink-0">
-                                <img src="img/day_photo.jpg" class="w-full h-full object-cover dark:hidden" alt="Profile photo - day">
-                                <img src="img/night_photo.jpeg" class="w-full h-full object-cover hidden dark:block" alt="Profile photo - night">
-                            </div>
-                            
-                            <!-- Contact Info -->
-                            <div class="space-y-2 md:space-y-3">
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                    <a href="mailto:jeremymvenegas@gmail.com" class="hover:text-primary-light dark:hover:text-primary-dark text-sm md:text-base">jeremymvenegas@gmail.com</a>
-                                </div>
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                    <span class="text-sm md:text-base">Culver City, CA</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <svg class="h-5 w-5 mr-3 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                                    </svg>
-                                    <a href="https://www.linkedin.com/in/jeremyvenegas785835/" target="_blank" rel="noopener noreferrer" class="hover:text-primary-light dark:hover:text-primary-dark text-sm md:text-base">LinkedIn</a>
-                                </div>
-                                <div class="flex items-center">
-                                    <svg class="h-5 w-5 mr-3 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.688.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
-                                    </svg>
-                                    <a href="https://github.com/jerv" target="_blank" rel="noopener noreferrer" class="hover:text-primary-light dark:hover:text-primary-dark text-sm md:text-base">github.com/jerv</a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- About Me -->
-                        <div class="mb-4 md:mb-6">
-                            <p class="text-base md:text-lg mb-3 md:mb-4">
-                                Looking for someone that understands development but also has a sense for design? Look no further. I am a designer and developer with over ten years experience in web development and UI/UX.
-                            </p>
-                            <p class="text-base md:text-lg mb-3 md:mb-4">
-                                Advanced html/css, javascript, React, web apps, mobile apps, etc. I can do it all. In addition to my development skills I have a background in graphic design and marketing.
-                            </p>
-                            <p class="text-base md:text-lg mb-3 md:mb-4">
-                                I have a knack for problem-solving and utilizing new tools.<br><br>Let's work together!
-                            </p>
-                        </div>
-                        
-                        <!-- Skills Tags -->
-                        <div class="flex flex-wrap gap-2 mb-4 md:mb-6">                        
-                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Frontend Development</span>
-                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">UI/UX</span>
-                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">JavaScript</span>
-                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">React</span>
-                            <span class="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">Python</span>
-                        </div>
-
-                        <!-- Anchor Link to Work Examples -->
-                        <div class="mt-4">
-                            <a href="#projects" class="inline-flex items-center text-primary hover:underline">
-                                View Work Examples
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </a>
-                        </div>
+                    <div class="hero-links">
+                        <a href="mailto:jeremymvenegas@gmail.com">Email</a>
+                        <a href="https://www.linkedin.com/in/jeremyvenegas785835/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                        <a href="https://github.com/jerv" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        <a href="https://x.com/severalbits" target="_blank" rel="noopener noreferrer">X</a>
+                        <span class="hero-location">San Francisco, CA</span>
                     </div>
-                </div>
-                
-                <!-- Scroll Down Indicator -->
-                <div class="flex justify-center mt-8 md:mt-12">
-                    <a href="#experience" class="animate-bounce p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                        </svg>
-                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Experience Section -->
-        <section id="experience" class="py-8 md:py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
-            <div class="container mx-auto px-4">
-                <h2 class="text-4xl font-bold mb-10 text-center text-primary">Experience</h2>
-                
-                <!-- Open for Work Banner -->
-                <div class="max-w-4xl mx-auto mb-12">
-                    <div class="bg-white dark:bg-gray-900 rounded-lg p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-2 border-emerald-500 transition-colors duration-300">
-                        <div class="flex items-center">
-                            <div class="relative">
-                                <div class="w-3 h-3 bg-emerald-500 rounded-full pulse"></div>
-                            </div>
-                            <span class="ml-6 text-lg font-bold text-emerald-500">Open for Work</span>
-                        </div>
-                        <div class="text-gray-600 dark:text-gray-400 transition-colors duration-300">
-                            Looking for new opportunities
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Experience items -->
-                <div class="max-w-4xl mx-auto space-y-12">
+        <!-- Experience -->
+        <section id="experience" class="experience">
+            <div class="container">
+                <h2 class="section-title">Experience</h2>
 
-                    <!-- Designer & Developer Freelance -->
-                    <div>
-                        <div class="flex items-start mb-4">
-                            <div class="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-md flex-shrink-0 flex items-center justify-center mr-4">
-                                <span class="text-lg font-bold text-primary">F</span>
+                <div class="experience-list">
+
+                    <!-- Freelance -->
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-header-left">
+                                <div class="company-logo company-logo-placeholder">F</div>
+                                <div>
+                                    <h3 class="experience-company">Freelance</h3>
+                                    <p class="experience-role">Designer & Developer</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Freelance</h3>
-                                <div class="text-gray-600 dark:text-gray-400 font-medium italic">Designer & Developer</div>
-                                <div class="text-gray-600 dark:text-gray-400 text-sm">Jan 2025 - Present</div>
-                            </div>
+                            <span class="experience-date">2025 — Present</span>
                         </div>
-                        
-                        <div class="ml-14">
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">
-                                <p>Front End Development, UI/UX Design, Marketing & SEO, Business Development (Tech), and more</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Floral AI -->
-                    <div>
-                        <div class="flex items-start mb-4">
-                            <div class="w-10 h-10 bg-pink-100 dark:bg-pink-900 rounded-md flex-shrink-0 flex items-center justify-center mr-4 overflow-hidden">
-                                <img src="img/portfolio/Floral AI Icon.png" alt="Floral AI logo" class="w-full h-full object-contain rounded-md">
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Floral AI</h3>
-                                <div class="text-gray-600 dark:text-gray-400 font-medium italic">Founding Developer & Designer</div>
-                                <div class="text-gray-600 dark:text-gray-400 text-sm">May 2025</div>
-                            </div>
-                        </div>
-                        
-                        <div class="ml-14">
-                            <div class="text-gray-600 dark:text-gray-400 text-xs space-y-2">
-                                <p>Available now on the App Store. Floral AI lets users quickly draft flower arrangement ideas with the power of AI image generation technology.</p>
-                                <p>Designed, developed, and shipped Floral AI in just under 30 days (28 days).</p>
-                                <p>Handled full development lifecycle: UI/UX design, coding, and App Store deployment.</p>
-                            </div>
+                        <div class="experience-body">
+                            <p>Web and mobile development, UI/UX design, and technical consulting. Building modern products for clients across industries.</p>
+                            <p class="experience-highlights-label">Recent projects</p>
+                            <ul class="experience-highlights">
+                                <li>Designed, developed, and shipped <a href="#projects">Floral AI</a> — a React Native iOS app — in 28 days</li>
+                                <li>Building an automated trading bot for <a href="https://kalshi.com" target="_blank" rel="noopener noreferrer">Kalshi</a> prediction markets</li>
+                                <li>Designed and built a kiosk interface for a client</li>
+                                <li>Advising teams and individuals on integrating AI tools into their development and design workflows</li>
+                            </ul>
                         </div>
                     </div>
-                    
+
                     <!-- Luxer One -->
-                    <div>
-                        <div class="flex items-start mb-4">
-                            <div class="w-10 h-10 bg-white dark:bg-gray-800 rounded-md flex-shrink-0 flex items-center justify-center mr-4 overflow-hidden">
-                                <img src="img/luxer_one_logo.jpeg" alt="Luxer One logo" class="w-full h-full object-contain">
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-header-left">
+                                <img src="img/luxer_one_logo.jpeg" alt="Luxer One logo" class="company-logo">
+                                <div>
+                                    <h3 class="experience-company">Luxer One</h3>
+                                    <p class="experience-role">Product Marketing & Design Manager</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Luxer One</h3>
-                                <div class="text-gray-600 dark:text-gray-400 text-sm">2 years 4 months</div>
-                            </div>
+                            <span class="experience-date">2022 — 2024</span>
                         </div>
-                        
-                        <!-- Product Marketing & Design Manager -->
-                        <div class="ml-14 mb-6">
-                            <h4 class="text-base font-bold text-gray-800 dark:text-gray-200 italic">Product Marketing & Design Manager</h4>
-                            <div class="text-gray-600 dark:text-gray-400 text-sm mb-1">Apr 2024 - Nov 2024</div>
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">
-                                <p>Managed and designed the company's product roadmap.</p>
-                                <p>Designed and distributed creative assets for the Product, Marketing, and Sales teams.</p>
-                            </div>
+                        <div class="experience-description">
+                            <p class="experience-context">Smart locker technology company serving residential, retail, and other misc markets.</p>
                         </div>
-                        
-                        <!-- Product Marketing Specialist -->
-                        <div class="ml-14">
-                            <h4 class="text-base font-bold text-gray-800 dark:text-gray-200 italic">Product Marketing Specialist</h4>
-                            <div class="text-gray-600 dark:text-gray-400 text-sm mb-1">Aug 2022 - Mar 2024</div>
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">
-                                <p>Translated product value to the sales & marketing departments.</p>
-                                <p>Internal communications and product announcements.</p>
-                            </div>
-                        </div>
-                    </div>                                        
-                    
-                    <!-- Regroup Mass Notification -->
-                    <div>
-                        <div class="flex items-start mb-4">
-                            <div class="w-10 h-10 bg-white dark:bg-gray-800 rounded-md flex-shrink-0 flex items-center justify-center mr-4 overflow-hidden">
-                                <img src="img/regroup_com_logo.jpeg" alt="Regroup Mass Notification logo" class="w-full h-full object-contain">
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Regroup Mass Notification</h3>
-                                <div class="text-gray-600 dark:text-gray-400 font-medium italic">UI UX Designer</div>
-                                <div class="text-gray-600 dark:text-gray-400 text-sm">Jan 2019 - Feb 2022 · 3 years 2 months</div>
-                            </div>
-                        </div>
-                        
-                        <div class="ml-14">
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">
-                                <p>Acted as the UI/UX expert on the product team.</p>
-                                <p>Oversaw the implementation of design changes to a mass notification web product.</p>
-                            </div>
+                        <div class="experience-body">
+                            <p>Owned the product roadmap, created design assets, and consulted with product managers on positioning across every vertical — resident services, mobile app, retail, and special projects. Worked cross-functionally with Product, Marketing, and Sales teams.</p>
+                            <ul class="experience-highlights">
+                                <li>Designed the persona and conversational tone for the customer support chatbot</li>
+                                <li>Led internal product communications — announcements, updates, and feature rollouts to the broader company</li>
+                                <li>Built and maintained a product knowledge base for the product team</li>
+                            </ul>
                         </div>
                     </div>
-                    
+
+                    <!-- Regroup -->
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-header-left">
+                                <img src="img/regroup_com_logo.jpeg" alt="Regroup logo" class="company-logo">
+                                <div>
+                                    <h3 class="experience-company">Regroup Mass Notification</h3>
+                                    <p class="experience-role">UI/UX Designer</p>
+                                </div>
+                            </div>
+                            <span class="experience-date">2019 — 2022</span>
+                        </div>
+                        <div class="experience-description">
+                            <p class="experience-context">Mass notification SaaS platform with web and mobile components.</p>
+                        </div>
+                        <div class="experience-body">
+                            <p>Primary designer on the product team. Collaborated directly with product managers to plan and prioritize interface changes across the web platform and mobile app. Designed and occasionally implemented frontend work alongside the engineering team.</p>
+                            <ul class="experience-highlights">
+                                <li>Optimized and simplified the complex primary messaging screen — the most-used interface in the product</li>
+                                <li>Created full redesign mockups for both mobile apps (manager-facing and end-user-facing)</li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <!-- Knack Studios -->
-                    <div>
-                        <div class="flex items-start mb-4">
-                            <div class="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-md flex-shrink-0 flex items-center justify-center mr-4">
-                                <span class="text-lg font-bold text-primary">KS</span>
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-header-left">
+                                <div class="company-logo company-logo-placeholder">KS</div>
+                                <div>
+                                    <h3 class="experience-company">Knack Studios</h3>
+                                    <p class="experience-role">Front End Developer</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Knack Studios</h3>
-                                <div class="text-gray-600 dark:text-gray-400 font-medium italic">Front End Developer</div>
-                                <div class="text-gray-600 dark:text-gray-400 text-sm">Feb 2015 - Jan 2019 · 4 years</div>
-                            </div>
+                            <span class="experience-date">2015 — 2019</span>
                         </div>
-                        
-                        <div class="ml-14">
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">
-                                <p>Front End Developer and UI/UX Designer for a startup that specialized mostly in Ruby on Rails projects. Worked on a variety of projects solo and in teams using tech including and not limited to: Angular, Ruby on Rails, and React.</p>
-                            </div>
+                        <div class="experience-description">
+                            <p class="experience-context">Dev shop specializing in Ruby on Rails projects.</p>
+                        </div>
+                        <div class="experience-body">
+                            <p>Founding member of a small startup where wearing many hats was the norm. Shipped client projects independently and in teams across Angular, Ruby on Rails, and React.</p>
+                            <ul class="experience-highlights">
+                                <li>Prototyped a document processing platform for immigration forms</li>
+                                <li>Designed and branded the company website and marketing materials</li>
+                                <li>Handled both frontend development and UI/UX design across the full client portfolio</li>
+                            </ul>
                         </div>
                     </div>
-                    
+
                     <!-- Bixly -->
-                    <div>
-                        <div class="flex items-start mb-4">
-                            <div class="w-10 h-10 bg-white dark:bg-gray-800 rounded-md flex-shrink-0 flex items-center justify-center mr-4 overflow-hidden">
-                                <img src="img/bixly_logo.jpeg" alt="Bixly logo" class="w-full h-full object-contain">
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-header-left">
+                                <img src="img/bixly_logo.jpeg" alt="Bixly logo" class="company-logo">
+                                <div>
+                                    <h3 class="experience-company">Bixly</h3>
+                                    <p class="experience-role">UI/UX Designer → Front End Developer</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">Bixly</h3>
-                                <div class="text-gray-600 dark:text-gray-400 text-sm">4 years</div>
-                            </div>
+                            <span class="experience-date">2011 — 2015</span>
                         </div>
-                        
-                        <!-- UI UX Designer -->
-                        <div class="ml-14 mb-6">
-                            <h4 class="text-base font-bold text-gray-800 dark:text-gray-200 italic">UI UX Designer</h4>
-                            <div class="text-gray-600 dark:text-gray-400 text-sm mb-1">Sep 2013 - Feb 2015</div>
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">
-                                <p>Front End Developer for a dev shop specialized in mostly Python/Django projects. Worked on numerous web and mobile app ranging from Python/Django, Ruby on Rails, AngularJS, Wordpress, and React. </p>
-                            </div>
+                        <div class="experience-description">
+                            <p class="experience-context">Dev shop specializing in Python/Django projects.</p>
                         </div>
-                        
-                        <!-- Web Designer -->
-                        <div class="ml-14 mb-6">
-                            <h4 class="text-base font-bold text-gray-800 dark:text-gray-200 italic">Web Designer</h4>
-                            <div class="text-gray-600 dark:text-gray-400 text-sm mb-1">Sep 2011 - Sep 2013</div>
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">
-                                <p>Mockups & wireframes</p>
-                                <p>HTML/CSS</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Marketing Assistant -->
-                        <div class="ml-14">
-                            <h4 class="text-base font-bold text-gray-800 dark:text-gray-200 italic">Marketing Assistant</h4>
-                            <div class="text-gray-600 dark:text-gray-400 text-sm mb-1">May 2011 - Sep 2011</div>
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">
-                                <p>Google AdWords</p>
-                            </div>
+                        <div class="experience-body">
+                            <p>Frontend developer and designer shipping web and mobile projects across Django, Rails, AngularJS, WordPress, and React over four years.</p>
+                            <ul class="experience-highlights">
+                                <li>Designed early mobile interfaces before mobile UI conventions were fully established</li>
+                                <li>Grew alongside the web itself — from static page builds to modern frontend architecture</li>
+                            </ul>
                         </div>
                     </div>
+
                 </div>
+
+                <div class="experience-origin">
+                    <p>Self-taught. From California. Started professionally at 18.</p>
+                </div>
+
             </div>
-        </section>        
+        </section>
 
-        <!-- Floral AI Section -->
-        <section id="floral-ai" class="py-12 md:py-20 bg-gradient-to-br from-pink-50 to-rose-100 dark:from-gray-800 dark:to-gray-700 transition-colors duration-300">
-            <div class="container mx-auto px-4">
-                <div class="max-w-6xl mx-auto">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                        <!-- Left: App Screenshots -->
-                        <div class="relative">
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="space-y-4">
-                                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-2 shadow-lg">
-                                        <img src="img/portfolio/Floral AI photos/1.png" alt="Floral AI Interface" class="w-full rounded-xl">
-                                    </div>
-                                    <div class="bg-pink-100 dark:bg-pink-900 rounded-2xl p-2 shadow-lg">
-                                        <img src="img/portfolio/Floral AI photos/3.png" alt="Floral AI Creation" class="w-full rounded-xl">
-                                    </div>
-                                </div>
-                                <div class="space-y-4 mt-8">
-                                    <div class="bg-pink-100 dark:bg-pink-900 rounded-2xl p-2 shadow-lg">
-                                        <img src="img/portfolio/Floral AI photos/2.png" alt="Floral AI Selection" class="w-full rounded-xl">
-                                    </div>
-                                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-2 shadow-lg">
-                                        <img src="img/portfolio/Floral AI photos/4.png" alt="Floral AI Results" class="w-full rounded-xl">
-                                    </div>
-                                </div>
-                            </div>
+        <!-- Projects -->
+        <section id="projects" class="projects">
+            <div class="container">
+                <h2 class="section-title">Projects</h2>
 
-                        </div>
+                <div class="experience-list">
 
-                        <!-- Right: App Features -->
-                        <div class="space-y-8">
-                            <!-- App Icon and Heading -->
-                            <div class="text-center lg:text-left">
-                                <div class="flex justify-center lg:justify-start mb-4">
-                                    <img src="img/portfolio/Floral AI Icon.png" alt="Floral AI App Icon" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl shadow-lg">
-                                </div>
-                                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-200 mb-4">
-                                    Introducing<br>
-                                    <span class="text-pink-600 dark:text-pink-400">Floral AI</span>
-                                </h2>
-                                <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                                    Create stunning flower arrangements with the power of AI - no design experience required!
-                                </p>
-                            </div>
-                            <div class="space-y-6">
-                                <div class="flex items-start space-x-4">
-                                    <div class="flex-shrink-0 w-12 h-12 bg-pink-100 dark:bg-pink-900 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                    </div>
+                    <!-- Floral AI -->
+                    <div class="experience-item project-item">
+                        <div class="project-header">
+                            <img src="img/portfolio/Floral AI Icon.png" alt="Floral AI icon" class="project-icon">
+                            <div class="project-header-content">
+                                <div class="experience-header">
                                     <div>
-                                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Perfect for Florists</h3>
-                                        <p class="text-gray-600 dark:text-gray-300">Get instant inspiration for client arrangements and seasonal displays</p>
+                                        <h3 class="experience-company"><a href="https://apps.apple.com/us/app/floral-ai/id6746684369" target="_blank" rel="noopener noreferrer">Floral AI</a></h3>
+                                        <p class="experience-role">Founder — Design, Development, Deployment</p>
                                     </div>
+                                    <span class="experience-date">2025</span>
                                 </div>
-
-                                <div class="flex items-start space-x-4">
-                                    <div class="flex-shrink-0 w-12 h-12 bg-pink-100 dark:bg-pink-900 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">No AI Knowledge Required</h3>
-                                        <p class="text-gray-600 dark:text-gray-300">Simple interface means anyone can create beautiful arrangements without tech expertise</p>
-                                    </div>
+                                <div class="experience-body">
+                                    <p>Built and shipped a React Native iOS app in 28 days — concept to App Store. The app uses AI image generation to help florists and enthusiasts quickly draft flower arrangement ideas. Handled everything end-to-end: UI/UX design, React Native development, API integration, and App Store deployment.</p>
                                 </div>
-
-                                <div class="flex items-start space-x-4">
-                                    <div class="flex-shrink-0 w-12 h-12 bg-pink-100 dark:bg-pink-900 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364-.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Powered by DALL-E</h3>
-                                        <p class="text-gray-600 dark:text-gray-300">Leverages OpenAI's advanced image generation technology for stunning results</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- App Store Button -->
-                            <div class="pt-6">
-                                <a href="https://apps.apple.com/us/app/floral-ai/id6746684369" target="_blank" rel="noopener noreferrer" class="inline-block transition-all duration-300 transform hover:scale-105">
-                                    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" class="h-14 w-auto">
+                                <a href="https://apps.apple.com/us/app/floral-ai/id6746684369" target="_blank" rel="noopener noreferrer" class="app-store-badge">
+                                    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
                                 </a>
                             </div>
                         </div>
                     </div>
+
                 </div>
+                <p class="projects-note">Most past work was completed under contract or NDA and is either private, outdated, or no longer live.</p>
             </div>
         </section>
 
-        <!-- Projects Section -->
-        <section id="projects" class="py-8 md:py-16 bg-white dark:bg-gray-900 transition-colors duration-300">
-            <div class="container mx-auto px-4">
-                <h2 class="text-4xl font-bold mb-4 text-center text-primary">Work Examples</h2>
-                <!-- Professional Disclaimer -->
-                <p class="text-center text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 text-sm md:text-base">
-                    Below is a small selection of personal projects and design concepts. Most of my professional work involves proprietary systems and cannot be shared publicly.
-                </p>
-                
-                <!-- Portfolio Gallery -->
-                <div class="portfolio-gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
-                    <!-- Portfolio Item 1: Floral AI Logo -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300" data-project-url="https://apps.apple.com/us/app/floral-ai/id6746684369">
-                        <img src="img/portfolio/Floral AI Icon.png" alt="Floral AI App Logo" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105 bg-white dark:bg-gray-800 p-8">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Floral AI Logo</h3>
-                            <p class="text-gray-200 text-sm mb-2">App icon and branding for AI-powered floral arrangement generator</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">Logo Design</span>
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">App Icon</span>
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">Branding</span>
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">iOS App</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 2: Floral AI App Interface -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300" data-project-url="https://apps.apple.com/us/app/floral-ai/id6746684369">
-                        <img src="img/portfolio/Floral AI Create Page.png" alt="Floral AI Mobile App Interface" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Floral AI App</h3>
-                            <p class="text-gray-200 text-sm mb-2">AI-powered flower arrangement generator for iOS</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">iOS App</span>
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">AI/ML</span>
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">UI/UX</span>
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">React Native</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 3: Floral AI Generated Arrangements -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300" data-project-url="https://apps.apple.com/us/app/floral-ai/id6746684369">
-                        <img src="img/portfolio/Floral AI Image Generation.png" alt="AI Generated Floral Arrangements" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">AI Floral Generation</h3>
-                            <p class="text-gray-200 text-sm mb-2">Beautiful flower arrangements generated by artificial intelligence</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">AI Art</span>
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">Generative AI</span>
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">Floral Design</span>
-                                <span class="px-2 py-1 bg-pink-500/60 text-white rounded-full text-xs">React Native</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 4: Medical App (WebM with PNG thumb) -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300" data-type="video" data-video-src="img/portfolio/Medical React App.webm">
-                        <img src="img/portfolio/medical-app-thumb.png" alt="Medical React Application Thumbnail" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Medical App Interface</h3>
-                            <p class="text-gray-200 text-sm mb-2">Patient management application built with React</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">React</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Ionic</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Front End Dev</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 5: ConnectSphere -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/portfolio/ConnectSphere Landing page.png" alt="ConnectSphere Landing Page" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Landing Page</h3>
-                            <p class="text-gray-200 text-sm mb-2">Modern social networking platform landing page design</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">UI/UX</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">React</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Tailwind</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 6: Digital Playground -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300" data-project-url="https://dataplayground.jeremyvenegas.com/">
-                        <img src="img/portfolio/digital playground.gif" alt="Digital Playground Animation" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Digital Playground</h3>
-                            <p class="text-gray-200 text-sm mb-2">Interactive data visualization tool</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">React</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">MongoDB</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">TypeScript</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 7: Data Permissions UI -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300" data-project-url="https://dataplayground.jeremyvenegas.com/">
-                        <img src="img/portfolio/data playground permissions.png" alt="Data Playground Permissions Screen" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Data Permissions UI</h3>
-                            <p class="text-gray-200 text-sm mb-2">Role-based access control interface for data platform</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">React</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">MongoDB</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">TypeScript</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 8: Modern Login UI -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300" data-project-url="https://dataplayground.jeremyvenegas.com/">
-                        <img src="img/portfolio/Login Page.png" alt="Modern Login Page Design" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Modern Login UI</h3>
-                            <p class="text-gray-200 text-sm mb-2">Clean and intuitive authentication interface</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">React</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">MongoDB</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">TypeScript</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 9: Custom PC E-commerce -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/portfolio/Shopify Custom PC Website.png" alt="Shopify Custom PC E-commerce" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Custom PC E-commerce</h3>
-                            <p class="text-gray-200 text-sm mb-2">Shopify-based custom PC builder and store</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Shopify</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Liquid</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">E-commerce</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Portfolio Item 10: Messaging App Concept -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/portfolio/Messaging App Concept.png" alt="Messaging App Concept" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Messaging App Concept</h3>
-                            <p class="text-gray-200 text-sm mb-2">Modern chat interface with dark mode support</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">UI/UX</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Design Concept</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 11: Product Dashboard -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/portfolio/Product Dashboard Design Preview.png" alt="Product Dashboard Design" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Product Dashboard</h3>
-                            <p class="text-gray-200 text-sm mb-2">Analytics Dashboard Theme</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Dashboard Design</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Data Visualization</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Portfolio Item 12: Purely Natural Homepage -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/portfolio/purely-natural-homepage.png" alt="Purely Natural Homepage" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Purely Natural Homepage</h3>
-                            <p class="text-gray-200 text-sm mb-2">Organic skincare e-commerce website homepage</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">E-commerce</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Responsive Design</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Shopify</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 13: Purely Natural Product Info -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/portfolio/purely-natural-product-info.png" alt="Purely Natural Product Info Page" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Purely Natural Product Detail</h3>
-                            <p class="text-gray-200 text-sm mb-2">Detailed product page for e-commerce site</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">E-commerce</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">UI Design</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Shopify</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 14: Style Guide Preview -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/portfolio/Style Guide Preview.png" alt="Style Guide Preview" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Style Guide</h3>
-                            <p class="text-gray-200 text-sm mb-2">Comprehensive design system style guide preview</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Design System</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">UI Components</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Figma</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 15: Show Finder -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/portfolio/Show Finder.png" alt="Show Finder App Concept" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Show Finder App</h3>
-                            <p class="text-gray-200 text-sm mb-2">Concept for a show discovery application</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Mobile App Design</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">UI/UX</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Prototyping</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 16: Logo Concept -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/portfolio/logo-concept.png" alt="Abstract Logo Concept" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Logo Concept</h3>
-                            <p class="text-gray-200 text-sm mb-2">Logo design exploration</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Logo Design</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Branding</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Illustrator</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Portfolio Item 17: Unnamed Game Project -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/unamedgame.png" alt="Unnamed Game Project screenshot" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Unnamed Game Project</h3>
-                            <p class="text-gray-200 text-sm mb-2">Action RPG built using Godot.</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Godot</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Pixel Art</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">3D Modeling</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Item 18: Raccoon Jumper -->
-                    <div class="portfolio-item group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                        <img src="img/portfolio/raccoon trashcan jumper.gif" alt="Raccoon Trashcan Jumper Game" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white text-lg font-bold">Raccoon Trashcan Jumper</h3>
-                            <p class="text-gray-200 text-sm mb-2">Pixel art endless runner game with JavaScript</p>
-                            <div class="flex flex-wrap gap-2 mb-2">
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">JavaScript</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">HTML5 Canvas</span>
-                                <span class="px-2 py-1 bg-primary/40 text-white rounded-full text-xs">Pixel Art</span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-
-            <!-- Portfolio Modal for Full Image View -->
-            <div id="portfolio-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4">
-                <div class="relative max-w-7xl w-full mx-auto">
-                    <!-- Close button -->
-                    <button id="modal-close" class="absolute top-4 right-4 z-20 text-white hover:text-primary transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                        <span class="sr-only">Close</span>
-                    </button>
-
-                    <!-- Navigation buttons -->
-                    <button id="prev-button" class="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 text-white hover:text-primary transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                        <span class="sr-only">Previous</span>
-                    </button>
-
-                    <button id="next-button" class="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 text-white hover:text-primary transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                        <span class="sr-only">Next</span>
-                    </button>
-
-                    <!-- Content container with scrollable area -->
-                    <div class="overflow-auto max-h-[80vh] relative z-10">
-                        <!-- Media container (for images, videos, etc) -->
-                        <div id="modal-content" class="flex items-center justify-center">
-                            <!-- Content will be inserted here via JavaScript -->
-                        </div>
-                        
-                        <!-- Caption and info -->
-                        <div id="modal-info" class="text-white p-4 bg-black/50 mt-4 rounded-lg">
-                            <h3 id="modal-title" class="text-xl font-bold"></h3>
-                            <p id="modal-description" class="text-gray-300 mt-2"></p>
-                            <div id="modal-tags" class="flex flex-wrap gap-2 mt-2"></div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Currently Exploring -->
+        <section class="studies">
+            <div class="container">
+                <h2 class="section-title">Currently Exploring</h2>
+                <ul class="studies-list">
+                    <li>AI & Machine Learning</li>
+                    <li>AI Agents</li>
+                    <li>Agentic Coding</li>
+                    <li>Trade Bots</li>
+                </ul>
             </div>
         </section>
 
-        <!-- Game Section -->
-        <section id="game" class="py-10 md:py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold mb-4 text-center text-primary">Thanks for Looking!</h2>
-                <p class="text-center max-w-2xl mx-auto mb-8 text-gray-600 dark:text-gray-400 transition-colors duration-300">Play Raccoon Trash Can Jumper before you go?</p>
-                
-                <div id="game-container" class="max-w-2xl mx-auto">
-                    <div class="border-2 border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden transition-colors duration-300">
-                        <div id="game-background" class="relative">
-                            <div class="sky-elements absolute inset-0 w-full h-full"></div>
-                            <canvas id="game-canvas" class="w-full h-48 md:h-64 relative z-10"></canvas>
-                            <!-- Add raccoon SVG (hidden initially) -->
-                            <div id="raccoon-svg-container" class="absolute z-20 top-0 left-0" style="display: none; pointer-events: none;">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" width="48" height="48">
-                                  <!-- Frame 1: Right leg lifted, left leg down, body down -->
-                                  <g id="frame1">
-                                    <!-- Head -->
-                                    <rect x="7" y="1" width="1" height="1" fill="#808080"/> <!-- Left ear -->
-                                    <rect x="10" y="1" width="1" height="1" fill="#808080"/> <!-- Right ear -->
-                                    <rect x="7" y="2" width="5" height="1" fill="#808080"/> <!-- Top of head -->
-                                    <rect x="7" y="3" width="1" height="1" fill="#000000"/> <!-- Mask left -->
-                                    <rect x="8" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Left eye -->
-                                    <rect x="9" y="3" width="1" height="1" fill="#000000"/> <!-- Mask middle -->
-                                    <rect x="10" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Right eye -->
-                                    <rect x="11" y="3" width="1" height="1" fill="#000000"/> <!-- Mask right -->
-                                    <rect x="7" y="4" width="5" height="1" fill="#808080"/> <!-- Middle of head -->
-                                    <rect x="7" y="5" width="5" height="1" fill="#808080"/> <!-- Bottom of head -->
-                                    <!-- Nose (prominent) -->
-                                    <rect x="11" y="4" width="1" height="1" fill="#FF69B4"/>
-                                    <!-- Body -->
-                                    <rect x="5" y="6" width="6" height="4" fill="#808080"/>
-                                    <!-- Arm pointing right -->
-                                    <rect x="11" y="7" width="3" height="1" fill="#808080"/>
-                                    <!-- Legs -->
-                                    <rect x="6" y="10" width="2" height="2" fill="#808080"/> <!-- Left leg down -->
-                                    <rect x="9" y="9" width="2" height="1" fill="#808080"/> <!-- Right leg lifted -->
-                                    <!-- Tail -->
-                                    <rect x="4" y="8" width="1" height="3" fill="#808080"/> <!-- Tail light stripe -->
-                                    <rect x="3" y="8" width="1" height="3" fill="#404040"/> <!-- Tail dark stripe -->
-                                  </g>
-                                  
-                                  <!-- Frame 2: Left leg lifted, right leg down, body up -->
-                                  <g id="frame2" transform="translate(0, -1)">
-                                    <!-- Head -->
-                                    <rect x="7" y="1" width="1" height="1" fill="#808080"/> <!-- Left ear -->
-                                    <rect x="10" y="1" width="1" height="1" fill="#808080"/> <!-- Right ear -->
-                                    <rect x="7" y="2" width="5" height="1" fill="#808080"/> <!-- Top of head -->
-                                    <rect x="7" y="3" width="1" height="1" fill="#000000"/> <!-- Mask left -->
-                                    <rect x="8" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Left eye -->
-                                    <rect x="9" y="3" width="1" height="1" fill="#000000"/> <!-- Mask middle -->
-                                    <rect x="10" y="3" width="1" height="1" fill="#FFFFFF"/> <!-- Right eye -->
-                                    <rect x="11" y="3" width="1" height="1" fill="#000000"/> <!-- Mask right -->
-                                    <rect x="7" y="4" width="5" height="1" fill="#808080"/> <!-- Middle of head -->
-                                    <rect x="7" y="5" width="5" height="1" fill="#808080"/> <!-- Bottom of head -->
-                                    <!-- Nose (prominent) -->
-                                    <rect x="11" y="4" width="1" height="1" fill="#FF69B4"/>
-                                    <!-- Body -->
-                                    <rect x="5" y="6" width="6" height="4" fill="#808080"/>
-                                    <!-- Arm pointing right -->
-                                    <rect x="11" y="7" width="3" height="1" fill="#808080"/>
-                                    <!-- Legs -->
-                                    <rect x="6" y="9" width="2" height="1" fill="#808080"/> <!-- Left leg lifted -->
-                                    <rect x="9" y="10" width="2" height="2" fill="#808080"/> <!-- Right leg down -->
-                                    <!-- Tail -->
-                                    <rect x="4" y="8" width="1" height="3" fill="#808080"/> <!-- Tail light stripe -->
-                                    <rect x="3" y="8" width="1" height="3" fill="#404040"/> <!-- Tail dark stripe -->
-                                  </g>
-                                  
-                                  <!-- Animation -->
-                                  <animate xlink:href="#frame1" attributeName="opacity" values="1;0" dur="0.5s" repeatCount="indefinite" calcMode="discrete"/>
-                                  <animate xlink:href="#frame2" attributeName="opacity" values="0;1" dur="0.5s" repeatCount="indefinite" calcMode="discrete"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <!-- Updated game controls section -->
-                        <div class="p-4 bg-gray-200 dark:bg-gray-800">
-                            <!-- Score display - now in a grid layout -->
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div class="bg-white dark:bg-gray-900 rounded-lg p-3 text-center">
-                                    <span class="block text-sm text-gray-600 dark:text-gray-400 mb-1">Score</span>
-                                    <span id="game-score" class="block text-xl font-bold text-primary">0</span>
-                                </div>
-                                <div class="bg-white dark:bg-gray-900 rounded-lg p-3 text-center">
-                                    <span class="block text-sm text-gray-600 dark:text-gray-400 mb-1">High Score</span>
-                                    <span id="game-high-score" class="block text-xl font-bold text-secondary">0</span>
-                                </div>
-                            </div>
-                            <!-- Game controls -->
-                            <div class="flex justify-center">
-                                <button id="game-start" class="action-button w-full md:w-auto">
-                                    <span id="game-button-icon-container">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 play-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 reset-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 try-again-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                        </svg>
-                                    </span>
-                                    <span id="game-button-text">Play Game</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Contact -->
+        <section id="contact" class="contact">
+            <div class="contact-glow"></div>
+            <div class="container">
+                <h2 class="section-title">Get in touch</h2>
+                <div class="contact-links">
+                    <a href="mailto:jeremymvenegas@gmail.com" class="contact-link">
+                        <span class="contact-label">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </span>
+                        <span class="contact-value">jeremymvenegas@gmail.com</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/jeremyvenegas785835/" target="_blank" rel="noopener noreferrer" class="contact-link">
+                        <span class="contact-label">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            LinkedIn
+                        </span>
+                        <span class="contact-value">Jeremy Venegas</span>
+                    </a>
+                    <a href="https://github.com/jerv" target="_blank" rel="noopener noreferrer" class="contact-link">
+                        <span class="contact-label">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                            GitHub
+                        </span>
+                        <span class="contact-value">jerv</span>
+                    </a>
+                    <a href="https://x.com/severalbits" target="_blank" rel="noopener noreferrer" class="contact-link">
+                        <span class="contact-label">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            X
+                        </span>
+                        <span class="contact-value">@severalbits</span>
+                    </a>
                 </div>
-
-                <p class="text-center max-w-2xl mx-auto mt-8 text-gray-600 dark:text-gray-400 text-sm md:text-base">
-                    <span class="inline-block bg-white dark:bg-gray-900 rounded-lg px-4 py-2 shadow-sm">
-                        Click/tap or press spacebar to jump. Try night mode for more difficulty!
-                    </span>
-                </p>
             </div>
         </section>
     </main>
 
-    <!-- Footer with contact info and back to top link -->
-    <footer class="py-8 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-colors duration-300" role="contentinfo">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col items-center gap-6">
-                <!-- Social Links -->
-                <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-                    <a href="mailto:jeremymvenegas@gmail.com" class="text-sm text-primary hover:opacity-80 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        <span class="ml-2">Email</span>
-                    </a>
-                    <a href="https://github.com/jerv" target="_blank" class="text-sm text-primary hover:opacity-80 flex items-center">
-                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.688.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
-                        </svg>
-                        <span class="ml-2">GitHub</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/jeremyvenegas785835/" target="_blank" class="text-sm text-primary hover:opacity-80 flex items-center">
-                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                        </svg>
-                        <span class="ml-2">LinkedIn</span>
-                    </a>
-                </div>
-
-                <!-- Copyright -->
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                    &copy; 2025 Jeremy Venegas
-                </p>
-
-                <!-- Back to top -->
-                <a href="#home" class="p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                    </svg>
-                </a>
-            </div>
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Jeremy Venegas</p>
         </div>
     </footer>
 
-    <!-- Load JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script>
-        // Show body after resources are loaded
-        window.addEventListener('load', () => document.body.classList.add('loaded'));
-    </script>
     <script src="script.js"></script>
 </body>
-</html> 
+</html>
