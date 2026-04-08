@@ -6,7 +6,7 @@ Product-minded builder with over 10 years shipping web and mobile products. Curr
 
 ## Currently Working On
 
-- AI Knowledge platform for edge devices
+- [Edgebric](https://edgebric.com) — open-source AI Knowledge platform for edge devices
 - Freelance web & mobile development
 - AI/ML exploration — agents, agentic coding, RAG
 
